@@ -1,86 +1,102 @@
 # AR Homes Posadas Farm Resort Reservation System
 # .gitignore
 
-# Sensitive Configuration Files
+# ============================================
+# Environment & Sensitive Credentials
+# ============================================
+.env
+.env.*
+.env.local
+config/.env
 config/mail.php
 config/database.php
 config/connection.php
 config/cloudflare.php
-config/.env
-.env
-.env.*
-!.env.example
+config/local.php
+config/dev.php
 !config/*.example.php
+!.env.example
 
-# Logs
-user/password_resets/*.txt
-user/email_verifications/*.txt
-*.log
-
-# PHPMailer (if using Composer)
+# ============================================
+# Composer / Dependencies
+# ============================================
 /vendor/
 composer.lock
+composer.phar
+node_modules/
 
-# IDE and Editor Files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
+# ============================================
+# Uploads & User Generated Files
+# ============================================
+uploads/*
+!uploads/.gitkeep
+!uploads/payment_proofs/
+uploads/payment_proofs/*
+!uploads/payment_proofs/.gitkeep
 
-# Windows
-Thumbs.db
-desktop.ini
+# ============================================
+# Database Backups (Track migrations only)
+# ============================================
+database/backups/
+backups/
+backup/
+*.backup
+*.sqlite
+*.db
+*.sql
+!database/migrations/*.sql
+!supabase/migrations/*.sql
 
-# Temporary Files
+# ============================================
+# Logs & Verification Output
+# ============================================
+*.log
+error_log
+php_errors.log
+logs/
+user/email_verifications/*
+!user/email_verifications/.gitkeep
+user/password_resets/*
+!user/password_resets/.gitkeep
+
+# ============================================
+# Sessions & Cache
+# ============================================
+sessions/*
+!sessions/.gitkeep
+*.cache
+
+# ============================================
+# Temporary & Backup Files
+# ============================================
 *.tmp
 *.temp
 *.bak
-*.cache
+*.swp
+*.swo
+*~
 
-# Database Backups
-*.sql
-*.sqlite
-*.db
-
-# Test Files (Optional - Remove in production)
-test_email.php
-
-# Uploaded Files (if applicable)
-uploads/payment_proofs/*
-!uploads/payment_proofs/.gitkeep
-uploads/*.jpg
-uploads/*.jpeg
-uploads/*.png
-uploads/*.gif
-uploads/*.pdf
-
-# Session Files
-sessions/*
-!sessions/.gitkeep
-
-# Error Logs
-error_log
-php_errors.log
-
-# Batch Scripts (XAMPP specific)
-batch_scripts/
-
-# Backup Files
-*.backup
-backup/
-backups/
-
-# Environment-specific
-/config/local.php
-/config/dev.php
-composer.phar
-
-# Security
+# ============================================
+# Security, Certificates & Keys
+# ============================================
 *.key
 *.pem
 *.crt
 *.cer
 *.p12
 *.pfx
+.cloudflared/
+*.tunnel.json
+
+# ============================================
+# IDE, Editor & OS Files
+# ============================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
