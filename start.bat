@@ -1,47 +1,41 @@
 @echo off
-title AR Homes Posadas - Local + Cloudflare
+title AR Homes Posadas - Localhost
 color 0A
 
 echo.
 echo  ============================================
 echo   AR Homes Posadas Farm Resort
-echo   Reservation System
+echo   Reservation System (Localhost)
 echo  ============================================
 echo.
 
 :: ---- Step 1: Start Apache ----
-echo  [1/4] Starting Apache...
+echo  [1/3] Starting Apache...
 start "" /B "C:\xampp\apache\bin\httpd.exe" >nul 2>&1
 echo        Done.
 
 :: ---- Step 2: Start MySQL ----
-echo  [2/4] Starting MySQL...
+echo  [2/3] Starting MySQL...
 start "" /B "C:\xampp\mysql\bin\mysqld.exe" --defaults-file="C:\xampp\mysql\bin\my.ini" --standalone >nul 2>&1
 echo        Done.
 
 :: Wait for services to fully start
-timeout /t 3 /nobreak >nul
+timeout /t 2 /nobreak >nul
+
+set "APP_URL=http://localhost:8080/AR_Homes_Posadas_Farm_Resort_Reservation_System_Design_2/"
 
 :: ---- Step 3: Open Browser ----
-echo  [3/4] Opening browser...
-start "" "http://localhost/"
-start "" "https://arhomesposadas.cjaayy.dev/"
-echo        Local:  http://localhost/
-echo        Cloud:  https://arhomesposadas.cjaayy.dev/
-echo.
-
-:: ---- Step 4: Start Cloudflare Tunnel ----
-echo  [4/4] Starting Cloudflare Tunnel (ar-homes)...
+echo  [3/3] Opening browser...
+start "" "%APP_URL%"
+echo        Localhost: %APP_URL%
 echo.
 echo  ============================================
-echo   LOCAL:  http://localhost/
-echo   CLOUD:  https://arhomesposadas.cjaayy.dev/
+echo   Application running at:
+echo   %APP_URL%
 echo  ============================================
 echo.
-echo   Press Ctrl+C to stop everything.
-echo.
-
-cloudflared tunnel --config "%USERPROFILE%\.cloudflared\config.yml" run ar-homes
+echo  Press any key to stop services and exit...
+pause >nul
 
 :: ---- Cleanup on exit ----
 echo.

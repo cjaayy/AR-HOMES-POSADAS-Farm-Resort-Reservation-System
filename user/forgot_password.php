@@ -76,8 +76,9 @@ try {
 
     $user = $stmt->fetch();
 
-    // Check if email is verified
-    if (!$user['email_verified']) {
+    // Check if email is verified (only if required)
+    $requireEmailVerification = defined('REQUIRE_EMAIL_VERIFICATION') ? REQUIRE_EMAIL_VERIFICATION : false;
+    if ($requireEmailVerification && !$user['email_verified']) {
         // Don't reveal that email is not verified (for security)
         // But provide a helpful message
         $response['success'] = false;

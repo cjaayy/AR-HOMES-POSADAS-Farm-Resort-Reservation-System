@@ -403,19 +403,10 @@ document.addEventListener("DOMContentLoaded", function () {
           // Show success message
           showSuccessMessage();
 
-          // TEMPORARY: Comment out redirect to see console
-          alert(
-            "✅ Registration Successful!\n\nUser ID: " +
-              data.data.user_id +
-              "\nUsername: " +
-              data.data.username +
-              "\n\nCheck console for details, then click OK to stay on this page.",
-          );
-
           // Redirect to login after short delay
-          // setTimeout(() => {
-          //   window.location.href = "index.html";
-          // }, 2000);
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1500);
         } else {
           // Show error message
           const errors = data.errors || [

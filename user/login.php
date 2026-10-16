@@ -90,8 +90,9 @@ try {
         exit;
     }
 
-    // Check if email is verified
-    if (!isset($user['email_verified']) || $user['email_verified'] != 1) {
+    // Check if email is verified (only if email verification is required)
+    $requireEmailVerification = defined('REQUIRE_EMAIL_VERIFICATION') ? REQUIRE_EMAIL_VERIFICATION : false;
+    if ($requireEmailVerification && (!isset($user['email_verified']) || $user['email_verified'] != 1)) {
         $response['message'] = 'Please verify your email address before logging in. Check your inbox for the verification link.';
         $response['data'] = [
             'email_verified' => false,

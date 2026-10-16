@@ -110,18 +110,21 @@ try {
     // Generate new format user ID
     $userId = IDGenerator::generateUserId($conn);
     
-    // Generate email verification token
-    $verificationToken = bin2hex(random_bytes(32));
-    $verificationTokenHash = hash('sha256', $verificationToken);
-    $verificationExpiresAt = date('Y-m-d H:i:s', strtotime('+24 hours')); // Token expires in 24 hours
+    $requireEmailVerification = defined('REQUIRE_EMAIL_VERIFICATION') ? REQUIRE_EMAIL_VERIFICATION : false;
 
-    // Insert new user (email_verified = 0, requires verification)
+    // Generate email verification token if required
+    $emailVerifiedVal = $requireEmailVerification ? 0 : 1;
+    $verificationToken = bin2hex(random_bytes(32));
+    $verificationTokenHash = $requireEmailVerification ? hash('sha256', $verificationToken) : null;
+    $verificationExpiresAt = $requireEmailVerification ? date('Y-m-d H:i:s', strtotime('+24 hours')) : null;
+
+    // Insert new user
     $sql = "INSERT INTO users 
             (user_id, username, email, password_hash, last_name, given_name, middle_name, full_name, phone_number, 
              email_verified, email_verification_token, email_verification_expires, is_active) 
             VALUES 
             (:user_id, :username, :email, :password_hash, :last_name, :given_name, :middle_name, :full_name, :phone_number,
-             0, :verification_token, :verification_expires, 1)";
+             :email_verified, :verification_token, :verification_expires, 1)";
     
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':user_id', $userId);
@@ -133,69 +136,74 @@ try {
     $stmt->bindParam(':middle_name', $middleName);
     $stmt->bindParam(':full_name', $fullName);
     $stmt->bindParam(':phone_number', $phoneNumber);
+    $stmt->bindParam(':email_verified', $emailVerifiedVal, PDO::PARAM_INT);
     $stmt->bindParam(':verification_token', $verificationTokenHash);
     $stmt->bindParam(':verification_expires', $verificationExpiresAt);
     
     $stmt->execute();
 
-    // Create verification link using ngrok if configured
-    require_once '../config/cloudflare.php';
-    
-    $verificationPath = "/user/verify_email.php?token={$verificationToken}";
-    $verificationLink = buildVerificationUrl($verificationPath);
+    if ($requireEmailVerification) {
+        // Create verification link using ngrok if configured
+        require_once '../config/cloudflare.php';
+        
+        $verificationPath = "/user/verify_email.php?token={$verificationToken}";
+        $verificationLink = buildVerificationUrl($verificationPath);
 
-    // Send email verification email
-    try {
-        require_once '../config/Mailer.php';
-        $mailer = new Mailer();
-        
-        $emailSent = $mailer->sendEmailVerificationEmail(
-            $email,
-            $givenName,
-            $verificationLink,
-            $verificationExpiresAt
-        );
-        
-        if (!$emailSent) {
-            $error = $mailer->getError();
-            error_log("Registration email failed for {$email}: {$error}");
+        // Send email verification email
+        try {
+            require_once '../config/Mailer.php';
+            $mailer = new Mailer();
+            
+            $emailSent = $mailer->sendEmailVerificationEmail(
+                $email,
+                $givenName,
+                $verificationLink,
+                $verificationExpiresAt
+            );
+            
+            if (!$emailSent) {
+                $error = $mailer->getError();
+                error_log("Registration email failed for {$email}: {$error}");
+            }
+        } catch (Exception $e) {
+            error_log("Mailer Exception: " . $e->getMessage());
         }
-    } catch (Exception $e) {
-        error_log("Mailer Exception: " . $e->getMessage());
-    }
 
-    // Log verification link for development
-    $logDir = __DIR__ . '/email_verifications';
-    if (!file_exists($logDir)) {
-        mkdir($logDir, 0755, true);
+        // Log verification link for development
+        $logDir = __DIR__ . '/email_verifications';
+        if (!file_exists($logDir)) {
+            mkdir($logDir, 0755, true);
+        }
+        
+        $logFile = $logDir . '/verification_log_' . date('Y-m-d') . '.txt';
+        $logMessage = "\n" . str_repeat('=', 80) . "\n";
+        $logMessage .= "Email Verification Request\n";
+        $logMessage .= "Time: " . date('Y-m-d H:i:s') . "\n";
+        $logMessage .= "User: {$fullName} ({$username})\n";
+        $logMessage .= "Email: {$email}\n";
+        $logMessage .= "Verification Link: {$verificationLink}\n";
+        $logMessage .= "Expires: {$verificationExpiresAt}\n";
+        $logMessage .= str_repeat('=', 80) . "\n";
+        
+        file_put_contents($logFile, $logMessage, FILE_APPEND);
     }
-    
-    $logFile = $logDir . '/verification_log_' . date('Y-m-d') . '.txt';
-    $logMessage = "\n" . str_repeat('=', 80) . "\n";
-    $logMessage .= "Email Verification Request\n";
-    $logMessage .= "Time: " . date('Y-m-d H:i:s') . "\n";
-    $logMessage .= "User: {$fullName} ({$username})\n";
-    $logMessage .= "Email: {$email}\n";
-    $logMessage .= "Verification Link: {$verificationLink}\n";
-    $logMessage .= "Expires: {$verificationExpiresAt}\n";
-    $logMessage .= str_repeat('=', 80) . "\n";
-    
-    file_put_contents($logFile, $logMessage, FILE_APPEND);
 
     // Prepare success response
     $response['success'] = true;
-    $response['message'] = 'Registration successful! Please check your email to verify your account before logging in.';
+    $response['message'] = $requireEmailVerification 
+        ? 'Registration successful! Please check your email to verify your account before logging in.'
+        : 'Registration successful! You can now log in with your credentials.';
     $response['data'] = [
         'user_id' => $userId,
         'username' => $username,
         'email' => $email,
         'full_name' => $fullName,
-        'email_verified' => false,
-        'verification_required' => true
+        'email_verified' => !$requireEmailVerification,
+        'verification_required' => $requireEmailVerification
     ];
 
-    // In development mode, include verification link
-    if (defined('DEVELOPMENT_MODE') && DEVELOPMENT_MODE === true) {
+    // In development mode, include verification link if required
+    if ($requireEmailVerification && defined('DEVELOPMENT_MODE') && DEVELOPMENT_MODE === true && isset($verificationLink)) {
         $response['data']['verification_link'] = $verificationLink;
     }
 
