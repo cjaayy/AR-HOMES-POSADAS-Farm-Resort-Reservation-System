@@ -247,7 +247,7 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
     />
     <meta name="author" content="AR Homes Posadas Farm Resort" />
 
-    <link rel="stylesheet" href="../admin-styles.css" />
+    <link rel="stylesheet" href="../css/admin-styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Bungee+Spice&display=swap"
       rel="stylesheet"
@@ -2739,7 +2739,7 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
         document.head.appendChild(dashboardAnimationStyle);
     </script>
     
-    <script src="../admin-script.js"></script>
+    <script src="../js/admin-script.js"></script>
     <script>
       // Staff list loader
       let allStaff = [];

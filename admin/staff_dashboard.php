@@ -47,7 +47,7 @@ $staffId = $_SESSION['staff_id'] ?? 0;
     <link rel="icon" type="image/png" sizes="16x16" href="../logo/ar-homes-logo.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="../logo/ar-homes-logo.png" />
 
-    <link rel="stylesheet" href="../admin-styles.css" />
+    <link rel="stylesheet" href="../css/admin-styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Bungee+Spice&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1097,6 +1097,6 @@ $staffId = $_SESSION['staff_id'] ?? 0;
         setInterval(loadDashboardStats, 60000);
       });
     </script>
-    <script src="../admin-script.js"></script>
+    <script src="../js/admin-script.js"></script>
 </body>
 </html>

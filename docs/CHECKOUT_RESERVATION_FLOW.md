@@ -328,7 +328,7 @@ if (Security::isRateLimited('checkout_reservation', 5, 60)) {
 ### Include Required Files
 
 ```html
-<script src="checkout-validator.js"></script>
+<script src="js/checkout-validator.js"></script>
 ```
 
 ### Usage Example
