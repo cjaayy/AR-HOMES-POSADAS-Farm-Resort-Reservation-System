@@ -482,15 +482,11 @@ function loadResortMap() {
   const mapFrame = document.getElementById("resortMap");
 
   // 🎯 AR HOMES POSADAS FARM RESORT EXACT COORDINATES
-  // Original: 14°26'24.2"N 120°27'39.2"E
-  const latitude = 14.4400556; // 📍 14°26'24.2"N
-  const longitude = 120.4608889; // 📍 120°27'39.2"E
+  const latitude = 14.439585;
+  const longitude = 120.461482;
 
-  // Option 1: Basic Google Maps embed with pin
-  const mapUrl = `https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3925.123!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zAR+Homes+Posadas+Farm+Resort!5e0!3m2!1sen!2sph!4v${Date.now()}!5m2!1sen!2sph`;
-
-  // Option 2: Google Maps with custom marker and zoom
-  // const mapUrlWithMarker = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${latitude},${longitude}&zoom=15&maptype=satellite`;
+  // Google Maps embed with exact marker on location
+  const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&hl=en&z=17&output=embed`;
 
   mapFrame.src = mapUrl;
 
@@ -502,13 +498,8 @@ function loadResortMap() {
 
 // Open directions to resort
 function openDirections() {
-  // 🎯 AR HOMES POSADAS FARM RESORT EXACT COORDINATES
-  // Original: 14°26'24.2"N 120°27'39.2"E
-  const latitude = 14.4400556; // 📍 14°26'24.2"N
-  const longitude = 120.4608889; // 📍 120°27'39.2"E
-
-  // Create Google Maps directions URL to your pinned location
-  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&destination_place_id=AR+Homes+Posadas+Farm+Resort`;
+  // 🎯 AR HOMES POSADAS FARM RESORT EXACT LOCATION
+  const directionsUrl = "https://maps.app.goo.gl/SFm3VyoNMJQ2MLik7";
 
   // Open in new tab
   window.open(directionsUrl, "_blank");
@@ -519,11 +510,12 @@ function openDirections() {
 
 // Share resort location
 function shareLocation() {
+  const mapsUrl = "https://maps.app.goo.gl/SFm3VyoNMJQ2MLik7";
   const resortInfo = {
     name: "AR Homes Posadas Farm Resort",
     address: "2488 Maangay, Balon-Anito, Mariveles, Bataan, Philippines",
-    phone: "+63 (32) 123-4567",
-    website: window.location.origin,
+    phone: "09509448599",
+    website: mapsUrl,
   };
 
   // Try to use Web Share API if available
@@ -532,7 +524,7 @@ function shareLocation() {
       .share({
         title: resortInfo.name,
         text: `Check out ${resortInfo.name} - ${resortInfo.address}`,
-        url: window.location.origin,
+        url: mapsUrl,
       })
       .then(() => {
         showMapNotification("Location shared successfully!", "success");

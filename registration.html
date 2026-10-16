@@ -81,657 +81,26 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"
     />
-    <style>
-      /* Reset and Base Styles */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Poppins", sans-serif;
-        min-height: 100vh;
-        background: #1a1a2e;
-        overflow-x: hidden;
-      }
-
-      /* Background slideshow (same as login page) */
-      .registration-container {
-        position: relative;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-
-      .registration-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url("images/545611560_1324092662718848_8811536535004180762_n.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        animation: backgroundSlideshow 55s infinite;
-        z-index: 0;
-      }
-
-      .registration-container::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.4);
-        z-index: 1;
-      }
-
-      @keyframes backgroundSlideshow {
-        0% {
-          background-image: url("images/545611560_1324092662718848_8811536535004180762_n.jpg");
-        }
-        9% {
-          background-image: url("images/545611560_1324092662718848_8811536535004180762_n.jpg");
-        }
-        10% {
-          background-image: url("images/546182776_2167385133738763_7006991891791172725_n.jpg");
-        }
-        18% {
-          background-image: url("images/546182776_2167385133738763_7006991891791172725_n.jpg");
-        }
-        19% {
-          background-image: url("images/546238992_684641691315373_7119956179300816560_n.jpg");
-        }
-        27% {
-          background-image: url("images/546238992_684641691315373_7119956179300816560_n.jpg");
-        }
-        28% {
-          background-image: url("images/546260243_2896334557423631_287976220203457252_n.jpg");
-        }
-        36% {
-          background-image: url("images/546260243_2896334557423631_287976220203457252_n.jpg");
-        }
-        37% {
-          background-image: url("images/548030469_1213549567474869_7105283967168999470_n.jpg");
-        }
-        45% {
-          background-image: url("images/548030469_1213549567474869_7105283967168999470_n.jpg");
-        }
-        46% {
-          background-image: url("images/545601129_1082516497373944_2891607710179489901_n.jpg");
-        }
-        54% {
-          background-image: url("images/545601129_1082516497373944_2891607710179489901_n.jpg");
-        }
-        55% {
-          background-image: url("images/546407920_1244121977399879_5414686772811094703_n.jpg");
-        }
-        63% {
-          background-image: url("images/546407920_1244121977399879_5414686772811094703_n.jpg");
-        }
-        64% {
-          background-image: url("images/546908508_1509402000152429_5271822793821390970_n.jpg");
-        }
-        72% {
-          background-image: url("images/546908508_1509402000152429_5271822793821390970_n.jpg");
-        }
-        73% {
-          background-image: url("images/547374912_659920707160374_2419929377794463667_n.jpg");
-        }
-        81% {
-          background-image: url("images/547374912_659920707160374_2419929377794463667_n.jpg");
-        }
-        82% {
-          background-image: url("images/547522908_1469105141038291_1309182788430366585_n.jpg");
-        }
-        90% {
-          background-image: url("images/547522908_1469105141038291_1309182788430366585_n.jpg");
-        }
-        91% {
-          background-image: url("images/548337583_1787944518496349_2168279959394241583_n.jpg");
-        }
-        100% {
-          background-image: url("images/548337583_1787944518496349_2168279959394241583_n.jpg");
-        }
-      }
-
-      /* Header Styles - Hidden on registration */
-      .header {
-        display: none;
-      }
-
-      /* Main Content */
-      .main-content {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px 0;
-        position: relative;
-        z-index: 2;
-      }
-
-      /* Form Container - Match Login Page Glass Effect */
-      .form-container {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        padding: 30px 35px;
-        max-width: 450px;
-        width: 100%;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        position: relative;
-        overflow: visible;
-        z-index: 2;
-        animation: slideUp 0.8s ease-out;
-      }
-
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Form Header - Match Login Page */
-      .form-header {
-        text-align: center;
-        margin-bottom: 25px;
-      }
-
-      .form-header::before {
-        content: "";
-        display: block;
-        width: 70px;
-        height: 70px;
-        background: white;
-        border-radius: 50%;
-        margin: 0 auto 15px;
-        background-image: url("images/logo/ar-homes-logo.png");
-        background-size: cover;
-        background-position: center;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        padding: 5px;
-      }
-
-      .form-header h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #ffffff;
-        margin-bottom: 8px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
-      .form-header p {
-        font-size: 0.9rem;
-        color: #ffffff;
-        font-weight: 400;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
-      /* Form Styles */
-      .registration-form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-      }
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        min-width: 0;
-        width: 100%;
-      }
-
-      .form-group label {
-        display: none;
-      }
-
-      .form-group label i {
-        display: none;
-      }
-
-      .input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-        width: 100%;
-      }
-
-      .input-wrapper i {
-        position: absolute;
-        left: 15px;
-        color: #666;
-        font-size: 1rem;
-        z-index: 2;
-      }
-
-      .form-input {
-        width: 100%;
-        padding: 15px 15px 15px 45px;
-        border: 2px solid #e1e5e9;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-family: "Poppins", sans-serif;
-        background: #f8f9fa;
-        transition: all 0.3s ease;
-        outline: none;
-        color: #2d3748;
-      }
-
-      .form-input:focus {
-        border-color: #667eea;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      }
-
-      .form-input::placeholder {
-        color: #999;
-      }
-
-      .form-input.error {
-        border-color: #e53e3e;
-        box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
-      }
-
-      /* Password Input Container */
-      .password-input-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
-
-      .password-input-container > i.fa-lock {
-        position: absolute;
-        left: 15px;
-        color: #666;
-        font-size: 1rem;
-        z-index: 2;
-      }
-
-      .password-input-container .form-input {
-        padding-left: 45px;
-        padding-right: 45px;
-      }
-
-      .password-toggle {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: #666;
-        cursor: pointer;
-        padding: 4px;
-        font-size: 0.85rem;
-        transition: color 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
-        border-radius: 4px;
-        z-index: 3;
-      }
-
-      .password-toggle:hover {
-        color: #667eea;
-        background: rgba(102, 126, 234, 0.1);
-      }
-
-      /* Error Messages */
-      .error-container {
-        background: rgba(254, 215, 215, 0.9);
-        color: #e53e3e;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #e53e3e;
-        margin-bottom: 15px;
-      }
-
-      .error-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
-
-      .error-container ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .error-container li {
-        margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .error-container li:before {
-        content: "⚠";
-        font-weight: bold;
-      }
-
-      .error-message {
-        color: #ffcccb;
-        font-size: 0.8rem;
-        font-weight: 500;
-        margin-top: 4px;
-        display: block;
-        min-height: 18px;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-      }
-
-      /* Register Button - Match Login Page Style */
-      .register-btn {
-        width: 100%;
-        padding: 15px 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-weight: 600;
-        font-family: "Poppins", sans-serif;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        position: relative;
-        overflow: hidden;
-        margin-top: 10px;
-      }
-
-      .register-btn::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
-
-      .register-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-      }
-
-      .register-btn:hover::before {
-        left: 100%;
-      }
-
-      .register-btn:active {
-        transform: translateY(0);
-      }
-
-      .register-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-      }
-
-      .register-btn i {
-        transition: transform 0.3s ease;
-      }
-
-      .register-btn:hover i {
-        transform: translateX(3px);
-      }
-
-      /* Login Link - Match Login Page Style */
-      .login-link {
-        text-align: center;
-        margin-top: 20px;
-        padding-top: 15px;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .login-link p {
-        color: #ffffff;
-        font-size: 0.9rem;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-      }
-
-      .login-link a {
-        color: #ffeb3b;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease;
-      }
-
-      .login-link a:hover {
-        color: #fff;
-        text-decoration: underline;
-      }
-
-      /* Footer - Hidden */
-      .footer {
-        display: none;
-      }
-
-      /* Success State */
-      .form-input.success {
-        border-color: #38a169;
-        box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
-      }
-
-      .success-message {
-        color: #38a169;
-        font-size: 0.85rem;
-        font-weight: 500;
-        margin-top: 4px;
-        display: block;
-      }
-
-      /* Loading State */
-      .register-btn.loading {
-        opacity: 0.8;
-        cursor: not-allowed;
-      }
-
-      .register-btn.loading i {
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateX(50px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .form-container {
-          max-width: 95%;
-          padding: 25px 20px;
-        }
-
-        .form-row {
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-
-        .form-header h2 {
-          font-size: 1.3rem;
-        }
-
-        .form-header p {
-          font-size: 0.85rem;
-        }
-
-        .form-input {
-          padding: 12px 12px 12px 40px;
-          font-size: 0.95rem;
-        }
-
-        .register-btn {
-          padding: 14px 20px;
-          font-size: 0.95rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .registration-container {
-          padding: 10px;
-        }
-
-        .form-container {
-          padding: 20px 15px;
-        }
-
-        .form-header::before {
-          width: 60px;
-          height: 60px;
-        }
-
-        .form-header h2 {
-          font-size: 1.2rem;
-        }
-
-        .form-input {
-          padding: 12px 12px 12px 38px;
-          font-size: 0.9rem;
-        }
-
-        .register-btn {
-          padding: 13px 18px;
-          font-size: 0.9rem;
-        }
-      }
-
-      /* High contrast mode support */
-      @media (prefers-contrast: high) {
-        .form-input {
-          border-width: 3px;
-        }
-
-        .form-input:focus {
-          box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
-        }
-
-        .register-btn {
-          border: 2px solid transparent;
-        }
-
-        .register-btn:focus {
-          outline: 3px solid #667eea;
-          outline-offset: 2px;
-        }
-      }
-
-      /* Reduced motion support */
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-
-        .form-container {
-          animation: none;
-        }
-
-        .form-input:focus {
-          transform: none;
-        }
-
-        .register-btn:hover {
-          transform: none;
-        }
-      }
-
-      /* Dark mode - already dark by default */
-      @media (prefers-color-scheme: dark) {
-        .form-container {
-          background: rgba(255, 255, 255, 0.05);
-        }
-
-        .form-input {
-          background: #f8f9fa;
-          border-color: #e1e5e9;
-          color: #2d3748;
-        }
-
-        .form-input::placeholder {
-          color: #999;
-        }
-
-        .form-input:focus {
-          border-color: #667eea;
-          background: white;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <div class="registration-container">
-      <!-- Header with Logo and System Name -->
-      <header class="header">
-        <div class="logo-container">
-          <img
-            src="images/logo/ar-homes-logo.png"
-            alt="AR Homes Posadas Farm Resort Logo"
-            class="logo"
-          />
-          <div class="system-info">
-            <h1 class="system-name">AR Homes Posadas Farm Resort</h1>
-            <p class="system-subtitle">Reservation System</p>
-          </div>
-        </div>
-      </header>
-
       <!-- Registration Form -->
       <main class="main-content">
         <div class="form-container">
+          <div class="header">
+            <div class="logo">
+              <img
+                src="images/logo/ar-homes-logo.png"
+                alt="AR Homes Posadas Farm Resort Logo"
+              />
+            </div>
+            <div class="brand-text">
+              <h1 class="title">AR Homes Posadas</h1>
+              <p class="subtitle">Farm Resort &bull; Reservation System</p>
+            </div>
+          </div>
+
           <div class="form-header">
             <h2>Create Account</h2>
             <p>Please fill in your details to register</p>
@@ -755,22 +124,6 @@
             <!-- Name Fields Row -->
             <div class="form-row">
               <div class="form-group">
-                <label for="lastName"> Last Name * </label>
-                <div class="input-wrapper">
-                  <i class="fas fa-user"></i>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    class="form-input"
-                    placeholder="Enter your last name"
-                    required
-                  />
-                </div>
-                <span id="lastNameError" class="error-message"></span>
-              </div>
-
-              <div class="form-group">
                 <label for="givenName"> Given Name * </label>
                 <div class="input-wrapper">
                   <i class="fas fa-user"></i>
@@ -779,80 +132,98 @@
                     id="givenName"
                     name="givenName"
                     class="form-input"
-                    placeholder="Enter your given name"
+                    placeholder="Given name"
                     required
                   />
                 </div>
                 <span id="givenNameError" class="error-message"></span>
               </div>
+
+              <div class="form-group">
+                <label for="lastName"> Last Name * </label>
+                <div class="input-wrapper">
+                  <i class="fas fa-user"></i>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    class="form-input"
+                    placeholder="Last name"
+                    required
+                  />
+                </div>
+                <span id="lastNameError" class="error-message"></span>
+              </div>
             </div>
 
-            <!-- Middle Name -->
-            <div class="form-group">
-              <label for="middleName"> Middle Name * </label>
-              <div class="input-wrapper">
-                <i class="fas fa-user"></i>
-                <input
-                  type="text"
-                  id="middleName"
-                  name="middleName"
-                  class="form-input"
-                  placeholder="Enter your middle name"
-                  required
-                />
+            <!-- Middle Name & Username Row -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="middleName"> Middle Name * </label>
+                <div class="input-wrapper">
+                  <i class="fas fa-user"></i>
+                  <input
+                    type="text"
+                    id="middleName"
+                    name="middleName"
+                    class="form-input"
+                    placeholder="Middle name"
+                    required
+                  />
+                </div>
+                <span id="middleNameError" class="error-message"></span>
               </div>
-              <span id="middleNameError" class="error-message"></span>
+
+              <div class="form-group">
+                <label for="username"> Username * </label>
+                <div class="input-wrapper">
+                  <i class="fas fa-user-circle"></i>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
+                    placeholder="Username (min. 5 chars)"
+                    required
+                  />
+                </div>
+                <span id="usernameError" class="error-message"></span>
+              </div>
             </div>
 
-            <!-- Email Address -->
-            <div class="form-group">
-              <label for="email"> Email Address * </label>
-              <div class="input-wrapper">
-                <i class="fas fa-envelope"></i>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-input"
-                  placeholder="Enter your email address"
-                  required
-                />
+            <!-- Contact Row (Email & Phone) -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email"> Email Address * </label>
+                <div class="input-wrapper">
+                  <i class="fas fa-envelope"></i>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-input"
+                    placeholder="Email address"
+                    required
+                  />
+                </div>
+                <span id="emailError" class="error-message"></span>
               </div>
-              <span id="emailError" class="error-message"></span>
-            </div>
 
-            <!-- Phone Number -->
-            <div class="form-group">
-              <label for="phoneNumber"> Phone Number * </label>
-              <div class="input-wrapper">
-                <i class="fas fa-phone"></i>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  class="form-input"
-                  placeholder="Enter your phone number"
-                  required
-                />
+              <div class="form-group">
+                <label for="phoneNumber"> Phone Number * </label>
+                <div class="input-wrapper">
+                  <i class="fas fa-phone"></i>
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    class="form-input"
+                    placeholder="Phone number"
+                    required
+                  />
+                </div>
+                <span id="phoneNumberError" class="error-message"></span>
               </div>
-              <span id="phoneNumberError" class="error-message"></span>
-            </div>
-
-            <!-- Username -->
-            <div class="form-group">
-              <label for="username"> Username * </label>
-              <div class="input-wrapper">
-                <i class="fas fa-user-circle"></i>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  class="form-input"
-                  placeholder="Choose a username (min. 5 characters, no spaces)"
-                  required
-                />
-              </div>
-              <span id="usernameError" class="error-message"></span>
             </div>
 
             <!-- Password Fields Row -->
@@ -866,7 +237,7 @@
                     id="password"
                     name="password"
                     class="form-input"
-                    placeholder="Enter your password"
+                    placeholder="Password"
                     required
                   />
                   <button
@@ -889,7 +260,7 @@
                     id="confirmPassword"
                     name="confirmPassword"
                     class="form-input"
-                    placeholder="Confirm your password"
+                    placeholder="Confirm password"
                     required
                   />
                   <button
