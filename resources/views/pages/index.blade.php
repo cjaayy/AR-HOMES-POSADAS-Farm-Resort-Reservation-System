@@ -1,0 +1,310 @@
+@extends('layouts.app')
+
+@section('title', 'AR Homes Posadas Farm Resort - Login')
+
+@section('content')
+<div class="main-container">
+  <!-- Left Side - Image Carousel -->
+  <div class="image-section">
+    <div class="image-slideshow">
+      <div class="slide active">
+        <img src="{{ asset('images/545611560_1324092662718848_8811536535004180762_n.jpg') }}" alt="AR Homes Resort View" />
+        <div class="slide-overlay">
+          <h3>Welcome to AR Homes</h3>
+          <p>Experience the beauty and tranquility of our resort in Mariveles, Bataan</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/546182776_2167385133738763_7006991891791172725_n.jpg') }}" alt="Resort Amenities" />
+        <div class="slide-overlay">
+          <h3>Premium Amenities</h3>
+          <p>Discover our world-class facilities and services</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/546238992_684641691315373_7119956179300816560_n.jpg') }}" alt="Resort Accommodations" />
+        <div class="slide-overlay">
+          <h3>Comfortable Stay</h3>
+          <p>Relax in our beautifully designed accommodations</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/546260243_2896334557423631_287976220203457252_n.jpg') }}" alt="Resort Activities" />
+        <div class="slide-overlay">
+          <h3>Memorable Experiences</h3>
+          <p>Create unforgettable memories with our resort activities</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/548030469_1213549567474869_7105283967168999470_n.jpg') }}" alt="Resort Paradise" />
+        <div class="slide-overlay">
+          <h3>Tropical Paradise</h3>
+          <p>Escape to your perfect getaway destination</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/545601129_1082516497373944_2891607710179489901_n.jpg') }}" alt="Resort Luxury" />
+        <div class="slide-overlay">
+          <h3>Luxury Experience</h3>
+          <p>Indulge in our premium luxury amenities and services</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/546407920_1244121977399879_5414686772811094703_n.jpg') }}" alt="Resort Dining" />
+        <div class="slide-overlay">
+          <h3>Gourmet Dining</h3>
+          <p>Savor exceptional cuisine at our signature restaurants</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/546908508_1509402000152429_5271822793821390970_n.jpg') }}" alt="Resort Recreation" />
+        <div class="slide-overlay">
+          <h3>Recreation & Fun</h3>
+          <p>Enjoy endless entertainment and recreational activities</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/547374912_659920707160374_2419929377794463667_n.jpg') }}" alt="Resort Wellness" />
+        <div class="slide-overlay">
+          <h3>Wellness & Spa</h3>
+          <p>Rejuvenate your mind and body at our wellness center</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/547522908_1469105141038291_1309182788430366585_n.jpg') }}" alt="Resort Views" />
+        <div class="slide-overlay">
+          <h3>Breathtaking Views</h3>
+          <p>Marvel at stunning panoramic views from every corner</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="{{ asset('images/548337583_1787944518496349_2168279959394241583_n.jpg') }}" alt="Resort Adventure" />
+        <div class="slide-overlay">
+          <h3>Adventure Awaits</h3>
+          <p>Discover exciting adventures and outdoor experiences</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side - Login Form -->
+  <div class="login-section" id="login-section">
+    <div class="login-container">
+      <div class="header">
+        <div class="logo">
+          <img src="{{ asset('images/logo/ar-homes-logo.png') }}" alt="AR Homes Posadas Farm Resort Logo" />
+        </div>
+        <div class="brand-text">
+          <h1 class="title">AR Homes Posadas</h1>
+          <p class="subtitle">Farm Resort &bull; Reservation System</p>
+        </div>
+      </div>
+
+      <div class="login-form">
+        <h2>Welcome Back</h2>
+        <p class="form-description">Please sign in to your account</p>
+
+        <form id="loginForm">
+          @csrf
+          <div class="input-group">
+            <div class="input-wrapper">
+              <i class="fas fa-user"></i>
+              <input type="text" id="email" name="email" placeholder="Username or Email" required />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" name="password" placeholder="Password" required />
+              <button type="button" class="password-toggle" onclick="togglePassword()">
+                <i class="fas fa-eye" id="toggleIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="remember-forgot">
+            <label class="remember-me">
+              <input type="checkbox" id="remember" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="login-btn">
+            <span>Sign In</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="signup-link">
+          <p>Don't have an account? <a href="{{ url('/registration') }}">Register</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Links - Fixed Bottom Right Corner -->
+<div class="quick-links-container fixed-bottom-right">
+  <button class="quick-link-btn" onclick="openLocationMap()" title="View Resort Location">
+    <i class="fas fa-map-marker-alt"></i>
+    <span class="quick-link-tooltip">Find Us</span>
+  </button>
+  <button class="quick-link-btn" onclick="openContactModal()" title="Contact & Social Media">
+    <i class="fas fa-address-book"></i>
+    <span class="quick-link-tooltip">Contact</span>
+  </button>
+  <button class="quick-link-btn" onclick="openReviewsModal()" title="Guest Reviews">
+    <i class="fas fa-star"></i>
+    <span class="quick-link-tooltip">Reviews</span>
+  </button>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Reset Your Password</h3>
+      <button class="modal-close-btn" onclick="closeForgotPasswordModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-description">Enter your email address and we'll send you a link to reset your password.</p>
+      <form id="forgotPasswordForm">
+        @csrf
+        <div class="input-group">
+          <div class="input-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="resetEmail" name="resetEmail" placeholder="Enter your email address" required />
+          </div>
+        </div>
+        <button type="submit" class="modal-btn" id="sendResetBtn">
+          <span>Send Reset Link</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+      <div class="modal-footer">
+        <p>Remember your password? <a href="#" onclick="closeForgotPasswordModal(); return false;">Back to Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Map Modal -->
+<div id="mapModal" class="map-modal">
+  <div class="map-modal-content">
+    <div class="map-modal-header">
+      <h3>AR Homes Posadas Farm Resort Location</h3>
+      <button class="map-close-btn" onclick="closeLocationMap()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="map-modal-body">
+      <div class="location-info">
+        <div class="address-section">
+          <h4><i class="fas fa-map-marker-alt"></i> Resort Address</h4>
+          <p>
+            AR Homes Posadas Farm Resort<br />
+            2488 Maangay, Balon-Anito<br />
+            Mariveles, Bataan, Philippines
+          </p>
+        </div>
+        <div class="contact-section">
+          <h4><i class="fas fa-phone"></i> Contact Information</h4>
+          <p>
+            Phone: 09509448599<br />
+            Email: info@arhomesresort.com
+          </p>
+        </div>
+      </div>
+      <div class="map-container">
+        <iframe id="resortMap" src="https://maps.google.com/maps?q=14.439585,120.461482&amp;hl=en&amp;z=17&amp;output=embed" width="100%" height="300" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="map-actions">
+        <button class="directions-btn" onclick="openDirections()">
+          <i class="fas fa-route"></i> Get Directions
+        </button>
+        <button class="share-location-btn" onclick="shareLocation()">
+          <i class="fas fa-share-alt"></i> Share Location
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact & Social Modal -->
+<div id="contactModal" class="map-modal">
+  <div class="map-modal-content">
+    <div class="map-modal-header">
+      <h3>Contact & Social Media</h3>
+      <button class="map-close-btn" onclick="closeContactModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="map-modal-body">
+      <div class="contact-info-grid">
+        <div class="contact-info-card">
+          <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+          <h4>Phone</h4>
+          <p><a href="tel:09509448599">09509448599</a></p>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <h4>Email</h4>
+          <p><a href="mailto:info@arhomesresort.com">info@arhomesresort.com</a></p>
+          <p><a href="mailto:reservations@arhomesresort.com">reservations@arhomesresort.com</a></p>
+        </div>
+      </div>
+      <div class="social-links-section">
+        <h4>Follow Us</h4>
+        <div class="social-buttons">
+          <a href="https://www.facebook.com/profile.php?id=61570329140673" target="_blank" class="social-btn facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reviews Modal -->
+<div id="reviewsModal" class="map-modal">
+  <div class="map-modal-content reviews-modal-content">
+    <div class="map-modal-header">
+      <h3>Guest Reviews</h3>
+      <button class="map-close-btn" onclick="closeReviewsModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="map-modal-body">
+      <div class="reviews-summary">
+        <div class="rating-overview">
+          <div class="rating-score" id="publicAvgRating">-</div>
+          <div class="rating-stars" id="publicRatingStars">
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </div>
+          <p id="publicReviewCount">Loading reviews...</p>
+        </div>
+      </div>
+      <div class="reviews-list" id="publicReviewsList">
+        <div style="text-align: center; padding: 40px; color: #64748b">
+          <i class="fas fa-spinner fa-spin" style="font-size: 32px; margin-bottom: 12px"></i>
+          <p>Loading reviews...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+
+@push('scripts')
+<script src="{{ asset('js/script.js') }}"></script>
+@endpush
