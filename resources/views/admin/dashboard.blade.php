@@ -1,25 +1,64 @@
+<?php
+/**
+ * Admin Dashboard
+ * AR Homes Posadas Farm Resort Reservation System
+ */
+
+// Prevent browser caching to ensure latest code is loaded
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+session_start();
+
+// Check if admin is logged in
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header('Location: ../index.html');
+    exit;
+}
+
+// Check if user has admin role (not staff)
+$userRole = strtolower($_SESSION['admin_role'] ?? '');
+if ($userRole === 'staff') {
+    header('Location: staff_dashboard.php');
+    exit;
+}
+
+// Only allow admin and super_admin roles
+if ($userRole !== 'admin' && $userRole !== 'super_admin') {
+    session_unset();
+    session_destroy();
+    header('Location: ../index.html');
+    exit;
+}
+
+// Check session timeout
+require_once dirname(__DIR__, 2) . '/config/database.php';
+$timeout = defined('SESSION_TIMEOUT') ? SESSION_TIMEOUT : 3600;
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $timeout)) {
+    session_unset();
+    session_destroy();
+    header('Location: ../index.html?session_expired=1');
+    exit;
+}
+
+// CRITICAL: Check if database connection is active
+try {
+    require_once dirname(__DIR__, 2) . '/config/connection.php';
+    $database = new Database();
+    $conn = $database->getConnection();
+    
+    $testQuery = $conn->prepare("SELECT COUNT(*) FROM admin_users WHERE admin_id = :admin_id");
+    $adminId = $_SESSION['admin_id'] ?? 0;
+    $testQuery->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
+    $testQuery->execute();
+    
+} catch (PDOException $e) {
+    // Database connection failed - show friendly error page
+    die('
 <!DOCTYPE html>
     <html lang="en">
     <head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script>
-        (function() {
-            var token = "{{ csrf_token() }}";
-            var origFetch = window.fetch;
-            window.fetch = function(url, opt) {
-                opt = opt || {};
-                opt.headers = opt.headers || {};
-                if (opt.headers instanceof Headers) {
-                    if (!opt.headers.has('X-CSRF-TOKEN')) opt.headers.append('X-CSRF-TOKEN', token);
-                } else if (Array.isArray(opt.headers)) {
-                    opt.headers.push(['X-CSRF-TOKEN', token]);
-                } else {
-                    opt.headers['X-CSRF-TOKEN'] = opt.headers['X-CSRF-TOKEN'] || token;
-                }
-                return origFetch(url, opt);
-            };
-        })();
-    </script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Database Connection Error</title>
@@ -158,6 +197,25 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        (function() {
+            var token = "{{ csrf_token() }}";
+            var origFetch = window.fetch;
+            window.fetch = function(url, opt) {
+                opt = opt || {};
+                opt.headers = opt.headers || {};
+                if (opt.headers instanceof Headers) {
+                    if (!opt.headers.has('X-CSRF-TOKEN')) opt.headers.append('X-CSRF-TOKEN', token);
+                } else if (Array.isArray(opt.headers)) {
+                    opt.headers.push(['X-CSRF-TOKEN', token]);
+                } else {
+                    opt.headers['X-CSRF-TOKEN'] = opt.headers['X-CSRF-TOKEN'] || token;
+                }
+                return origFetch(url, opt);
+            };
+        })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard - AR Homes Posadas Farm Resort</title>

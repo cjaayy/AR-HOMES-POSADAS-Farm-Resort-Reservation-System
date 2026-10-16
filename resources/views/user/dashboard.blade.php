@@ -3667,12 +3667,11 @@
             // Update UI immediately
             updateUserInterface();
           } else {
-            console.warn("⚠️ Not authenticated, redirecting...");
-            window.location.href = "index.html";
+            console.warn("⚠️ Not authenticated, redirecting to logout...");
+            window.location.href = "user/logout.php";
           }
         } catch (error) {
           console.error("❌ Auth check failed:", error);
-          window.location.href = "index.html";
         }
       }
 
@@ -4271,6 +4270,7 @@
         alert("Proceeding to payment...");
         // Add your payment logic here
       }
+      window.proceedToPayment = proceedToPayment;
 
       function validatePromoCode() {
         const promoCode = document.getElementById("promoCodeInput").value;
@@ -4281,6 +4281,7 @@
           alert("Please enter a promo code");
         }
       }
+      window.validatePromoCode = validatePromoCode;
 
       // Toggle sidebar for mobile
       function toggleSidebar() {

@@ -2055,6 +2055,41 @@ window.toggleUserStatus = toggleUserStatus;
 window.deleteUser = deleteUser;
 window.closeUserModal = closeUserModal;
 
+if (typeof loadDashboardStats === "function") window.loadDashboardStats = loadDashboardStats;
+if (typeof adminClearFilters === "function") window.adminClearFilters = adminClearFilters;
+if (typeof adminQuickFilter === "function") window.adminQuickFilter = adminQuickFilter;
+if (typeof adminFetchAllReservations === "function") window.adminFetchAllReservations = adminFetchAllReservations;
+if (typeof adminExportCSV === "function") window.adminExportCSV = adminExportCSV;
+if (typeof adminChangePage === "function") window.adminChangePage = adminChangePage;
+if (typeof adminHideCreateForm === "function") window.adminHideCreateForm = adminHideCreateForm;
+if (typeof adminViewReservation === "function") window.adminViewReservation = adminViewReservation;
+if (typeof adminUpdateStatus === "function") window.adminUpdateStatus = adminUpdateStatus;
+if (typeof staffClearFilters === "function") window.staffClearFilters = staffClearFilters;
+if (typeof staffQuickFilter === "function") window.staffQuickFilter = staffQuickFilter;
+if (typeof loadStaffList === "function") window.loadStaffList = loadStaffList;
+if (typeof exportStaffCSV === "function") window.exportStaffCSV = exportStaffCSV;
+if (typeof staffChangePage === "function") window.staffChangePage = staffChangePage;
+if (typeof loadAdminReportData === "function") window.loadAdminReportData = loadAdminReportData;
+if (typeof fixReservationPrices === "function") window.fixReservationPrices = fixReservationPrices;
+if (typeof exportReportsPDF === "function") window.exportReportsPDF = exportReportsPDF;
+if (typeof exportReportsExcel === "function") window.exportReportsExcel = exportReportsExcel;
+if (typeof applyAdminCustomDate === "function") window.applyAdminCustomDate = applyAdminCustomDate;
+if (typeof loadAdminReviews === "function") window.loadAdminReviews = loadAdminReviews;
+if (typeof filterRebookings === "function") window.filterRebookings = filterRebookings;
+if (typeof loadRebookingRequests === "function") window.loadRebookingRequests = loadRebookingRequests;
+if (typeof testRebookingAPI === "function") window.testRebookingAPI = testRebookingAPI;
+if (typeof loadSettingsData === "function") window.loadSettingsData = loadSettingsData;
+if (typeof viewStaffMember === "function") window.viewStaffMember = viewStaffMember;
+if (typeof editStaffMember === "function") window.editStaffMember = editStaffMember;
+if (typeof toggleStaffStatus === "function") window.toggleStaffStatus = toggleStaffStatus;
+if (typeof resetStaffPassword === "function") window.resetStaffPassword = resetStaffPassword;
+if (typeof deleteStaffMember === "function") window.deleteStaffMember = deleteStaffMember;
+if (typeof closeCalendarModal === "function") window.closeCalendarModal = closeCalendarModal;
+if (typeof approveRebooking === "function") window.approveRebooking = approveRebooking;
+if (typeof rejectRebooking === "function") window.rejectRebooking = rejectRebooking;
+if (typeof toggleSidebar === "function") window.toggleSidebar = toggleSidebar;
+if (typeof showSection === "function") window.showSection = showSection;
+
 // Export users to CSV
 function exportUsersCSV() {
   if (!filteredUsers || filteredUsers.length === 0) {

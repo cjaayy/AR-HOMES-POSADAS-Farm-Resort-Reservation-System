@@ -127,6 +127,7 @@ function fillDemoCredentials(type) {
 }
 
 // Form validation and submission
+if (loginForm) {
 loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -165,6 +166,7 @@ loginForm.addEventListener("submit", function (e) {
   // If validation passes, simulate login
   handleLogin(email, password);
 });
+}
 
 // Handle login with database authentication
 function handleLogin(email, password) {
@@ -370,19 +372,24 @@ document.querySelectorAll(".input-wrapper input").forEach((input) => {
 
 // Remember me functionality
 const rememberCheckbox = document.getElementById("remember");
-rememberCheckbox.addEventListener("change", function () {
-  if (this.checked) {
-    // In a real application, you would set localStorage or cookie preferences here
-  } else {
-    // Remember me disabled
-  }
-});
+if (rememberCheckbox) {
+  rememberCheckbox.addEventListener("change", function () {
+    if (this.checked) {
+      // In a real application, you would set localStorage or cookie preferences here
+    } else {
+      // Remember me disabled
+    }
+  });
+}
 
 // Handle "Forgot Password" link
-document.querySelector(".forgot-link").addEventListener("click", function (e) {
-  e.preventDefault();
-  openForgotPasswordModal();
-});
+const forgotLink = document.querySelector(".forgot-link");
+if (forgotLink) {
+  forgotLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    openForgotPasswordModal();
+  });
+}
 
 // Register link now works with standard HTML navigation to registration.html
 
@@ -962,9 +969,9 @@ function handleForgotPasswordEscape(e) {
 }
 
 // Handle forgot password form submission
-document
-  .getElementById("forgotPasswordForm")
-  .addEventListener("submit", function (e) {
+const forgotPasswordForm = document.getElementById("forgotPasswordForm");
+if (forgotPasswordForm) {
+  forgotPasswordForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const resetEmail = document.getElementById("resetEmail").value.trim();
@@ -1016,6 +1023,7 @@ document
           '<span>Send Reset Link</span><i class="fas fa-paper-plane"></i>';
       });
   });
+}
 
 // Show reset link modal for development
 // Show reset success modal

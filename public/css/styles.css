@@ -2177,29 +2177,38 @@ body {
   transform: translateX(4px);
 }
 
+.signin-link,
 .login-link {
   text-align: center;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.signin-link p,
 .login-link p {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.82rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 0.9rem;
+  margin: 0;
+  letter-spacing: 0.2px;
 }
 
+.signin-link a,
 .login-link a {
-  color: #fde047;
+  color: #fde047 !important;
   text-decoration: none;
   font-weight: 700;
-  transition: color 0.25s ease;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-left: 4px;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
+.signin-link a:hover,
 .login-link a:hover {
-  color: #fffbeb;
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(253, 224, 71, 0.6);
   text-decoration: underline;
 }
 

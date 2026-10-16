@@ -300,27 +300,34 @@ body {
 }
 
 /* Login Link */
+.signin-link,
 .login-link {
   text-align: center;
-  margin-top: 25px;
-  padding-top: 20px;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.signin-link p,
 .login-link p {
-  color: #718096;
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
+.signin-link a,
 .login-link a {
-  color: #ff6f00;
+  color: #fde047 !important;
   text-decoration: none;
-  font-weight: 600;
-  transition: color 0.3s ease;
+  font-weight: 700;
+  margin-left: 4px;
+  transition: all 0.25s ease;
 }
 
+.signin-link a:hover,
 .login-link a:hover {
-  color: #e53935;
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(253, 224, 71, 0.6);
   text-decoration: underline;
 }
 

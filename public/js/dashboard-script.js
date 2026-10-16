@@ -6914,3 +6914,15 @@ function viewReservationDetailsFromRebooking(reservationId) {
     }
   }
 }
+
+// Global window bindings for user dashboard
+if (typeof openInclusionsModal === "function") window.openInclusionsModal = openInclusionsModal;
+if (typeof closeInclusionsModal === "function") window.closeInclusionsModal = closeInclusionsModal;
+if (typeof loadRebookingRequests === "function") window.loadRebookingRequests = loadRebookingRequests;
+if (typeof filterUserRebookings === "function") window.filterUserRebookings = filterUserRebookings;
+if (typeof viewReservationDetailsFromRebooking === "function") window.viewReservationDetailsFromRebooking = viewReservationDetailsFromRebooking;
+if (typeof showPopup === "function") window.showPopup = showPopup;
+if (typeof closePopup === "function") window.closePopup = closePopup;
+if (typeof showSection === "function") window.showSection = showSection;
+if (typeof selectPackage === "function") window.selectPackage = selectPackage;
+

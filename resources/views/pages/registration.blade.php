@@ -130,7 +130,7 @@
         </button>
       </form>
 
-      <div class="signin-link">
+      <div class="signin-link login-link">
         <p>Already have an account? <a href="{{ url('/') }}">Sign In</a></p>
       </div>
     </div>
