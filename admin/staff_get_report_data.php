@@ -325,3 +325,4 @@ try {
     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage(), 'trace' => $e->getTraceAsString()]);
 }
 ?>
+

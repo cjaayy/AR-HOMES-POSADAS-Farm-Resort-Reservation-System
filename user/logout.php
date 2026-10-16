@@ -31,3 +31,4 @@ if (ob_get_level()) {
 // Redirect to home page
 header('Location: ../index.html');
 exit;
+

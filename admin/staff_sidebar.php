@@ -36,3 +36,4 @@ function activeClass($file, $current) {
     </ul>
   </nav>
 </aside>
+

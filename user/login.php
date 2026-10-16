@@ -156,3 +156,4 @@ try {
     error_log('Login Exception: ' . $e->getMessage());
     echo json_encode($response);
 }
+

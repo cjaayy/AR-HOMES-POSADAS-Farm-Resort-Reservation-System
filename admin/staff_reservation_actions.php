@@ -264,3 +264,4 @@ function logStaffActivity($conn, $staffId, $staffName, $actionType, $description
     }
 }
 ?>
+

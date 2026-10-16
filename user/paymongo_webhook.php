@@ -380,3 +380,4 @@ function handlePaymentFailed($pdo, $event) {
     error_log('Payment failed: ' . $payment_id);
     // You can add logic here to notify the user or mark the reservation
 }
+

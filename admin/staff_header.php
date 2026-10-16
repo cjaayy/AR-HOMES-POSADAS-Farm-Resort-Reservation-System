@@ -18,7 +18,7 @@ $staffName = $_SESSION['staff_full_name'] ?? 'Staff Member';
 <header class="admin-header">
   <div class="header-left">
     <div class="logo">
-      <img src="../logo/ar-homes-logo.png" alt="AR Homes Resort Logo" />
+      <img src="../images/logo/ar-homes-logo.png" alt="AR Homes Resort Logo" />
     </div>
     <div class="resort-info">
       <h1>AR Homes Posadas Farm Resort</h1>
@@ -119,3 +119,4 @@ $staffName = $_SESSION['staff_full_name'] ?? 'Staff Member';
     }
   });
 </script>
+

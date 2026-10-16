@@ -26,9 +26,9 @@ $staffName = $isStaffSession ? ($_SESSION['staff_full_name'] ?? 'Staff Member') 
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Reports & Analytics - Staff</title>
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="../logo/ar-homes-logo.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="../logo/ar-homes-logo.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="../logo/ar-homes-logo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/logo/ar-homes-logo.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/logo/ar-homes-logo.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/logo/ar-homes-logo.png" />
   <link rel="stylesheet" href="../css/admin-styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Bungee+Spice&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
@@ -1146,3 +1146,4 @@ $staffName = $isStaffSession ? ($_SESSION['staff_full_name'] ?? 'Staff Member') 
   <script src="../js/admin-script.js"></script>
 </body>
 </html>
+

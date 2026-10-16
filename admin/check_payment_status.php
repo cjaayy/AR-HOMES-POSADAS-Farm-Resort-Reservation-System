@@ -60,3 +60,4 @@ if (count($reservations) > 0) {
     echo "No reservations found in the last week.\n";
 }
 ?>
+

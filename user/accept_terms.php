@@ -70,3 +70,4 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+

@@ -150,3 +150,4 @@ try {
     error_log("Admin profile update error: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'An error occurred']);
 }
+

@@ -205,3 +205,4 @@ function logActivity($conn, $userId, $userName, $actionType, $description, $rela
     }
 }
 ?>
+

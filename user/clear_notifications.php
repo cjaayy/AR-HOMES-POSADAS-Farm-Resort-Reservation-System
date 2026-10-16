@@ -60,3 +60,4 @@ try {
         'message' => 'Database error: ' . $e->getMessage()
     ]);
 }
+

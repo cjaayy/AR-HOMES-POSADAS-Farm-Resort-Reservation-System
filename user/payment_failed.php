@@ -15,7 +15,7 @@ $reservation_id = $_GET['reservation_id'] ?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Failed - AR Homes Resort</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
     <style>
         body {
@@ -123,7 +123,7 @@ $reservation_id = $_GET['reservation_id'] ?? null;
         </p>
         
         <div class="btn-container">
-            <a href="dashboard.html" class="btn-secondary">
+            <a href="../dashboard.html" class="btn-secondary">
                 <i class="fas fa-home"></i> Go to Dashboard
             </a>
             <?php if ($reservation_id): ?>
@@ -137,8 +137,9 @@ $reservation_id = $_GET['reservation_id'] ?? null;
     <script>
         function retryPayment(reservationId) {
             // Redirect to dashboard and open payment modal
-            window.location.href = 'dashboard.html?retry_payment=' + reservationId;
+            window.location.href = '../dashboard.html?retry_payment=' + reservationId;
         }
     </script>
 </body>
 </html>
+

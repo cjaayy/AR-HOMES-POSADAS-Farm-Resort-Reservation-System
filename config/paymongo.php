@@ -38,12 +38,12 @@ define('PAYMONGO_CHECKOUT_URL', 'https://pm.link/org-TsVFBrzU4hxjqPiivG5o2eJy/DB
 
 // Return URLs (adjust based on your domain)
 // For local development - Since DocumentRoot points to project folder, use root-relative paths
-define('PAYMONGO_SUCCESS_URL', 'http://localhost/payment_success.php');
-define('PAYMONGO_FAILED_URL', 'http://localhost/payment_failed.php');
+define('PAYMONGO_SUCCESS_URL', 'http://localhost/user/payment_success.php');
+define('PAYMONGO_FAILED_URL', 'http://localhost/user/payment_failed.php');
 
 // For production, uncomment and update these:
-// define('PAYMONGO_SUCCESS_URL', 'https://yourdomain.com/payment_success.php');
-// define('PAYMONGO_FAILED_URL', 'https://yourdomain.com/payment_failed.php');
+// define('PAYMONGO_SUCCESS_URL', 'https://yourdomain.com/user/payment_success.php');
+// define('PAYMONGO_FAILED_URL', 'https://yourdomain.com/user/payment_failed.php');
 
 /**
  * Get PayMongo Authorization Header

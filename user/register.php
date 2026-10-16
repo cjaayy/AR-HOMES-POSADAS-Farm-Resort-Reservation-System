@@ -218,3 +218,4 @@ try {
     error_log('Registration Exception: ' . $e->getMessage());
     echo json_encode($response);
 }
+

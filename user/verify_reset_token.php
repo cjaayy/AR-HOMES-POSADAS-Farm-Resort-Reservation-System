@@ -104,3 +104,4 @@ try {
     $response['message'] = 'Error: ' . $e->getMessage();
     echo json_encode($response);
 }
+

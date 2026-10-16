@@ -20,3 +20,4 @@ echo json_encode([
     'expires_in' => 3600 // 1 hour
 ]);
 ?>
+

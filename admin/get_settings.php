@@ -90,3 +90,4 @@ try {
     error_log("Get settings error: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'An error occurred']);
 }
+

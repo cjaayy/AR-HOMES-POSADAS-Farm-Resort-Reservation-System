@@ -117,3 +117,4 @@ try {
         'unavailable_dates' => []
     ]);
 }
+

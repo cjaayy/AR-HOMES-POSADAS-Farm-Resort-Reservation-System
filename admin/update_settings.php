@@ -81,3 +81,4 @@ try {
     error_log("Update settings error: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'An error occurred']);
 }
+

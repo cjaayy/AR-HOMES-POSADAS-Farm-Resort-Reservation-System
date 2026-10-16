@@ -43,9 +43,9 @@ $staffId = $_SESSION['staff_id'] ?? 0;
     <title>Staff Dashboard - AR Homes Posadas Farm Resort</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="../logo/ar-homes-logo.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="../logo/ar-homes-logo.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="../logo/ar-homes-logo.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/logo/ar-homes-logo.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/logo/ar-homes-logo.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/logo/ar-homes-logo.png" />
 
     <link rel="stylesheet" href="../css/admin-styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Bungee+Spice&display=swap" rel="stylesheet" />
@@ -66,7 +66,7 @@ $staffId = $_SESSION['staff_id'] ?? 0;
       <header class="admin-header">
         <div class="header-left">
           <div class="logo">
-            <img src="../logo/ar-homes-logo.png" alt="AR Homes Resort Logo" />
+            <img src="../images/logo/ar-homes-logo.png" alt="AR Homes Resort Logo" />
           </div>
           <div class="resort-info">
             <h1>AR Homes Posadas Farm Resort</h1>
@@ -1100,3 +1100,4 @@ $staffId = $_SESSION['staff_id'] ?? 0;
     <script src="../js/admin-script.js"></script>
 </body>
 </html>
+

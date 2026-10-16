@@ -217,22 +217,22 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="../logo/ar-homes-logo.png"
+      href="../images/logo/ar-homes-logo.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../logo/ar-homes-logo.png"
+      href="../images/logo/ar-homes-logo.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="../logo/ar-homes-logo.png"
+      href="../images/logo/ar-homes-logo.png"
     />
     <link
       rel="shortcut icon"
-      href="../logo/ar-homes-logo.png"
+      href="../images/logo/ar-homes-logo.png"
     />
 
     <!-- Meta tags -->
@@ -303,7 +303,7 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
         <div class="header-left">
           <div class="logo">
             <img
-              src="../logo/ar-homes-logo.png"
+              src="../images/logo/ar-homes-logo.png"
               alt="AR Homes Resort Logo"
             />
           </div>
@@ -2308,7 +2308,7 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
               <!-- About Panel -->
               <div class="settings-panel" id="about-system-panel">
                 <div style="text-align:center; padding:20px;">
-                  <img src="../logo/ar-homes-logo.png" alt="AR Homes Logo" style="width:100px; height:100px; border-radius:16px; margin-bottom:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                  <img src="../images/logo/ar-homes-logo.png" alt="AR Homes Logo" style="width:100px; height:100px; border-radius:16px; margin-bottom:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
                   <h3 style="color:#1e293b; font-size:20px; margin:0 0 8px 0;">AR Homes Posadas Farm Resort</h3>
                   <p style="color:#64748b; font-size:14px; margin:0 0 20px 0;">Reservation Management System</p>
                 </div>
@@ -4973,3 +4973,4 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
     </script>
   </body>
 </html>
+

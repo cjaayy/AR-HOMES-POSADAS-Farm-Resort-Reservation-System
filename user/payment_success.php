@@ -5,14 +5,14 @@
  */
 
 session_start();
-require_once 'config/database.php';
-require_once 'config/paymongo.php';
+require_once '../config/database.php';
+require_once '../config/paymongo.php';
 
 // Get reservation ID from query parameter
 $reservation_id = $_GET['reservation_id'] ?? null;
 
 if (!$reservation_id) {
-    header('Location: dashboard.html');
+    header('Location: ../dashboard.html');
     exit;
 }
 
@@ -135,7 +135,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Successful - AR Homes Resort</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
     <style>
         body {
@@ -275,9 +275,10 @@ try {
             A confirmation email has been sent to your registered email address.
         </p>
         
-        <a href="dashboard.html" class="btn-primary">
+        <a href="../dashboard.html" class="btn-primary">
             <i class="fas fa-home"></i> Go to Dashboard
         </a>
     </div>
 </body>
 </html>
+
