@@ -158,14 +158,179 @@ loginForm.addEventListener("submit", function (e) {
   }
 
   if (!isValid) {
-    // Show alert for empty fields as requested
-    alert("Please fill in all required fields correctly!");
+    showLoginFailedModal("Please fill in all required fields with valid credentials.", "Incomplete Fields");
     return;
   }
 
-  // If validation passes, simulate login
+  // If validation passes, process login
   handleLogin(email, password);
 });
+}
+
+// Variables for success redirection timer
+let loginRedirectTimer = null;
+let loginRedirectProgressInterval = null;
+let currentRedirectUrl = null;
+
+// Show Login Success Modal
+function showLoginSuccessModal(options) {
+  const modal = document.getElementById("loginSuccessModal");
+  if (!modal) {
+    window.location.href = options.redirectUrl || "dashboard.html";
+    return;
+  }
+
+  const titleEl = document.getElementById("loginSuccessTitle");
+  const messageEl = document.getElementById("loginSuccessMessage");
+  const userInfoEl = document.getElementById("loginSuccessUserInfo");
+  const roleBadgeEl = document.getElementById("loginSuccessRoleBadge");
+  const userNameEl = document.getElementById("loginSuccessUserName");
+  const progressFill = document.getElementById("loginSuccessProgress");
+  const countdownEl = document.getElementById("loginSuccessCountdown");
+
+  currentRedirectUrl = options.redirectUrl || "dashboard.html";
+
+  if (titleEl) titleEl.textContent = options.title || "Login Successful!";
+  if (messageEl) messageEl.textContent = options.message || "Authentication verified. Access granted to AR Homes Posadas Farm Resort.";
+
+  if (userInfoEl && options.name) {
+    if (roleBadgeEl) roleBadgeEl.textContent = options.role || "User";
+    if (userNameEl) userNameEl.textContent = options.name;
+    userInfoEl.style.display = "inline-flex";
+  } else if (userInfoEl) {
+    userInfoEl.style.display = "none";
+  }
+
+  // Update button state
+  if (loginBtn) {
+    loginBtn.classList.remove("loading", "error");
+    loginBtn.classList.add("success");
+    loginBtn.innerHTML = '<i class="fas fa-check"></i> ' + (options.btnText || "Access Granted");
+    loginBtn.disabled = true;
+  }
+
+  // Open modal
+  modal.classList.add("show");
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  // Progress and countdown
+  const duration = options.duration || 1800;
+  let remainingMs = duration;
+  const intervalMs = 30;
+
+  if (progressFill) progressFill.style.width = "0%";
+  if (countdownEl) countdownEl.textContent = Math.ceil(remainingMs / 1000);
+
+  clearInterval(loginRedirectProgressInterval);
+  clearTimeout(loginRedirectTimer);
+
+  loginRedirectProgressInterval = setInterval(() => {
+    remainingMs -= intervalMs;
+    const progressPercent = Math.min(100, Math.max(0, ((duration - remainingMs) / duration) * 100));
+    if (progressFill) progressFill.style.width = progressPercent + "%";
+    if (countdownEl) countdownEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
+
+    if (remainingMs <= 0) {
+      clearInterval(loginRedirectProgressInterval);
+    }
+  }, intervalMs);
+
+  loginRedirectTimer = setTimeout(() => {
+    proceedLoginRedirect();
+  }, duration);
+}
+
+// Proceed with redirection
+function proceedLoginRedirect() {
+  clearTimeout(loginRedirectTimer);
+  clearInterval(loginRedirectProgressInterval);
+  if (currentRedirectUrl) {
+    window.location.href = currentRedirectUrl;
+  }
+}
+
+// Close login success modal (proceeds immediately)
+function closeLoginSuccessModal() {
+  proceedLoginRedirect();
+}
+
+// Show Login Failed Modal
+function showLoginFailedModal(message, title) {
+  const modal = document.getElementById("loginFailedModal");
+  if (!modal) {
+    alert(message || "Login failed. Please try again.");
+    return;
+  }
+
+  const titleEl = document.getElementById("loginFailedTitle");
+  const messageEl = document.getElementById("loginFailedMessage");
+
+  if (titleEl) titleEl.textContent = title || "Login Failed";
+  if (messageEl) messageEl.textContent = message || "The credentials provided do not match our records. Please verify your username or password and try again.";
+
+  // Reset login button from loading
+  if (loginBtn) {
+    loginBtn.classList.remove("loading", "success");
+    loginBtn.classList.add("error");
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = '<span>Sign In</span><i class="fas fa-arrow-right"></i>';
+
+    setTimeout(() => {
+      loginBtn.classList.remove("error");
+    }, 2000);
+  }
+
+  // Open modal
+  modal.classList.add("show");
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  // Re-trigger shake animation
+  const content = modal.querySelector(".auth-feedback-content");
+  if (content) {
+    content.style.animation = "none";
+    void content.offsetHeight;
+    content.style.animation = "";
+  }
+}
+
+// Close Login Failed Modal
+function closeLoginFailedModal() {
+  const modal = document.getElementById("loginFailedModal");
+  if (modal) {
+    modal.classList.remove("show");
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  // Focus password or email field for quick correction
+  if (passwordInput && (!passwordInput.value || emailInput.value)) {
+    passwordInput.focus();
+    passwordInput.select();
+  } else if (emailInput) {
+    emailInput.focus();
+    emailInput.select();
+  }
+}
+
+// Switch from Login Failed Modal directly to Forgot Password Modal
+function switchToForgotPasswordModal() {
+  closeLoginFailedModal();
+
+  // Pre-fill email in forgot password modal if user entered an email
+  const enteredEmail = emailInput ? emailInput.value.trim() : "";
+  const resetEmailInput = document.getElementById("resetEmail");
+  if (resetEmailInput && enteredEmail && isValidEmail(enteredEmail)) {
+    resetEmailInput.value = enteredEmail;
+  }
+
+  openForgotPasswordModal();
+}
+
+// Show login error message via modal
+function showLoginError(message, title) {
+  showLoginFailedModal(message, title || "Authentication Error");
 }
 
 // Handle login with database authentication
@@ -173,73 +338,69 @@ function handleLogin(email, password) {
   // Add loading state
   loginBtn.classList.add("loading");
   loginBtn.disabled = true;
+  loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
 
-  const cleanEmail = email.trim().toLowerCase();
+  const cleanEmail = email.trim();
 
   // Try admin login first (admin only, not staff)
   fetch("admin/login.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: email.trim(), password: password }),
+    body: JSON.stringify({ username: cleanEmail, password: password }),
   })
     .then((r) => r.json())
     .then((data) => {
       if (data.success) {
         // Check if this is a staff user - redirect to staff login endpoint
         if (data.data && data.data.role === "staff") {
-          // Staff user detected - use separate staff login to avoid overwriting admin session
           return fetch("admin/staff_login.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              username: email.trim(),
+              username: cleanEmail,
               password: password,
             }),
           })
             .then((r) => r.json())
             .then((staffData) => {
               if (staffData.success) {
-                loginBtn.classList.remove("loading");
-                loginBtn.disabled = false;
-                loginBtn.classList.add("success");
-                loginBtn.innerHTML =
-                  '<i class="fas fa-check"></i> Access Granted!';
-                setTimeout(() => {
-                  window.location.href = "admin/staff_dashboard.php";
-                }, 800);
+                showLoginSuccessModal({
+                  title: "Welcome, Staff Member!",
+                  message: "Staff authentication successful. Opening your workspace...",
+                  role: "Staff",
+                  name: staffData.data?.username || "Staff Member",
+                  btnText: "Access Granted",
+                  redirectUrl: "admin/staff_dashboard.php",
+                });
               } else {
-                loginBtn.classList.remove("loading");
-                loginBtn.disabled = false;
-                showLoginError(staffData.message || "Staff login failed");
+                showLoginFailedModal(staffData.message || "Staff login failed. Please verify credentials.", "Staff Access Denied");
               }
             });
         } else {
           // Admin login succeeded
-          loginBtn.classList.remove("loading");
-          loginBtn.disabled = false;
-          loginBtn.classList.add("success");
-          loginBtn.innerHTML = '<i class="fas fa-check"></i> Access Granted!';
-          setTimeout(() => {
-            window.location.href = "admin/dashboard.php";
-          }, 800);
+          showLoginSuccessModal({
+            title: "Welcome, Administrator!",
+            message: "Administrative privileges confirmed. Opening management dashboard...",
+            role: "Administrator",
+            name: data.data?.username || "Administrator",
+            btnText: "Access Granted",
+            redirectUrl: "admin/dashboard.php",
+          });
         }
         return;
       } else {
         // Check if it's an inactive account error - show immediately without trying guest login
         if (data.message && data.message.toLowerCase().includes("inactive")) {
-          loginBtn.classList.remove("loading");
-          loginBtn.disabled = false;
-          showLoginError(data.message);
+          showLoginFailedModal(data.message, "Account Inactive");
           return;
         }
 
         // Admin login failed; try guest login
-        // Proceed to guest login
         return fetch("user/login.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            usernameOrEmail: email.trim(),
+            usernameOrEmail: cleanEmail,
             password: password,
           }),
         })
@@ -253,37 +414,27 @@ function handleLogin(email, password) {
             }
 
             if (guestData.success) {
-              loginBtn.classList.remove("loading");
-              loginBtn.disabled = false;
-              loginBtn.classList.add("success");
-              loginBtn.innerHTML = '<i class="fas fa-check"></i> Welcome Back!';
-              setTimeout(() => {
-                window.location.href = "dashboard.html";
-              }, 800);
+              const displayName = guestData.data?.full_name || 
+                (guestData.data?.given_name ? `${guestData.data.given_name} ${guestData.data.last_name || ''}`.trim() : null) || 
+                guestData.data?.username || "Valued Guest";
+
+              showLoginSuccessModal({
+                title: "Welcome Back!",
+                message: "Authentication verified. Access granted to AR Homes Posadas Farm Resort.",
+                role: "Guest",
+                name: displayName,
+                btnText: "Welcome Back",
+                redirectUrl: "dashboard.html",
+              });
             } else {
-              loginBtn.classList.remove("loading");
-              loginBtn.disabled = false;
-              showLoginError(guestData.message || "Invalid credentials");
+              showLoginFailedModal(guestData.message || "Invalid username/email or password.", "Login Failed");
             }
           });
       }
     })
     .catch((err) => {
-      loginBtn.classList.remove("loading");
-      loginBtn.disabled = false;
-      showLoginError("Network error. Please try again.");
+      showLoginFailedModal("Unable to connect to the server. Please check your internet connection and try again.", "Network Error");
     });
-}
-
-// Show login error message
-function showLoginError(message) {
-  loginBtn.classList.add("error");
-  loginBtn.innerHTML = '<i class="fas fa-times"></i> ' + message;
-
-  setTimeout(() => {
-    loginBtn.classList.remove("error");
-    loginBtn.innerHTML = "Sign In";
-  }, 3000);
 }
 
 // Email validation
@@ -1248,6 +1399,26 @@ document.addEventListener("click", function (e) {
   if (e.target === forgotModal) {
     closeForgotPasswordModal();
   }
+
+  const failedModal = document.getElementById("loginFailedModal");
+  if (e.target === failedModal) {
+    closeLoginFailedModal();
+  }
+
+  const successModal = document.getElementById("loginSuccessModal");
+  if (e.target === successModal) {
+    proceedLoginRedirect();
+  }
+});
+
+// Escape key listener for modals
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    const failedModal = document.getElementById("loginFailedModal");
+    if (failedModal && (failedModal.classList.contains("show") || failedModal.style.display === "flex")) {
+      closeLoginFailedModal();
+    }
+  }
 });
 
 // Make functions globally available
@@ -1255,3 +1426,10 @@ window.openForgotPasswordModal = openForgotPasswordModal;
 window.closeForgotPasswordModal = closeForgotPasswordModal;
 window.copyResetLink = copyResetLink;
 window.closeResetLinkModal = closeResetLinkModal;
+window.showLoginSuccessModal = showLoginSuccessModal;
+window.closeLoginSuccessModal = closeLoginSuccessModal;
+window.proceedLoginRedirect = proceedLoginRedirect;
+window.showLoginFailedModal = showLoginFailedModal;
+window.closeLoginFailedModal = closeLoginFailedModal;
+window.switchToForgotPasswordModal = switchToForgotPasswordModal;
+

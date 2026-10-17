@@ -136,6 +136,87 @@
     </div>
   </main>
 </div>
+
+<!-- Registration Success Modal -->
+<div id="registrationSuccessModal" class="modal auth-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="regSuccessTitle">
+  <div class="modal-content auth-feedback-content success-variant">
+    <div class="auth-feedback-glow success"></div>
+    <div class="modal-header auth-feedback-header">
+      <div class="brand-badge">
+        <img src="{{ asset('images/logo/ar-homes-logo.png') }}" alt="AR Homes Logo" class="feedback-logo" />
+        <span>AR Homes Posadas</span>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="proceedRegistrationRedirect()" title="Close and Continue">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body auth-feedback-body">
+      <div class="status-icon-wrapper success">
+        <div class="status-icon-pulse success"></div>
+        <i class="fas fa-check"></i>
+      </div>
+      <h3 id="regSuccessTitle" class="feedback-title">Account Created!</h3>
+      <p id="regSuccessMessage" class="feedback-message">Your account has been successfully registered with AR Homes Posadas Farm Resort.</p>
+
+      <div class="redirect-progress-wrapper">
+        <div class="redirect-progress-bar">
+          <div class="redirect-progress-fill" id="regSuccessProgress"></div>
+        </div>
+        <div class="redirect-timer-text">
+          <i class="fas fa-circle-notch fa-spin"></i>
+          <span>Redirecting to sign in in <strong id="regSuccessCountdown">2</strong>s...</span>
+        </div>
+      </div>
+
+      <div class="feedback-actions">
+        <button type="button" class="modal-btn auth-continue-btn" onclick="proceedRegistrationRedirect()">
+          <span>Proceed to Sign In</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Registration Failed Modal -->
+<div id="registrationFailedModal" class="modal auth-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="regFailedTitle">
+  <div class="modal-content auth-feedback-content failed-variant">
+    <div class="auth-feedback-glow failed"></div>
+    <div class="modal-header auth-feedback-header">
+      <div class="brand-badge">
+        <img src="{{ asset('images/logo/ar-homes-logo.png') }}" alt="AR Homes Logo" class="feedback-logo" />
+        <span>AR Homes Posadas</span>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeRegistrationFailedModal()" title="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body auth-feedback-body">
+      <div class="status-icon-wrapper failed">
+        <div class="status-icon-pulse failed"></div>
+        <i class="fas fa-times"></i>
+      </div>
+      <h3 id="regFailedTitle" class="feedback-title">Registration Incomplete</h3>
+      <p id="regFailedMessage" class="feedback-message">Please fix the highlighted errors before submitting your registration.</p>
+
+      <div class="failed-tips-box" id="regFailedDetailsBox" style="display: none;">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div id="regFailedErrorsList"></div>
+      </div>
+
+      <div class="feedback-actions">
+        <button type="button" class="modal-btn auth-retry-btn" onclick="closeRegistrationFailedModal()">
+          <i class="fas fa-redo-alt"></i>
+          <span>Review & Try Again</span>
+        </button>
+      </div>
+
+      <div class="feedback-footer">
+        <p>Already have an account? <a href="{{ url('/') }}">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')

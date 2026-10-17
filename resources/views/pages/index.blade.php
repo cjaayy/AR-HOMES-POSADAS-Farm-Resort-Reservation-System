@@ -162,6 +162,96 @@
   </button>
 </div>
 
+<!-- Login Success Modal -->
+<div id="loginSuccessModal" class="modal auth-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="loginSuccessTitle">
+  <div class="modal-content auth-feedback-content success-variant">
+    <div class="auth-feedback-glow success"></div>
+    <div class="modal-header auth-feedback-header">
+      <div class="brand-badge">
+        <img src="{{ asset('images/logo/ar-homes-logo.png') }}" alt="AR Homes Logo" class="feedback-logo" />
+        <span>AR Homes Posadas</span>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="proceedLoginRedirect()" title="Close and Continue">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body auth-feedback-body">
+      <div class="status-icon-wrapper success">
+        <div class="status-icon-pulse success"></div>
+        <i class="fas fa-check"></i>
+      </div>
+      <h3 id="loginSuccessTitle" class="feedback-title">Login Successful!</h3>
+      <p id="loginSuccessMessage" class="feedback-message">Authentication verified. Access granted to AR Homes Posadas Farm Resort.</p>
+
+      <div class="feedback-user-info" id="loginSuccessUserInfo" style="display: none;">
+        <span class="user-role-badge" id="loginSuccessRoleBadge">Guest</span>
+        <span class="user-name" id="loginSuccessUserName"></span>
+      </div>
+
+      <div class="redirect-progress-wrapper">
+        <div class="redirect-progress-bar">
+          <div class="redirect-progress-fill" id="loginSuccessProgress"></div>
+        </div>
+        <div class="redirect-timer-text">
+          <i class="fas fa-circle-notch fa-spin"></i>
+          <span>Redirecting to dashboard in <strong id="loginSuccessCountdown">2</strong>s...</span>
+        </div>
+      </div>
+
+      <div class="feedback-actions">
+        <button type="button" class="modal-btn auth-continue-btn" id="loginSuccessContinueBtn" onclick="proceedLoginRedirect()">
+          <span>Continue to Dashboard</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Login Failed Modal -->
+<div id="loginFailedModal" class="modal auth-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="loginFailedTitle">
+  <div class="modal-content auth-feedback-content failed-variant">
+    <div class="auth-feedback-glow failed"></div>
+    <div class="modal-header auth-feedback-header">
+      <div class="brand-badge">
+        <img src="{{ asset('images/logo/ar-homes-logo.png') }}" alt="AR Homes Logo" class="feedback-logo" />
+        <span>AR Homes Posadas</span>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeLoginFailedModal()" title="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body auth-feedback-body">
+      <div class="status-icon-wrapper failed">
+        <div class="status-icon-pulse failed"></div>
+        <i class="fas fa-times"></i>
+      </div>
+      <h3 id="loginFailedTitle" class="feedback-title">Login Failed</h3>
+      <p id="loginFailedMessage" class="feedback-message">The credentials provided do not match our records. Please verify your username or password and try again.</p>
+
+      <div class="failed-tips-box">
+        <i class="fas fa-info-circle"></i>
+        <span>Please double-check your username/email and password casing, or reset your password if forgotten.</span>
+      </div>
+
+      <div class="feedback-actions flex-row">
+        <button type="button" class="modal-btn auth-retry-btn" onclick="closeLoginFailedModal()">
+          <i class="fas fa-redo-alt"></i>
+          <span>Try Again</span>
+        </button>
+        <button type="button" class="modal-btn-secondary auth-forgot-btn" onclick="switchToForgotPasswordModal()">
+          <i class="fas fa-key"></i>
+          <span>Forgot Password?</span>
+        </button>
+      </div>
+
+      <div class="feedback-footer">
+        <p>Don't have an account yet? <a href="{{ url('/registration') }}">Register here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Forgot Password Modal -->
 <div id="forgotPasswordModal" class="modal">
   <div class="modal-content">

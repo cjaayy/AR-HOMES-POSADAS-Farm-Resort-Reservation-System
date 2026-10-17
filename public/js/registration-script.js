@@ -400,19 +400,15 @@ document.addEventListener("DOMContentLoaded", function () {
         submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
 
         if (data.success) {
-          // Show success message
+          // Show registration success modal
           showSuccessMessage();
-
-          // Redirect to login after short delay
-          setTimeout(() => {
-            window.location.href = "index.html";
-          }, 1500);
         } else {
-          // Show error message
+          // Show error message and modal
           const errors = data.errors || [
             data.message || "Registration failed. Please try again.",
           ];
           showErrorContainer(errors);
+          showRegistrationFailedModal(errors, "Registration Failed", data.message || "We could not complete your registration.");
         }
       })
       .catch((error) => {
@@ -421,61 +417,137 @@ document.addEventListener("DOMContentLoaded", function () {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
 
-        // Show error message
-        showErrorContainer([
+        // Show error message and modal
+        const netErrors = [
           "Network error. Please check your connection and try again.",
-        ]);
+        ];
+        showErrorContainer(netErrors);
+        showRegistrationFailedModal(netErrors, "Connection Error", "Network error. Please check your connection and try again.");
       });
   }
 
-  /**
-   * Show success message
-   */
-  function showSuccessMessage() {
-    // Create success message
-    const successMessage = document.createElement("div");
-    successMessage.className = "success-message-container";
-    successMessage.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #38a169;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            animation: slideIn 0.3s ease-out;
-        `;
-    successMessage.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-check-circle"></i>
-                <span>Registration successful! Redirecting to login...</span>
-            </div>
-        `;
+  let regRedirectTimer = null;
+  let regRedirectProgressInterval = null;
 
-    // Add keyframe animation
-    if (!document.querySelector("#successAnimation")) {
-      const style = document.createElement("style");
-      style.id = "successAnimation";
-      style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-            `;
-      document.head.appendChild(style);
+  /**
+   * Proceed to login after registration
+   */
+  function proceedRegistrationRedirect() {
+    clearTimeout(regRedirectTimer);
+    clearInterval(regRedirectProgressInterval);
+    window.location.href = "index.html";
+  }
+
+  /**
+   * Close registration failed modal
+   */
+  function closeRegistrationFailedModal() {
+    const modal = document.getElementById("registrationFailedModal");
+    if (modal) {
+      modal.classList.remove("show");
+      modal.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+  }
+
+  /**
+   * Show registration failed modal matching login design
+   */
+  function showRegistrationFailedModal(errors, title, message) {
+    const modal = document.getElementById("registrationFailedModal");
+    if (!modal) return;
+
+    const titleEl = document.getElementById("regFailedTitle");
+    const messageEl = document.getElementById("regFailedMessage");
+    const detailsBox = document.getElementById("regFailedDetailsBox");
+    const errorsList = document.getElementById("regFailedErrorsList");
+
+    if (titleEl) titleEl.textContent = title || "Registration Incomplete";
+    if (messageEl) messageEl.textContent = message || "Please review the errors below before submitting your registration.";
+
+    if (errors && errors.length > 0 && errorsList && detailsBox) {
+      errorsList.innerHTML = errors.map((err) => `<div style="margin-bottom: 4px;">• ${err}</div>`).join("");
+      detailsBox.style.display = "flex";
+    } else if (detailsBox) {
+      detailsBox.style.display = "none";
     }
 
-    document.body.appendChild(successMessage);
+    modal.classList.add("show");
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
 
-    // Remove message after 3 seconds
-    setTimeout(() => {
-      if (successMessage.parentNode) {
-        successMessage.parentNode.removeChild(successMessage);
-      }
-    }, 3000);
+    const content = modal.querySelector(".auth-feedback-content");
+    if (content) {
+      content.style.animation = "none";
+      void content.offsetHeight;
+      content.style.animation = "";
+    }
   }
+
+  /**
+   * Show registration success modal matching login design
+   */
+  function showSuccessMessage() {
+    const modal = document.getElementById("registrationSuccessModal");
+    if (!modal) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    const progressFill = document.getElementById("regSuccessProgress");
+    const countdownEl = document.getElementById("regSuccessCountdown");
+
+    modal.classList.add("show");
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    const duration = 2000;
+    let remainingMs = duration;
+    const intervalMs = 30;
+
+    if (progressFill) progressFill.style.width = "0%";
+    if (countdownEl) countdownEl.textContent = Math.ceil(remainingMs / 1000);
+
+    clearInterval(regRedirectProgressInterval);
+    clearTimeout(regRedirectTimer);
+
+    regRedirectProgressInterval = setInterval(() => {
+      remainingMs -= intervalMs;
+      const progressPercent = Math.min(100, Math.max(0, ((duration - remainingMs) / duration) * 100));
+      if (progressFill) progressFill.style.width = progressPercent + "%";
+      if (countdownEl) countdownEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
+
+      if (remainingMs <= 0) {
+        clearInterval(regRedirectProgressInterval);
+      }
+    }, intervalMs);
+
+    regRedirectTimer = setTimeout(() => {
+      proceedRegistrationRedirect();
+    }, duration);
+  }
+
+  // Handle outside clicks and escape key for registration modals
+  document.addEventListener("click", function (e) {
+    const failModal = document.getElementById("registrationFailedModal");
+    if (e.target === failModal) {
+      closeRegistrationFailedModal();
+    }
+    const succModal = document.getElementById("registrationSuccessModal");
+    if (e.target === succModal) {
+      proceedRegistrationRedirect();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closeRegistrationFailedModal();
+    }
+  });
+
+  window.proceedRegistrationRedirect = proceedRegistrationRedirect;
+  window.closeRegistrationFailedModal = closeRegistrationFailedModal;
+  window.showRegistrationFailedModal = showRegistrationFailedModal;
 
   /**
    * Store registration data (frontend only - for demo purposes)
