@@ -82,7 +82,7 @@
     <meta name="twitter:image" content="images/logo/ar-homes-logo.png" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20251203002') }}" />
+    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20261017006') }}" />
     <link rel="stylesheet" href="{{ asset('css/checkout-styles.css?v=1.0') }}" />
 
     <!-- Google Fonts -->
@@ -109,43 +109,69 @@
   <body>
     <!-- Logout Functions - Load First -->
     <script>
-      console.log("🔧 Loading logout functions...");
+      console.log("[LOGOUT] Loading logout functions...");
 
       // Define logout functions immediately
       window.showLogoutPopup = function () {
-        console.log("🚪 showLogoutPopup called");
+        console.log("[LOGOUT] showLogoutPopup called");
         const popup = document.getElementById("logoutPopupOverlay");
         console.log("Popup element:", popup);
         if (popup) {
           popup.style.display = "flex";
           popup.style.visibility = "visible";
           popup.style.opacity = "1";
-          console.log("✅ Logout popup should be visible now");
+          console.log("[LOGOUT] Logout popup should be visible now");
         } else {
-          console.error("❌ logoutPopupOverlay element not found");
+          console.error("[ERROR] logoutPopupOverlay element not found");
           alert("Logout popup not found. Redirecting to logout...");
           window.location.href = "user/logout.php";
         }
       };
 
       window.hideLogoutPopup = function () {
-        console.log("🚪 hideLogoutPopup called");
+        console.log("[LOGOUT] hideLogoutPopup called");
         const popup = document.getElementById("logoutPopupOverlay");
         if (popup) {
           popup.style.display = "none";
           popup.style.visibility = "hidden";
           popup.style.opacity = "0";
-          console.log("✅ Logout popup hidden");
+          console.log("[LOGOUT] Logout popup hidden");
         }
       };
 
       window.confirmLogout = function () {
-        console.log("🚪 confirmLogout called - redirecting...");
+        console.log("[LOGOUT] confirmLogout called - redirecting...");
         window.location.href = "user/logout.php";
       };
 
-      console.log("✅ Logout functions loaded");
+      console.log("[LOGOUT] Logout functions loaded");
       console.log("showLogoutPopup available:", typeof window.showLogoutPopup);
+
+      // Smooth Scroll Helper for Section Indicators
+      window.handleSectionScroll = function (el, direction) {
+        if (!el) return;
+        if (direction === "up") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+        const targetSelector = el.getAttribute("data-scroll-target");
+        if (targetSelector) {
+          const target = document.querySelector(targetSelector);
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+          }
+        }
+        if (direction === "bottom") {
+          window.scrollBy({ top: 600, behavior: "smooth" });
+          return;
+        }
+        window.scrollBy({ top: 450, behavior: "smooth" });
+      };
+
+      window.scrollToNextSection = function (el) {
+        window.handleSectionScroll(el, "down");
+      };
     </script>
 
     <div class="dashboard-container">
@@ -156,7 +182,8 @@
             <img src="{{ asset('images/logo/ar-homes-logo.png') }}" alt="AR Homes Resort Logo" />
           </div>
           <div class="resort-info">
-            <h1>AR Homes Posadas Farm Resort</h1>
+            <h1 class="brand-title">AR Homes Posadas</h1>
+            <p class="brand-subtitle">Farm Resort &bull; Guest Portal</p>
           </div>
         </div>
         <div class="header-right">
@@ -185,6 +212,18 @@
       <div class="main-layout">
         <!-- Resort Gallery Section -->
         <div class="resort-gallery-section">
+          <div class="gallery-hero-badge">
+            <span class="badge-tag"><i class="fas fa-crown"></i> Exclusive Guest Sanctuary</span>
+            <h2>Welcome to AR Homes Posadas</h2>
+            <p>Experience relaxing farm-stay cottages, crystal azure pools, and serene private resort amenities.</p>
+          </div>
+          <div class="section-scroll-indicator-wrap top-indicator">
+            <a href="#galleryWrapper" class="section-scroll-indicator scroll-down-btn" data-scroll-target="#galleryWrapper" onclick="handleSectionScroll(this, 'down'); return false;">
+              <span class="scroll-indicator-text">Scroll Down for Resort Showcase</span>
+              <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+              <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+            </a>
+          </div>
           <div class="resort-gallery">
             <div class="gallery-container">
               <div class="gallery-wrapper" id="galleryWrapper">
@@ -193,58 +232,72 @@
                     src="{{ asset('images/545601129_1082516497373944_2891607710179489901_n.jpg') }}"
                     alt="Resort View 1"
                   />
+                  <span class="slide-caption"><i class="fas fa-camera"></i> Front Pavilion &amp; Scenic Grounds</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/545611560_1324092662718848_8811536535004180762_n.jpg') }}"
                     alt="Resort View 2"
                   />
+                  <span class="slide-caption"><i class="fas fa-umbrella-beach"></i> Resort Cottages &amp; Cabanas</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546182776_2167385133738763_7006991891791172725_n.jpg') }}"
                     alt="Resort View 3"
                   />
+                  <span class="slide-caption"><i class="fas fa-tree"></i> Farm Oasis &amp; Courtyard</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546238992_684641691315373_7119956179300816560_n.jpg') }}"
                     alt="Resort View 4"
                   />
+                  <span class="slide-caption"><i class="fas fa-home"></i> Luxury Private Villas</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546260243_2896334557423631_287976220203457252_n.jpg') }}"
                     alt="Resort View 5"
                   />
+                  <span class="slide-caption"><i class="fas fa-moon"></i> Evening Ambience &amp; Glow</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546407920_1244121977399879_5414686772811094703_n.jpg') }}"
                     alt="Resort View 6"
                   />
+                  <span class="slide-caption"><i class="fas fa-leaf"></i> Lush Greenery &amp; Relaxation</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/Swimming Pools/Big Pool.jpg') }}"
                     alt="Big Pool"
                   />
+                  <span class="slide-caption"><i class="fas fa-water"></i> Crystal Azure Swimming Pool</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/Swimming Pools/Jacuzzi Pool.jpg') }}"
                     alt="Jacuzzi Pool"
                   />
+                  <span class="slide-caption"><i class="fas fa-hot-tub"></i> Relaxing Jacuzzi Spa Pool</span>
                 </div>
               </div>
               <div class="gallery-controls">
-                <button class="gallery-btn prev-btn" id="prevBtn">
+                <button class="gallery-btn prev-btn" id="prevBtn" aria-label="Previous Slide">
                   <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="gallery-btn next-btn" id="nextBtn">
+                <button class="gallery-btn next-btn" id="nextBtn" aria-label="Next Slide">
                   <i class="fas fa-chevron-right"></i>
                 </button>
               </div>
+            </div>
+            <div class="section-scroll-indicator-wrap bottom-indicator">
+              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                <span class="scroll-indicator-text">Back to Top</span>
+              </a>
             </div>
           </div>
         </div>
@@ -316,13 +369,21 @@
           <div class="content-section" id="dashboard-section">
             <div class="section-header-inline" style="margin-bottom: 25px">
               <h2>
-                <i class="fas fa-tachometer-alt" style="color: #11224e"></i>
-                Dashboard
+                <i class="fas fa-chart-line" style="color: #facc15"></i>
+                Dashboard Overview
               </h2>
             </div>
 
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#statsGrid" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".stats-grid" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Stats &amp; Activity</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
+            </div>
+
             <!-- Dashboard Container - Same width as Profile section -->
-            <div style="max-width: 800px; margin: 0 auto">
+            <div style="max-width: 900px; margin: 0 auto">
               <div
                 class="stats-grid"
                 style="grid-template-columns: repeat(2, 1fr)"
@@ -365,33 +426,28 @@
                 </div>
               </div>
 
-              <div
-                class="recent-activity"
-                style="
-                  background: white;
-                  border-radius: 12px;
-                  padding: 25px;
-                  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-                  border: 2px solid #11224e;
-                  margin-top: 25px;
-                "
-              >
-                <h3 style="color: #11224e; margin-bottom: 15px">
-                  Recent Activity
-                </h3>
+              <div class="recent-activity">
+                <h3>Recent Activity</h3>
                 <div class="activity-list" id="activityList">
                   <!-- Activity items will be loaded dynamically -->
                   <div
                     class="activity-empty"
-                    style="text-align: center; padding: 2rem; color: #999"
+                    style="text-align: center; padding: 2.5rem 1rem; color: rgba(255, 255, 255, 0.6)"
                   >
                     <i
                       class="fas fa-inbox"
-                      style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5"
+                      style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; color: #facc15"
                     ></i>
                     <p>No recent activity to display</p>
                   </div>
                 </div>
+              </div>
+
+              <div class="section-scroll-indicator-wrap bottom-indicator">
+                <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                  <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                  <span class="scroll-indicator-text">Back to Top</span>
+                </a>
               </div>
             </div>
           </div>
@@ -399,113 +455,71 @@
           <!-- Make Reservation Content -->
           <div class="content-section" id="my-reservations-section">
             <div class="section-header-inline" style="margin-bottom: 25px">
-              <h2><i class="fas fa-calendar-plus"></i> Make Reservation</h2>
+              <h2><i class="fas fa-calendar-plus" style="color: #facc15"></i> Make a Reservation</h2>
+            </div>
+
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#policyNoticeWrap" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".policy-notice" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Policies &amp; Packages</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
             </div>
             <!-- Booking Policy Notice -->
             <div class="policy-notice">
-              <h2>📋 Booking Policy</h2>
+              <h2><i class="fas fa-shield-alt" style="color: #facc15"></i> Exclusive Booking &amp; Resort Policy</h2>
               <div class="policy-highlights">
                 <div class="policy-item">
                   <i class="fas fa-calendar-check"></i>
                   <div>
-                    <strong>Single booking only per slot</strong>
-                    <p
-                      style="
-                        font-size: 0.9em;
-                        color: #64748b;
-                        margin: 4px 0 0 0;
-                      "
-                    >
-                      The entire resort is exclusively yours for the selected
-                      time slot. No sharing with other guests.
+                    <strong>Single Booking Exclusivity</strong>
+                    <p>
+                      The entire resort is exclusively yours for the selected time slot. No sharing with other groups.
                     </p>
                   </div>
                 </div>
                 <div class="policy-item">
                   <i class="fas fa-exclamation-triangle"></i>
                   <div>
-                    <strong>Down payment is strictly non-refundable</strong>
-                    <p
-                      style="
-                        font-size: 0.9em;
-                        color: #64748b;
-                        margin: 4px 0 0 0;
-                      "
-                    >
-                      Once paid, the ₱1,000 downpayment cannot be refunded or
-                      transferred to another person. However, you may request
-                      rebooking.
+                    <strong>Strictly Non-Refundable Deposit</strong>
+                    <p>
+                      Once settled, the ₱1,000 downpayment locks your date and is non-refundable. Rebooking is permitted.
                     </p>
                   </div>
                 </div>
                 <div class="policy-item">
-                  <i class="fas fa-ban"></i>
+                  <i class="fas fa-history"></i>
                   <div>
-                    <strong
-                      >No cancellation - Rebooking only (within 3
-                      months)</strong
-                    >
-                    <p
-                      style="
-                        font-size: 0.9em;
-                        color: #64748b;
-                        margin: 4px 0 0 0;
-                      "
-                    >
-                      Cancellation is not allowed once confirmed. You may rebook
-                      to a different date within 3 months from your original
-                      booking date (subject to availability).
+                    <strong>Flexible Rebooking (3 Months)</strong>
+                    <p>
+                      Cancellations are not permitted. You may reschedule to any open slot within 3 months of original date.
                     </p>
                   </div>
                 </div>
                 <div class="policy-item">
                   <i class="fas fa-wallet"></i>
                   <div>
-                    <strong>₱1,000 Downpayment Required</strong> to confirm
-                    reservation
-                    <p
-                      style="
-                        font-size: 0.9em;
-                        color: #64748b;
-                        margin: 4px 0 0 0;
-                      "
-                    >
-                      This secures your reservation and locks your chosen date.
-                      Full payment must be completed before check-in.
+                    <strong>₱1,000 Initial Downpayment</strong>
+                    <p>
+                      Locks your chosen slot immediately. Remaining resort balance is settled during arrival check-in.
                     </p>
                   </div>
                 </div>
                 <div class="policy-item">
                   <i class="fas fa-shield-alt"></i>
                   <div>
-                    <strong>₱2,000 Security Bond</strong> upon check-in
-                    (refundable)
-                    <p
-                      style="
-                        font-size: 0.9em;
-                        color: #64748b;
-                        margin: 4px 0 0 0;
-                      "
-                    >
-                      Collected at check-in to cover any damages or extra
-                      charges. Fully refundable upon check-out if no issues are
-                      found.
+                    <strong>₱2,000 Security Bond</strong>
+                    <p>
+                      Received upon check-in and 100% refunded at checkout when resort amenities remain in good order.
                     </p>
                   </div>
                 </div>
                 <div class="policy-item">
                   <i class="fas fa-users"></i>
                   <div>
-                    <strong>Minimum: 10 pax • No maximum limit</strong>
-                    <p
-                      style="
-                        font-size: 0.9em;
-                        color: #64748b;
-                        margin: 4px 0 0 0;
-                      "
-                    >
-                      A minimum of 10 guests is required per booking. You may
-                      bring as many guests as you like.
+                    <strong>10 Pax Minimum • No Upper Limit</strong>
+                    <p>
+                      Minimum group size is 10 guests. Bring your family and friends with no limit on additional attendees.
                     </p>
                   </div>
                 </div>
@@ -516,8 +530,7 @@
             <div class="booking-step active" id="step1">
               <h2>Step 1: Choose Your Package</h2>
               <p class="step-description">
-                <strong>✨ ALL PACKAGES INCLUDE FULL RESORT ACCESS ✨</strong
-                ><br />
+                <strong><i class="fas fa-crown"></i> ALL PACKAGES INCLUDE FULL RESORT ACCESS <i class="fas fa-crown"></i></strong><br />
                 Select the package that best fits your schedule and needs.
               </p>
               <div class="room-packages-grid" id="roomPackagesGrid">
@@ -585,7 +598,7 @@
                           transition: all 0.3s;
                         "
                       >
-                        <span>📋 View Full Inclusions & Rooms</span>
+                        <span><i class="fas fa-list-check"></i> View Full Inclusions &amp; Rooms</span>
                         <i
                           class="fas fa-external-link-alt"
                           style="font-size: 0.9em"
@@ -798,7 +811,7 @@
                           transition: all 0.3s;
                         "
                       >
-                        <span>📋 View Full Inclusions & Rooms</span>
+                        <span><i class="fas fa-list-check"></i> View Full Inclusions &amp; Rooms</span>
                         <i
                           class="fas fa-external-link-alt"
                           style="font-size: 0.9em"
@@ -1024,7 +1037,7 @@
                           transition: all 0.3s;
                         "
                       >
-                        <span>📋 View Full Inclusions & Rooms</span>
+                        <span><i class="fas fa-list-check"></i> View Full Inclusions &amp; Rooms</span>
                         <i
                           class="fas fa-external-link-alt"
                           style="font-size: 0.9em"
@@ -1202,29 +1215,34 @@
                       <div class="package-time">Based on Time Slot</div>
                       <div
                         style="
-                          margin-top: 12px;
-                          padding: 10px 12px;
-                          background: linear-gradient(135deg, #fff5f7, #ffe8ed);
-                          border-radius: 8px;
-                          font-size: 0.85em;
-                          color: #831843;
-                          border-left: 4px solid #a3485a;
-                          line-height: 1.5;
+                          margin-top: 8px;
+                          padding: 6px 8px;
+                          background: #e3f2fd;
+                          border-radius: 6px;
+                          font-size: 0.8em;
+                          color: #1565c0;
+                          border-left: 3px solid #2196f3;
                         "
                       >
                         <i
-                          class="fas fa-star"
-                          style="margin-right: 6px; color: #c75572"
+                          class="fas fa-calendar-day"
+                          style="margin-right: 5px"
                         ></i>
-                        <strong>Perfect for any celebration!</strong><br />
-                        <span style="font-size: 0.95em">
-                          Host your special events in our beautiful,
-                          <strong>fully customizable venue</strong> with
-                          flexible time slots. Customize the space for
-                          birthdays, weddings, corporate events, or any special
-                          occasion. From intimate gatherings to grand
-                          celebrations, make it uniquely yours!
-                        </span>
+                        <strong>Duration:</strong> Flexible (Based on Slot)
+                      </div>
+                      <div
+                        style="
+                          margin-top: 8px;
+                          padding: 8px;
+                          background: #fff3cd;
+                          border-radius: 6px;
+                          font-size: 0.85em;
+                          color: #856404;
+                          border-left: 3px solid #ffc107;
+                        "
+                      >
+                        <i class="fas fa-clock" style="margin-right: 5px"></i>
+                        <strong>Exceeding Hours:</strong> ₱500.00/hour
                       </div>
                     </div>
 
@@ -1247,7 +1265,7 @@
                           transition: all 0.3s;
                         "
                       >
-                        <span>📋 View Full Inclusions & Rooms</span>
+                        <span><i class="fas fa-list-check"></i> View Full Inclusions &amp; Rooms</span>
                         <i
                           class="fas fa-external-link-alt"
                           style="font-size: 0.9em"
@@ -1267,12 +1285,12 @@
                             font-size: 0.9em;
                           "
                         >
-                          <li>🎉 Birthday Parties</li>
-                          <li>💍 Wedding Receptions</li>
-                          <li>🎊 Corporate Events</li>
-                          <li>👨‍👩‍👧‍👦 Family Reunions</li>
-                          <li>🎓 Graduation Celebrations</li>
-                          <li>🎈 Any Special Occasion</li>
+                          <li><i class="fas fa-birthday-cake" style="color: #facc15; margin-right: 8px;"></i> Birthday Parties</li>
+                          <li><i class="fas fa-ring" style="color: #facc15; margin-right: 8px;"></i> Wedding Receptions</li>
+                          <li><i class="fas fa-briefcase" style="color: #facc15; margin-right: 8px;"></i> Corporate Events</li>
+                          <li><i class="fas fa-users" style="color: #facc15; margin-right: 8px;"></i> Family Reunions</li>
+                          <li><i class="fas fa-graduation-cap" style="color: #facc15; margin-right: 8px;"></i> Graduation Celebrations</li>
+                          <li><i class="fas fa-glass-cheers" style="color: #facc15; margin-right: 8px;"></i> Any Special Occasion</li>
                         </ul>
                         <h4 style="margin-top: 20px">Inclusions:</h4>
                         <ul
@@ -1519,6 +1537,12 @@
                   </div>
                 </div>
               </div>
+              <div class="section-scroll-indicator-wrap bottom-indicator">
+                <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                  <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                  <span class="scroll-indicator-text">Back to Top</span>
+                </a>
+              </div>
             </div>
 
             <!-- Step 2: Booking Details (was Step 3) -->
@@ -1531,6 +1555,14 @@
                   <h2>Complete Your Booking</h2>
                   <p>Review your selection and fill in the details</p>
                 </div>
+              </div>
+
+              <div class="section-scroll-indicator-wrap top-indicator">
+                <a href="#reservationForm" class="section-scroll-indicator scroll-down-btn" data-scroll-target="#reservationForm" onclick="handleSectionScroll(this, 'down'); return false;">
+                  <span class="scroll-indicator-text">Scroll Down to Booking Form</span>
+                  <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                  <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+                </a>
               </div>
 
               <div class="step2-container">
@@ -1661,14 +1693,12 @@
                           </label>
                           <div class="select-wrapper">
                             <select id="groupType" name="groupType" required>
-                              <option value="">Select type</option>
-                              <option value="family">👨‍👩‍👧‍👦 Family</option>
-                              <option value="friends">🎉 Friends</option>
-                              <option value="corporate">💼 Corporate</option>
-                              <option value="celebration">
-                                🎂 Celebration
-                              </option>
-                              <option value="other">📝 Other</option>
+                              <option value="">Select group type</option>
+                              <option value="family">Family</option>
+                              <option value="friends">Friends</option>
+                              <option value="corporate">Corporate</option>
+                              <option value="celebration">Celebration</option>
+                              <option value="other">Other</option>
                             </select>
                             <i class="fas fa-chevron-down"></i>
                           </div>
@@ -1842,11 +1872,24 @@
                   </div>
                 </div>
               </div>
+              <div class="section-scroll-indicator-wrap bottom-indicator">
+                <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                  <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                  <span class="scroll-indicator-text">Back to Top</span>
+                </a>
+              </div>
             </div>
           </div>
 
           <!-- Booking Details & Payment Content -->
           <div class="content-section" id="booking-details-section">
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#bookingFormWrap" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".booking-form" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Booking &amp; Payment Details</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
+            </div>
             <!-- Selected Room Info -->
             <div class="selected-room-info" id="selectedRoomInfo">
               <!-- Room info will be populated by JavaScript -->
@@ -1856,7 +1899,7 @@
             <div class="booking-form">
               <!-- All booking form content will be here -->
               <div class="exclusive-access-section">
-                <h3>🏖️ Exclusive Resort Access for Your Group</h3>
+                <h3><i class="fas fa-umbrella-beach"></i> Exclusive Resort Access for Your Group</h3>
                 <p class="exclusive-description">
                   Book the entire resort exclusively for your family or group of
                   friends! Enjoy complete privacy with access to all pools,
@@ -1880,7 +1923,7 @@
                         <h4>Whole Day Access</h4>
                         <p>8:00 AM - 10:00 PM exclusive resort access</p>
                         <p class="access-details">
-                          🏊‍♂️ All pools • 🏡 Day rooms • 🍽️ BBQ areas
+                          <i class="fas fa-swimming-pool"></i> All pools &bull; <i class="fas fa-home"></i> Day rooms &bull; <i class="fas fa-utensils"></i> BBQ areas
                         </p>
                         <span class="reservation-type-price"
                           >₱15,000 per day</span
@@ -1907,7 +1950,7 @@
                           24-hour exclusive resort access with accommodation
                         </p>
                         <p class="access-details">
-                          🏊‍♂️ All pools • 🛏️ All rooms • 🍽️ Kitchen access
+                          <i class="fas fa-swimming-pool"></i> All pools &bull; <i class="fas fa-bed"></i> All rooms &bull; <i class="fas fa-utensils"></i> Kitchen access
                         </p>
                         <span class="reservation-type-price"
                           >₱25,000 per night</span
@@ -2029,7 +2072,7 @@
 
               <!-- Payment Method Selection -->
               <div class="payment-method-section">
-                <h3>✅ Payment Method (PayMongo)</h3>
+                <h3><i class="fas fa-check-circle" style="color: #4ade80"></i> Payment Method (PayMongo)</h3>
                 <div class="payment-methods">
                   <div class="payment-option" data-method="gcash">
                     <input
@@ -2076,6 +2119,12 @@
                   Complete Booking
                 </button>
               </div>
+              <div class="section-scroll-indicator-wrap bottom-indicator">
+                <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                  <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                  <span class="scroll-indicator-text">Back to Top</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -2085,6 +2134,14 @@
               <h2>
                 <i class="fas fa-user" style="color: #11224e"></i> Profile
               </h2>
+            </div>
+
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#profileCard" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".profile-single-card" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Profile Details</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
             </div>
 
             <!-- Single Profile Card -->
@@ -2384,6 +2441,12 @@
               <input type="email" id="profileEmail" name="email" />
               <input type="tel" id="profilePhone" name="phone" />
             </form>
+            <div class="section-scroll-indicator-wrap bottom-indicator">
+              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                <span class="scroll-indicator-text">Back to Top</span>
+              </a>
+            </div>
           </div>
 
           <!-- My Reservations Section (Active Reservations) -->
@@ -2416,6 +2479,14 @@
               >
                 <i class="fas fa-sync-alt"></i> Refresh
               </button>
+            </div>
+
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#myBookingsGrid" class="section-scroll-indicator scroll-down-btn" data-scroll-target="#myBookingsGrid" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Reservation Records</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
             </div>
 
             <!-- Loading State -->
@@ -2456,6 +2527,12 @@
               </p>
               <!-- Make a Reservation button removed for user accounts -->
             </div>
+            <div class="section-scroll-indicator-wrap bottom-indicator">
+              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                <span class="scroll-indicator-text">Back to Top</span>
+              </a>
+            </div>
           </div>
 
           <!-- Reservation History Section -->
@@ -2465,6 +2542,14 @@
                 <i class="fas fa-history" style="color: #11224e"></i>
                 Reservation History
               </h2>
+            </div>
+
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#historyBookingsGrid" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".history-content-container" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Past Stay History</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
             </div>
 
             <!-- History Stats Cards - Same style as Dashboard -->
@@ -2541,6 +2626,12 @@
                 <p>Please wait while we fetch your booking history</p>
               </div>
             </div>
+            <div class="section-scroll-indicator-wrap bottom-indicator">
+              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                <span class="scroll-indicator-text">Back to Top</span>
+              </a>
+            </div>
           </div>
 
           <!-- Rebooking Requests Section -->
@@ -2573,6 +2664,14 @@
               >
                 <i class="fas fa-sync-alt"></i> Refresh
               </button>
+            </div>
+
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#rebookingRequestsList" class="section-scroll-indicator scroll-down-btn" data-scroll-target="#rebookingRequestsList" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Rebooking Details</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
             </div>
 
             <!-- Rebooking Stats -->
@@ -2645,6 +2744,12 @@
                 <div style="font-size: 16px;">Loading rebooking requests...</div>
               </div>
             </div>
+            <div class="section-scroll-indicator-wrap bottom-indicator">
+              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                <span class="scroll-indicator-text">Back to Top</span>
+              </a>
+            </div>
           </div>
 
           <!-- Notifications Section -->
@@ -2674,6 +2779,14 @@
                   >0</span
                 >
               </h2>
+            </div>
+
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#notificationsContainer" class="section-scroll-indicator scroll-down-btn" data-scroll-target="#notificationsList" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Notification Details</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
             </div>
 
             <!-- Notifications Container Card -->
@@ -2853,6 +2966,12 @@
                 </p>
               </div>
             </div>
+            <div class="section-scroll-indicator-wrap bottom-indicator">
+              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                <span class="scroll-indicator-text">Back to Top</span>
+              </a>
+            </div>
           </div>
 
           <!-- Reviews Section -->
@@ -2861,6 +2980,14 @@
               <h2>
                 <i class="fas fa-star" style="color: #11224e"></i> My Reviews
               </h2>
+            </div>
+
+            <div class="section-scroll-indicator-wrap top-indicator">
+              <a href="#reviewsStatsWrap" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".reviews-stats" onclick="handleSectionScroll(this, 'down'); return false;">
+                <span class="scroll-indicator-text">Scroll Down for Ratings &amp; Reviews</span>
+                <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
+                <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
+              </a>
             </div>
             <div class="reviews-stats">
               <div class="review-stat">
@@ -2891,6 +3018,7 @@
                 </div>
               </div>
             </div>
+
             <div class="reviews-list" id="reviewsList">
               <!-- Reviews will be loaded dynamically -->
               <div
@@ -2906,6 +3034,12 @@
                   Loading your reviews...
                 </p>
               </div>
+            </div>
+            <div class="section-scroll-indicator-wrap bottom-indicator">
+              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
+                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
+                <span class="scroll-indicator-text">Back to Top</span>
+              </a>
             </div>
           </div>
         </div>
@@ -3614,7 +3748,7 @@
 
     <!-- JavaScript - Session Check -->
     <script>
-      console.log("🚀 Session check executing...");
+      console.log("[SESSION] Session check executing...");
 
       // User data object - Make it global
       window.userData = {
@@ -3633,7 +3767,7 @@
 
       // Check authentication and load user data
       async function checkAuthAndLoadUser() {
-        console.log("🔍 Checking authentication...");
+        console.log("[AUTH] Checking authentication...");
 
         try {
           const response = await fetch("user/get_session.php", {
@@ -3642,12 +3776,12 @@
             cache: "no-store",
           });
 
-          console.log("📡 Response status:", response.status);
+          console.log("[AUTH] Response status:", response.status);
           const data = await response.json();
-          console.log("📦 Session data:", data);
+          console.log("[AUTH] Session data:", data);
 
           if (data.success && data.authenticated && data.data) {
-            console.log("✅ User authenticated:", data.data);
+            console.log("[AUTH] User authenticated:", data.data);
 
             // Update userData object
             window.userData.user_id = data.data.user_id;
@@ -3667,17 +3801,17 @@
             // Update UI immediately
             updateUserInterface();
           } else {
-            console.warn("⚠️ Not authenticated, redirecting to logout...");
+            console.warn("[AUTH] Not authenticated, redirecting to logout...");
             window.location.href = "user/logout.php";
           }
         } catch (error) {
-          console.error("❌ Auth check failed:", error);
+          console.error("[AUTH] Auth check failed:", error);
         }
       }
 
       // Update user interface with userData
       function updateUserInterface() {
-        console.log("🎨 Updating UI with user data...");
+        console.log("[UI] Updating UI with user data...");
 
         // Update header name and fade it in
         const userNameElement = document.getElementById("userName");
@@ -3685,7 +3819,7 @@
           userNameElement.textContent = window.userData.full_name;
           userNameElement.style.opacity = "1";
           userNameElement.style.transition = "opacity 0.3s ease-in";
-          console.log("✅ Header updated:", window.userData.full_name);
+          console.log("[UI] Header updated:", window.userData.full_name);
         }
 
         // Update profile fields (hidden form)
@@ -3702,7 +3836,7 @@
           const element = document.getElementById(fieldId);
           if (element) {
             element.value = value || "";
-            console.log(`✅ ${fieldId} updated:`, value);
+            console.log(`[UI] ${fieldId} updated:`, value);
           }
         }
 
@@ -3720,7 +3854,7 @@
           const element = document.getElementById(fieldId);
           if (element) {
             element.textContent = value || "-";
-            console.log(`✅ ${fieldId} display updated:`, value);
+            console.log(`[UI] ${fieldId} display updated:`, value);
           }
         }
 
@@ -3770,20 +3904,20 @@
         // Refresh userData in dashboard-script.js if the function exists
         if (typeof window.refreshUserData === "function") {
           window.refreshUserData();
-          console.log("✅ Notified dashboard-script.js to refresh user data");
+          console.log("[UI] Notified dashboard-script.js to refresh user data");
         }
       }
 
       // Load Dashboard Stats
       async function loadDashboardStats() {
-        console.log("📊 Loading dashboard stats...");
+        console.log("[STATS] Loading dashboard stats...");
         try {
           const response = await fetch("user/get_my_reservations.php", {
             method: "GET",
             credentials: "include",
           });
 
-          console.log("📊 API Response status:", response.status);
+          console.log("[STATS] API Response status:", response.status);
 
           if (!response.ok) {
             throw new Error(
@@ -3792,16 +3926,16 @@
           }
 
           const data = await response.json();
-          console.log("📊 API Response data:", data);
+          console.log("[STATS] API Response data:", data);
 
           if (data.success && Array.isArray(data.reservations)) {
             const reservations = data.reservations;
-            console.log("📊 Found", reservations.length, "reservations");
+            console.log("[STATS] Found", reservations.length, "reservations");
 
             // Log each reservation status for debugging
             if (reservations.length > 0) {
               console.log(
-                "📊 Reservation statuses:",
+                "[STATS] Reservation statuses:",
                 reservations.map((r) => r.status)
               );
             }
@@ -3878,7 +4012,7 @@
                 !isEffectivelyCompleted(r)
             ).length;
 
-            console.log("📊 Calculated stats:", {
+            console.log("[STATS] Calculated stats:", {
               total,
               pending,
               approved,
@@ -3915,7 +4049,7 @@
             // Load recent activity
             loadRecentActivity(reservations);
 
-            console.log("✅ Dashboard stats loaded:", {
+            console.log("[STATS] Dashboard stats loaded:", {
               total,
               pending,
               approved,
@@ -3924,7 +4058,7 @@
           } else {
             // API returned but no data or error
             console.warn(
-              "⚠️ No reservations data returned:",
+              "[STATS] No reservations data returned:",
               data.message || "Unknown error"
             );
             // Set stats to 0 if no data
@@ -3939,7 +4073,7 @@
             if (completedEl) completedEl.textContent = "0";
           }
         } catch (error) {
-          console.error("❌ Error loading dashboard stats:", error);
+          console.error("[STATS] Error loading dashboard stats:", error);
           // Set stats to show error state
           const totalEl = document.getElementById("totalReservations");
           const pendingEl = document.getElementById("pendingReservations");
@@ -3959,7 +4093,7 @@
 
         // Null check for activityList element
         if (!activityList) {
-          console.warn("⚠️ Activity list element not found");
+          console.warn("[ACTIVITY] Activity list element not found");
           return;
         }
 
@@ -4084,7 +4218,7 @@
 
       // Initialize session check when DOM is ready
       document.addEventListener("DOMContentLoaded", async () => {
-        console.log("📄 DOM loaded - checking session...");
+        console.log("[DOM] DOM loaded - checking session...");
         await checkAuthAndLoadUser();
         await loadDashboardStats();
       });
@@ -4094,7 +4228,7 @@
     <script>
       // Simple navigation system for content sections
       document.addEventListener("DOMContentLoaded", function () {
-        console.log("🎯 Setting up navigation...");
+        console.log("[NAV] Setting up navigation...");
 
         // Get all navigation buttons
         const navButtons = document.querySelectorAll(".nav-btn");
@@ -4291,7 +4425,7 @@
 
       // Gallery button test - defined here to ensure it loads
       window.testButtons = function () {
-        console.log("\n🔍 TESTING GALLERY BUTTONS");
+        console.log("\n[TEST] TESTING GALLERY BUTTONS");
         const prev = document.getElementById("prevBtn");
         const next = document.getElementById("nextBtn");
         console.log("Prev button:", prev);
@@ -4352,7 +4486,7 @@
           next.click();
         }
       };
-      console.log("✅ testButtons() ready");
+      console.log("[TEST] testButtons() ready");
     </script>
 
     <!-- Flatpickr JavaScript - Must load BEFORE dashboard-script.js -->
@@ -4370,26 +4504,26 @@
     <!-- DEBUG: Test booking buttons -->
     <script>
       console.log(
-        "%c🔧 BUTTON DEBUG SCRIPT LOADED",
+        "%c[DEBUG] BUTTON DEBUG SCRIPT LOADED",
         "color: #FF5722; font-weight: bold; font-size: 14px;"
       );
 
       // Wait for DOM to be ready
       setTimeout(() => {
         console.log(
-          "%c📍 Testing booking type buttons...",
+          "%c[DEBUG] Testing booking type buttons...",
           "color: #2196F3; font-weight: bold;"
         );
 
         // Check if function exists
         console.log(
-          "1️⃣ window.selectBookingType exists?",
+          "[DEBUG] window.selectBookingType exists?",
           typeof window.selectBookingType
         );
 
         // Find all booking type buttons
         const buttons = document.querySelectorAll(".select-booking-type-btn");
-        console.log("2️⃣ Found buttons:", buttons.length);
+        console.log("[DEBUG] Found buttons:", buttons.length);
 
         buttons.forEach((btn, index) => {
           const onclickAttr = btn.getAttribute("onclick");
@@ -4404,7 +4538,7 @@
           // Test if clicking manually works
           btn.addEventListener("click", function (e) {
             console.log(
-              `%c🖱️ BUTTON ${index + 1} CLICKED!`,
+              `%c[CLICK] BUTTON ${index + 1} CLICKED!`,
               "color: #4CAF50; font-weight: bold; font-size: 16px;"
             );
             console.log("Event target:", e.target);
@@ -4414,30 +4548,30 @@
 
         // Test calling the function directly
         console.log(
-          "%c🧪 Testing direct function call...",
+          "%c[DEBUG] Testing direct function call...",
           "color: #9C27B0; font-weight: bold;"
         );
         try {
           if (typeof window.selectBookingType === "function") {
-            console.log('✅ Function is accessible! Testing with "daytime"...');
+            console.log('[DEBUG] Function is accessible! Testing with "daytime"...');
             // Don't actually call it, just verify it exists
             console.log(
               "Function signature:",
               window.selectBookingType.toString().substring(0, 100) + "..."
             );
           } else {
-            console.error("❌ window.selectBookingType is NOT a function!");
+            console.error("[ERROR] window.selectBookingType is NOT a function!");
           }
         } catch (err) {
-          console.error("❌ Error testing function:", err);
+          console.error("[ERROR] Error testing function:", err);
         }
 
         console.log(
-          "%c✅ Button diagnostic complete! Check console for results.",
+          "%c[SUCCESS] Button diagnostic complete! Check console for results.",
           "color: #4CAF50; font-weight: bold;"
         );
         console.log(
-          "%c👆 Try clicking a booking type button above and watch for messages!",
+          "%c[PROMPT] Try clicking a booking type button above and watch for messages!",
           "background: #FFF3CD; color: #856404; padding: 8px; font-weight: bold;"
         );
       }, 2000);
@@ -4589,6 +4723,11 @@
         }
       });
     </script>
+
+    <!-- Floating Back to Top Button -->
+    <button class="floating-back-to-top" id="floatingBackToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
   </body>
 </html>
 
