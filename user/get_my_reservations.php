@@ -220,11 +220,12 @@ try {
             $reservation['downpayment_paid'] == 0
         );
         
-        // Can show full payment options (only if not yet paid)
+        // Can show full payment options (only if not yet paid and downpayment is paid/verified)
         $reservation['can_upload_full_payment'] = (
-            $reservation['status'] === 'confirmed' &&
-            $reservation['downpayment_verified'] == 1 &&
-            $reservation['full_payment_paid'] == 0
+            ($reservation['downpayment_paid'] == 1 || $reservation['downpayment_verified'] == 1) &&
+            $reservation['full_payment_paid'] == 0 &&
+            $reservation['status'] !== 'cancelled' &&
+            $reservation['status'] !== 'completed'
         );
         
         // Show payment info if already paid but not verified

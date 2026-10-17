@@ -1,6 +1,11 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # If requested file or folder actually exists in root, serve directly (e.g. user/*.php, admin/*.php)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
     # Prevent infinite loop if already targeting /public/
     RewriteCond %{REQUEST_URI} !/public/
     RewriteRule ^(.*)$ public/$1 [L]

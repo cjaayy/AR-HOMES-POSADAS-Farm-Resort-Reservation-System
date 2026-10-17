@@ -152,19 +152,20 @@ Unicode emojis are strictly forbidden throughout the entire system. All visual i
   - Inclusions trigger button with icon and slide-out inclusions modal.
   - Gold gradient action button (`.select-package-btn`).
 
-#### Step 2: Complete Your Booking
-- Two-column responsive layout (`1fr 380px`).
+#### Step 2: Complete Your Booking (Booking & Payment)
+- Two-column responsive layout (`1fr 380px`) styled in dark luxury midnight & gold glass aesthetic (`rgba(15, 23, 42, 0.88)`).
 - Left Column:
-  - Booking selection summary card.
-  - Date Selection Card with calendar icon, Flatpickr datepicker, and hint badge.
-  - Group Details Card with 10+ pax policy box, group type dropdown, and special requests field.
-  - Custom checkbox for policy acknowledgment.
-  - Back and Submit button pair.
+  - Booking selection summary card with obsidian backdrop, gold header, and time slot pill.
+  - Date Selection Card with Flatpickr calendar input, gold focus outline, and animated point hint pill.
+  - Group Details Card with emerald guest notice box (`rgba(6, 78, 59, 0.35)`), group type select, and special requests textarea.
+  - Terms acknowledgment card with custom luxury gold checkmark.
+  - Action buttons: `.btn-back-v2` in dark glass and `.btn-submit-v2` in vibrant gold gradient (`#fef08a` to `#eab308`).
 - Right Column:
-  - Sticky price summary card (`.price-summary-card`).
-  - Breakdown rows: Package price, Required Downpayment (amber chip), Balance on arrival, Refundable Security Bond (cyan chip).
-  - Highlighted footer with gold Total Due Now amount.
-  - Payment method card displaying verified PayMongo GCash, Card, and Bank options.
+  - Sticky price summary card (`.price-summary-card`) with dark glass panel and glowing gold header.
+  - Breakdown rows: Package price, Required Downpayment (amber accent), Balance on arrival, Refundable Security Bond (teal accent).
+  - Highlighted footer with gold Total Due Now amount (`#facc15` with text glow).
+  - Payment method card displaying verified PayMongo integration with GCash, Card, and Bank channels.
+  - Dynamic PayMongo return URLs resolving against active host/port to eliminate redirection 404s.
 
 ### 4.6 Modal Windows
 - Overlay: `rgba(10, 15, 29, 0.82)` with `backdrop-filter: blur(12px)`.

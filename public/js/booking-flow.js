@@ -2009,6 +2009,14 @@ document.addEventListener("DOMContentLoaded", function () {
       loadMyBookings();
     });
   }
+
+  // Auto-switch to My Reservations if requested via URL
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("section") === "my-bookings" && myBookingsBtn) {
+    setTimeout(() => {
+      myBookingsBtn.click();
+    }, 150);
+  }
 });
 
 // Make modal functions globally accessible

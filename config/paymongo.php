@@ -31,19 +31,24 @@ define('PAYMONGO_CURRENCY', 'PHP');
 define('PAYMONGO_STATEMENT_DESCRIPTOR', 'AR Homes Resort');
 
 // Webhook secret (for verifying webhook events)
-define('PAYMONGO_WEBHOOK_SECRET', 'whsec_YOUR_WEBHOOK_SECRET_HERE');
+define('PAYMONGO_WEBHOOK_SECRET', getenv('PAYMONGO_WEBHOOK_SECRET') ?: '');
 
 // Custom PayMongo Payment Page URL
 define('PAYMONGO_CHECKOUT_URL', 'https://pm.link/org-TsVFBrzU4hxjqPiivG5o2eJy/DB8nCNS');
 
-// Return URLs (adjust based on your domain)
-// For local development - Since DocumentRoot points to project folder, use root-relative paths
-define('PAYMONGO_SUCCESS_URL', 'http://localhost/user/payment_success.php');
-define('PAYMONGO_FAILED_URL', 'http://localhost/user/payment_failed.php');
+// Return URLs (dynamically constructed based on host, port, and project path)
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+$detectedHost = $_SERVER['HTTP_HOST'] ?? 'localhost:8080';
+$scriptDir = dirname($_SERVER['SCRIPT_NAME'] ?? '');
+$projectBase = '';
+if (strpos($scriptDir, 'AR_Homes_Posadas_Farm_Resort_Reservation_System_Design_2') !== false) {
+    $projectBase = '/AR_Homes_Posadas_Farm_Resort_Reservation_System_Design_2';
+}
+$defaultBaseUrl = $protocol . $detectedHost . $projectBase;
+$appUrl = getenv('APP_URL') ? rtrim(getenv('APP_URL'), '/') : $defaultBaseUrl;
 
-// For production, uncomment and update these:
-// define('PAYMONGO_SUCCESS_URL', 'https://yourdomain.com/user/payment_success.php');
-// define('PAYMONGO_FAILED_URL', 'https://yourdomain.com/user/payment_failed.php');
+define('PAYMONGO_SUCCESS_URL', $appUrl . '/user/payment_success.php');
+define('PAYMONGO_FAILED_URL', $appUrl . '/user/payment_failed.php');
 
 /**
  * Get PayMongo Authorization Header

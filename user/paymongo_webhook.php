@@ -61,6 +61,7 @@ try {
             break;
             
         case 'link.payment.paid':
+        case 'checkout_session.payment.paid':
             handleLinkPaymentPaid($pdo, $event);
             break;
             
@@ -288,12 +289,14 @@ function handleLinkPaymentPaid($pdo, $event) {
     
     error_log('Payment method detected: ' . $payment_method . ' for link: ' . $link_id);
     
-    // Find reservation with this link ID - check both downpayment and full payment link fields
+    $ref_num = $link_data['attributes']['reference_number'] ?? null;
+    
+    // Find reservation with this link ID or reservation reference number
     $stmt = $pdo->prepare("
         SELECT * FROM reservations 
-        WHERE paymongo_source_id = ? OR paymongo_full_payment_link_id = ?
+        WHERE paymongo_source_id = ? OR paymongo_full_payment_link_id = ? OR reservation_id = ?
     ");
-    $stmt->execute([$link_id, $link_id]);
+    $stmt->execute([$link_id, $link_id, $ref_num]);
     $reservation = $stmt->fetch();
     
     if (!$reservation) {

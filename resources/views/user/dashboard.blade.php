@@ -82,7 +82,7 @@
     <meta name="twitter:image" content="images/logo/ar-homes-logo.png" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20261017007') }}" />
+    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20261017008') }}" />
     <link rel="stylesheet" href="{{ asset('css/checkout-styles.css?v=1.0') }}" />
 
     <!-- Google Fonts -->
@@ -287,15 +287,6 @@
               <button class="nav-btn" data-section="my-reservations">
                 <i class="fas fa-calendar-plus"></i>
                 <span>Make Reservation</span>
-              </button>
-              <button
-                class="nav-btn booking-nav"
-                id="booking-details-tab"
-                data-section="booking-details"
-                style="display: none"
-              >
-                <i class="fas fa-credit-card"></i>
-                <span>Booking & Payment</span>
               </button>
               <button class="nav-btn" data-section="profile">
                 <i class="fas fa-user-cog"></i>
@@ -4375,8 +4366,21 @@
       }
 
       function proceedToPayment() {
-        alert("Proceeding to payment...");
-        // Add your payment logic here
+        const reservationForm = document.getElementById("reservationForm");
+        if (reservationForm) {
+          const submitBtn = reservationForm.querySelector(".btn-submit-v2");
+          if (submitBtn) {
+            submitBtn.click();
+            return;
+          }
+        }
+        if (typeof showNotification === "function") {
+          showNotification("Please select a package from Make Reservation to proceed with booking.", "info");
+        }
+        const reservationsBtn = document.querySelector('[data-section="my-reservations"]');
+        if (reservationsBtn) {
+          reservationsBtn.click();
+        }
       }
       window.proceedToPayment = proceedToPayment;
 

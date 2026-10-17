@@ -93,10 +93,10 @@ try {
     
     // Determine amount and validate based on payment type
     if ($payment_type === 'full_payment') {
-        // For full payment, check if downpayment is verified
-        if ($reservation['status'] !== 'confirmed' || $reservation['downpayment_verified'] != 1) {
-            error_log('Full payment rejected: status=' . $reservation['status'] . ', downpayment_verified=' . $reservation['downpayment_verified']);
-            throw new Exception('Downpayment must be verified before paying remaining balance');
+        // For full payment, check if reservation fee / downpayment is paid
+        if ($reservation['downpayment_paid'] != 1 && $reservation['downpayment_verified'] != 1) {
+            error_log('Full payment rejected: downpayment_paid=' . $reservation['downpayment_paid'] . ', downpayment_verified=' . $reservation['downpayment_verified']);
+            throw new Exception('Reservation fee must be paid before paying remaining balance');
         }
         if ($reservation['full_payment_paid'] == 1) {
             error_log('Full payment rejected: already paid');
@@ -119,49 +119,73 @@ try {
     
     $amount_in_centavos = (int)($amount * 100); // PayMongo requires amount in centavos
     
-    // Build success URL with reservation ID
-    $success_url = PAYMONGO_SUCCESS_URL . '?reservation_id=' . $reservation_id;
+    // Build success URL with reservation ID and payment type
+    $success_url = PAYMONGO_SUCCESS_URL . '?reservation_id=' . $reservation_id . '&payment_type=' . urlencode($payment_type);
     
-    // Create a dynamic PayMongo Payment Link with the correct amount
-    $link_data = [
+    // Prepare checkout session data with automatic redirect back to resort
+    $session_data = [
         'data' => [
             'attributes' => [
-                'amount' => $amount_in_centavos,
+                'send_email_receipt' => false,
+                'show_description' => true,
+                'show_line_items' => true,
+                'line_items' => [
+                    [
+                        'currency' => 'PHP',
+                        'amount' => $amount_in_centavos,
+                        'name' => ($payment_type === 'full_payment' ? 'Full Balance Payment' : 'Reservation Fee (Downpayment)'),
+                        'quantity' => 1
+                    ]
+                ],
+                'payment_method_types' => ['card', 'gcash', 'paymaya', 'dob', 'dob_ubp', 'qrph'],
                 'description' => $payment_description,
-                'remarks' => 'Reservation ID: ' . $reservation_id . ' - Payment Type: ' . $payment_type
+                'reference_number' => $reservation_id,
+                'success_url' => $success_url,
+                'cancel_url' => defined('PAYMONGO_FAILED_URL') ? PAYMONGO_FAILED_URL . '?reservation_id=' . $reservation_id : $success_url
             ]
         ]
     ];
     
-    // Make request to PayMongo Links API
-    $result = makePaymongoRequest('/links', 'POST', $link_data);
+    // Attempt to create Checkout Session for automatic redirect
+    $result = makePaymongoRequest('/checkout_sessions', 'POST', $session_data);
     
-    // Log the response
-    error_log('PayMongo Link Creation Response: ' . json_encode($result));
-    error_log('PayMongo HTTP Code: ' . $result['http_code']);
-    
-    if (!$result['success']) {
-        $error_message = 'Failed to create payment link';
+    if ($result['success'] && !empty($result['data']['data']['attributes']['checkout_url'])) {
+        $link = $result['data']['data'];
+        $link_id = $link['id'];
+        $checkout_url = $link['attributes']['checkout_url'];
+    } else {
+        // Fallback to Links API
+        $link_data = [
+            'data' => [
+                'attributes' => [
+                    'amount' => $amount_in_centavos,
+                    'description' => $payment_description,
+                    'remarks' => 'Reservation ID: ' . $reservation_id . ' - Payment Type: ' . $payment_type
+                ]
+            ]
+        ];
         
-        // Check for authentication error
-        if ($result['http_code'] == 401) {
-            $error_message = 'Payment system authentication failed. Please contact administrator.';
-        } elseif (isset($result['data']['errors'])) {
-            $errors = $result['data']['errors'];
-            $error_message .= ': ' . implode(', ', array_map(function($err) {
-                return $err['detail'] ?? 'Unknown error';
-            }, $errors));
-        } elseif (isset($result['data']['message'])) {
-            $error_message .= ': ' . $result['data']['message'];
+        $result = makePaymongoRequest('/links', 'POST', $link_data);
+        
+        if (!$result['success']) {
+            $error_message = 'Failed to create payment session';
+            if ($result['http_code'] == 401) {
+                $error_message = 'Payment system authentication failed. Please contact administrator.';
+            } elseif (isset($result['data']['errors'])) {
+                $errors = $result['data']['errors'];
+                $error_message .= ': ' . implode(', ', array_map(function($err) {
+                    return $err['detail'] ?? 'Unknown error';
+                }, $errors));
+            } elseif (isset($result['data']['message'])) {
+                $error_message .= ': ' . $result['data']['message'];
+            }
+            throw new Exception($error_message);
         }
         
-        error_log('PayMongo Error: ' . $error_message);
-        throw new Exception($error_message);
+        $link = $result['data']['data'];
+        $link_id = $link['id'];
+        $checkout_url = $link['attributes']['checkout_url'];
     }
-    
-    $link = $result['data']['data'];
-    $link_id = $link['id'];
-    $checkout_url = $link['attributes']['checkout_url'];
     
     // Log payment link details
     error_log('Payment Link ID: ' . $link_id);

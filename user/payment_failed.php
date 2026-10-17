@@ -123,7 +123,7 @@ $reservation_id = $_GET['reservation_id'] ?? null;
         </p>
         
         <div class="btn-container">
-            <a href="../dashboard.html" class="btn-secondary">
+            <a href="../dashboard" class="btn-secondary">
                 <i class="fas fa-home"></i> Go to Dashboard
             </a>
             <?php if ($reservation_id): ?>
@@ -137,7 +137,7 @@ $reservation_id = $_GET['reservation_id'] ?? null;
     <script>
         function retryPayment(reservationId) {
             // Redirect to dashboard and open payment modal
-            window.location.href = '../dashboard.html?retry_payment=' + reservationId;
+            window.location.href = '../dashboard?retry_payment=' + reservationId;
         }
     </script>
 </body>

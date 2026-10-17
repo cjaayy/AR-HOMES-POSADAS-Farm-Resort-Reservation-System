@@ -49,3 +49,14 @@ Route::match(['GET', 'POST'], '/user/logout', [UserAuthController::class, 'logou
 Route::match(['GET', 'POST'], '/admin/logout.php', [AdminAuthController::class, 'logout'])->name('admin.logout');
 Route::match(['GET', 'POST'], '/admin/logout', [AdminAuthController::class, 'logout']);
 Route::match(['GET', 'POST'], '/admin/staff_logout.php', [AdminAuthController::class, 'logout'])->name('staff.logout');
+
+// PayMongo Callback & Success Routes
+Route::match(['GET', 'POST'], '/user/payment_success.php', function () {
+    require base_path('user/payment_success.php');
+});
+Route::match(['GET', 'POST'], '/user/payment_failed.php', function () {
+    require base_path('user/payment_failed.php');
+});
+Route::match(['GET', 'POST'], '/user/paymongo_webhook.php', function () {
+    require base_path('user/paymongo_webhook.php');
+});
