@@ -126,9 +126,8 @@ Unicode emojis are strictly forbidden throughout the entire system. All visual i
 
 ### 4.3 Resort Showcase Gallery
 - Dimensions: `100%` width by `480px` height with `24px` border-radius.
-- Floating `.gallery-hero-badge` with crown icon (`<i class="fas fa-crown"></i>`), badge tag, and subtitle.
+- Pure unobstructed imagery: all overlay badges, scroll indicators, and caption pills removed from the transition images area to maximize visual presentation.
 - Horizontal flex slider with smooth cubic-bezier transitions on slide index.
-- Each slide contains an `<img>` with a dark gradient overlay and a `.slide-caption` pill with icon and caption.
 - Circular controls (`.gallery-btn`) with gold arrow icons and hover scale animation.
 
 ### 4.4 Horizontal Navigation Bar

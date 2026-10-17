@@ -82,7 +82,7 @@
     <meta name="twitter:image" content="images/logo/ar-homes-logo.png" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20261017006') }}" />
+    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20261017007') }}" />
     <link rel="stylesheet" href="{{ asset('css/checkout-styles.css?v=1.0') }}" />
 
     <!-- Google Fonts -->
@@ -212,18 +212,6 @@
       <div class="main-layout">
         <!-- Resort Gallery Section -->
         <div class="resort-gallery-section">
-          <div class="gallery-hero-badge">
-            <span class="badge-tag"><i class="fas fa-crown"></i> Exclusive Guest Sanctuary</span>
-            <h2>Welcome to AR Homes Posadas</h2>
-            <p>Experience relaxing farm-stay cottages, crystal azure pools, and serene private resort amenities.</p>
-          </div>
-          <div class="section-scroll-indicator-wrap top-indicator">
-            <a href="#galleryWrapper" class="section-scroll-indicator scroll-down-btn" data-scroll-target="#galleryWrapper" onclick="handleSectionScroll(this, 'down'); return false;">
-              <span class="scroll-indicator-text">Scroll Down for Resort Showcase</span>
-              <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
-              <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
-            </a>
-          </div>
           <div class="resort-gallery">
             <div class="gallery-container">
               <div class="gallery-wrapper" id="galleryWrapper">
@@ -232,56 +220,48 @@
                     src="{{ asset('images/545601129_1082516497373944_2891607710179489901_n.jpg') }}"
                     alt="Resort View 1"
                   />
-                  <span class="slide-caption"><i class="fas fa-camera"></i> Front Pavilion &amp; Scenic Grounds</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/545611560_1324092662718848_8811536535004180762_n.jpg') }}"
                     alt="Resort View 2"
                   />
-                  <span class="slide-caption"><i class="fas fa-umbrella-beach"></i> Resort Cottages &amp; Cabanas</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546182776_2167385133738763_7006991891791172725_n.jpg') }}"
                     alt="Resort View 3"
                   />
-                  <span class="slide-caption"><i class="fas fa-tree"></i> Farm Oasis &amp; Courtyard</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546238992_684641691315373_7119956179300816560_n.jpg') }}"
                     alt="Resort View 4"
                   />
-                  <span class="slide-caption"><i class="fas fa-home"></i> Luxury Private Villas</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546260243_2896334557423631_287976220203457252_n.jpg') }}"
                     alt="Resort View 5"
                   />
-                  <span class="slide-caption"><i class="fas fa-moon"></i> Evening Ambience &amp; Glow</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/546407920_1244121977399879_5414686772811094703_n.jpg') }}"
                     alt="Resort View 6"
                   />
-                  <span class="slide-caption"><i class="fas fa-leaf"></i> Lush Greenery &amp; Relaxation</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/Swimming Pools/Big Pool.jpg') }}"
                     alt="Big Pool"
                   />
-                  <span class="slide-caption"><i class="fas fa-water"></i> Crystal Azure Swimming Pool</span>
                 </div>
                 <div class="gallery-slide">
                   <img
                     src="{{ asset('images/Swimming Pools/Jacuzzi Pool.jpg') }}"
                     alt="Jacuzzi Pool"
                   />
-                  <span class="slide-caption"><i class="fas fa-hot-tub"></i> Relaxing Jacuzzi Spa Pool</span>
                 </div>
               </div>
               <div class="gallery-controls">
@@ -292,12 +272,6 @@
                   <i class="fas fa-chevron-right"></i>
                 </button>
               </div>
-            </div>
-            <div class="section-scroll-indicator-wrap bottom-indicator">
-              <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
-                <i class="fas fa-arrow-up scroll-indicator-chevron-up"></i>
-                <span class="scroll-indicator-text">Back to Top</span>
-              </a>
             </div>
           </div>
         </div>
