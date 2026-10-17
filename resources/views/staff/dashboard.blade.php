@@ -465,7 +465,7 @@
             <div style="background:white; border-radius:20px; box-shadow:0 4px 20px rgba(0,0,0,0.08); overflow:hidden; margin-bottom:24px;">
               <div style="background:linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); padding:32px; text-align:center;">
                 <div style="width:80px; height:80px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:32px; color:white; font-weight:700;">
-                  <?php echo strtoupper(substr($staffFullName, 0, 1)); ?>
+                  {{ strtoupper(substr(session('staff_full_name', 'Staff Member'), 0, 1)) }}
                 </div>
                 <h3 style="color:white; font-size:22px; font-weight:700; margin-bottom:4px;">{{ session('staff_full_name', 'Staff Member') }}</h3>
                 <p style="color:rgba(255,255,255,0.8); font-size:14px;">@{{ session('staff_username', 'staff') }}</p>
@@ -490,7 +490,7 @@
                   </div>
                   <div>
                     <div style="font-size:12px; color:#64748b; font-weight:500;">Staff ID</div>
-                    <div style="font-size:14px; color:#1e293b; font-weight:600;">#<?php echo $staffId; ?></div>
+                    <div style="font-size:14px; color:#1e293b; font-weight:600;">#{{ session('staff_id', '') }}</div>
                   </div>
                 </div>
               </div>

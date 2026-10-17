@@ -1,199 +1,3 @@
-<?php
-/**
- * Admin Dashboard
- * AR Homes Posadas Farm Resort Reservation System
- */
-
-// Prevent browser caching to ensure latest code is loaded
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Pragma: no-cache");
-header("Expires: 0");
-
-session_start();
-
-// Check if admin is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: ../index.html');
-    exit;
-}
-
-// Check if user has admin role (not staff)
-$userRole = strtolower($_SESSION['admin_role'] ?? '');
-if ($userRole === 'staff') {
-    header('Location: staff_dashboard.php');
-    exit;
-}
-
-// Only allow admin and super_admin roles
-if ($userRole !== 'admin' && $userRole !== 'super_admin') {
-    session_unset();
-    session_destroy();
-    header('Location: ../index.html');
-    exit;
-}
-
-// Check session timeout
-require_once dirname(__DIR__, 2) . '/config/database.php';
-$timeout = defined('SESSION_TIMEOUT') ? SESSION_TIMEOUT : 3600;
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $timeout)) {
-    session_unset();
-    session_destroy();
-    header('Location: ../index.html?session_expired=1');
-    exit;
-}
-
-// CRITICAL: Check if database connection is active
-try {
-    require_once dirname(__DIR__, 2) . '/config/connection.php';
-    $database = new Database();
-    $conn = $database->getConnection();
-    
-    $testQuery = $conn->prepare("SELECT COUNT(*) FROM admin_users WHERE admin_id = :admin_id");
-    $adminId = $_SESSION['admin_id'] ?? 0;
-    $testQuery->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
-    $testQuery->execute();
-    
-} catch (PDOException $e) {
-    // Database connection failed - show friendly error page
-    die('
-<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Database Connection Error</title>
-        <style>
-            body {
-                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                min-height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin: 0;
-                padding: 20px;
-            }
-            .error-container {
-                background: white;
-                padding: 40px;
-                border-radius: 15px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-                max-width: 600px;
-                text-align: center;
-            }
-            .error-icon {
-                font-size: 80px;
-                color: #dc3545;
-                margin-bottom: 20px;
-            }
-            h1 {
-                color: #dc3545;
-                margin-bottom: 20px;
-            }
-            p {
-                color: #666;
-                line-height: 1.8;
-                margin: 15px 0;
-            }
-            .error-details {
-                background: #f8d7da;
-                border: 1px solid #f5c6cb;
-                color: #721c24;
-                padding: 15px;
-                border-radius: 8px;
-                margin: 20px 0;
-                text-align: left;
-            }
-            .solution {
-                background: #d1ecf1;
-                border: 1px solid #bee5eb;
-                color: #0c5460;
-                padding: 20px;
-                border-radius: 8px;
-                margin: 20px 0;
-                text-align: left;
-            }
-            .solution h3 {
-                margin-top: 0;
-                color: #0c5460;
-            }
-            .solution ol {
-                margin: 10px 0;
-                padding-left: 20px;
-            }
-            .solution li {
-                margin: 8px 0;
-            }
-            .btn {
-                display: inline-block;
-                padding: 12px 30px;
-                background: #667eea;
-                color: white;
-                text-decoration: none;
-                border-radius: 8px;
-                margin-top: 20px;
-                transition: background 0.3s;
-            }
-            .btn:hover {
-                background: #764ba2;
-            }
-            code {
-                background: #f4f4f4;
-                padding: 2px 6px;
-                border-radius: 4px;
-                font-family: monospace;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="error-container">
-            <div class="error-icon">🔌❌</div>
-            <h1>Database Connection Failed</h1>
-            <p><strong>The admin dashboard cannot load because XAMPP MySQL is not running.</strong></p>
-            
-            <div class="error-details">
-                <strong>⚠️ Error:</strong> ' . htmlspecialchars($e->getMessage()) . '
-            </div>
-            
-            <div class="solution">
-                <h3>💡 How to Fix:</h3>
-                <ol>
-                    <li>Open <strong>XAMPP Control Panel</strong></li>
-                    <li>Click <strong>"Start"</strong> on <strong>MySQL</strong> service</li>
-                    <li>Wait for the green indicator</li>
-                    <li>Refresh this page or <a href="../index.html" style="color: #0c5460;">Login Again</a></li>
-                </ol>
-            </div>
-            
-            <p style="margin-top: 30px; color: #999; font-size: 0.9rem;">
-                <strong>Note:</strong> This system requires XAMPP MySQL to be running at all times.<br>
-                Without an active database connection, the admin dashboard cannot function.
-            </p>
-            
-            <a href="../index.html" class="btn">Return to Login</a>
-        </div>
-    </body>
-    </html>
-    ');
-} catch (Exception $e) {
-    // Any other error
-    session_unset();
-    session_destroy();
-    die('Database Error: ' . htmlspecialchars($e->getMessage()) . '<br><a href="../index.html">Return to Login</a>');
-}
-
-// Update last activity time
-$_SESSION['last_activity'] = time();
-
-// Get admin data from session
-$adminFullName = $_SESSION['admin_full_name'] ?? 'Administrator';
-$adminUsername = $_SESSION['admin_username'] ?? 'admin';
-$adminEmail = $_SESSION['admin_email'] ?? '';
-$adminRole = $_SESSION['admin_role'] ?? 'admin';
-
-// Format role for display
-$roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -285,14 +89,14 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
   <body>
     <!-- PHP Session Debug Info (Hidden) -->
     <script id="phpSessionData" type="application/json">
-      <?php echo json_encode([
-        'admin_logged_in' => $_SESSION['admin_logged_in'] ?? false,
-        'admin_role' => $_SESSION['admin_role'] ?? '',
-        'admin_username' => $_SESSION['admin_username'] ?? '',
-        'admin_id' => $_SESSION['admin_id'] ?? '',
+      {{ json_encode([
+        'admin_logged_in' => session('admin_logged_in', false),
+        'admin_role' => session('admin_role', ''),
+        'admin_username' => session('admin_username', ''),
+        'admin_id' => session('admin_id', ''),
         'session_id' => session_id(),
-        'all_session' => $_SESSION
-      ], JSON_PRETTY_PRINT); ?>
+        'all_session' => session()
+      ], JSON_PRETTY_PRINT) }}
     </script>
     <script>
       // Log PHP session data immediately
@@ -1506,18 +1310,8 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
             <p style="color:#666; margin:0; font-size:16px;">Manage resort staff and employee information</p>
           </div>
 
-          <?php if (isset($_SESSION['flash_success'])): ?>
-            <div style="background:linear-gradient(135deg,#10b981,#059669); color:white; padding:16px 20px; border-radius:12px; margin-bottom:20px; display:flex; align-items:center; gap:12px; box-shadow:0 4px 12px rgba(16,185,129,0.3); animation:slideInDown 0.4s ease;">
-              <i class="fas fa-check-circle" style="font-size:24px;"></i>
-              <div>
-                <div style="font-weight:600; font-size:15px;"><?php echo htmlspecialchars($_SESSION['flash_success']); ?></div>
-                <?php if (!empty($_SESSION['flash_staff_username'])): ?>
-                  <div style="font-size:13px; margin-top:4px; opacity:0.9;">Username: <?php echo htmlspecialchars($_SESSION['flash_staff_username']); ?></div>
-                <?php endif; ?>
-              </div>
-            </div>
-            <?php unset($_SESSION['flash_success'], $_SESSION['flash_staff_username']); ?>
-          <?php endif; ?>
+          {!! !empty(session('flash_success')) ? '<div style="background:linear-gradient(135deg,#10b981,#059669); color:white; padding:16px 20px; border-radius:12px; margin-bottom:20px; display:flex; align-items:center; gap:12px; box-shadow:0 4px 12px rgba(16,185,129,0.3); animation:slideInDown 0.4s ease;"><i class="fas fa-check-circle" style="font-size:24px;"></i><div><div style="font-weight:600; font-size:15px;">' . htmlspecialchars(session('flash_success')) . '</div>' . (!empty(session('flash_staff_username')) ? '<div style="font-size:13px; margin-top:4px; opacity:0.9;">Username: ' . htmlspecialchars(session('flash_staff_username')) . '</div>' : '') . '</div></div>' : '' !!}
+          {{ (function() { unset($_SESSION['flash_success'], $_SESSION['flash_staff_username']); return ''; })() }}
 
           <!-- Stats Overview -->
           <div class="stats-overview" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px; margin-bottom:30px;">
@@ -2328,7 +2122,7 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
                   </div>
                   <div style="display:flex; justify-content:space-between; padding:12px 16px; background:#f8fafc; border-radius:8px;">
                     <span style="color:#64748b; font-weight:500;">PHP Version</span>
-                    <span style="color:#1e293b; font-weight:600;"><?php echo phpversion(); ?></span>
+                    <span style="color:#1e293b; font-weight:600;">{{ phpversion() }}</span>
                   </div>
                   <div style="display:flex; justify-content:space-between; padding:12px 16px; background:#f8fafc; border-radius:8px;">
                     <span style="color:#64748b; font-weight:500;">Server</span>
@@ -2340,12 +2134,12 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
                   </div>
                   <div style="display:flex; justify-content:space-between; padding:12px 16px; background:#f8fafc; border-radius:8px;">
                     <span style="color:#64748b; font-weight:500;">Last Updated</span>
-                    <span style="color:#1e293b; font-weight:600;"><?php echo date('M d, Y'); ?></span>
+                    <span style="color:#1e293b; font-weight:600;">{{ date('M d, Y') }}</span>
                   </div>
                 </div>
 
                 <div style="margin-top:24px; padding:16px; background:linear-gradient(135deg, #11224e, #1e3a8a); border-radius:12px; text-align:center;">
-                  <p style="color:white; margin:0; font-size:14px;">© <?php echo date('Y'); ?> AR Homes Posadas Farm Resort. All rights reserved.</p>
+                  <p style="color:white; margin:0; font-size:14px;">© {{ date('Y') }} AR Homes Posadas Farm Resort. All rights reserved.</p>
                 </div>
               </div>
             </div>
@@ -2386,10 +2180,10 @@ $roleDisplay = ucwords(str_replace('_', ' ', $adminRole));
     <script>
         // Pass PHP session data to JavaScript
         const adminData = {
-            fullName: <?php echo json_encode($adminFullName); ?>,
-            username: <?php echo json_encode($adminUsername); ?>,
-            email: <?php echo json_encode($adminEmail); ?>,
-            role: <?php echo json_encode($adminRole); ?>
+            fullName: {{ json_encode(session('admin_full_name', 'Administrator')) }},
+            username: {{ json_encode(session('admin_username', 'admin')) }},
+            email: {{ json_encode(session('admin_email', '')) }},
+            role: {{ json_encode(session('admin_role', 'admin')) }}
         };
         
         // Load dashboard statistics

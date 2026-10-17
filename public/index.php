@@ -127,6 +127,17 @@ function view($viewPath, $data = []) {
     // Process @csrf
     $content = str_replace('@csrf', '<input type="hidden" name="_token" value="' . htmlspecialchars(csrf_token()) . '">', $content);
 
+    // Process {!! raw expressions !!}
+    $content = preg_replace_callback('/\{!!\s*(.*?)\s*!!\}/s', function($m) use ($data) {
+        $expr = trim($m[1]);
+        try {
+            extract($data);
+            return (string) eval("return $expr;");
+        } catch (\Throwable $e) {
+            return '';
+        }
+    }, $content);
+
     // Process {{ expressions }}
     $content = preg_replace_callback('/\{\{\s*(.*?)\s*\}\}/s', function($m) use ($data) {
         $expr = trim($m[1]);
@@ -137,6 +148,18 @@ function view($viewPath, $data = []) {
             return '';
         }
     }, $content);
+
+    // Execute any embedded PHP code in views
+    if (strpos($content, '<?php') !== false || strpos($content, '<?=') !== false) {
+        ob_start();
+        extract($data);
+        try {
+            eval('?>' . $content);
+            $content = ob_get_clean();
+        } catch (\Throwable $e) {
+            ob_end_clean();
+        }
+    }
 
     header('Content-Type: text/html; charset=UTF-8');
     echo $content;
