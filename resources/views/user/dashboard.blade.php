@@ -82,7 +82,7 @@
     <meta name="twitter:image" content="images/logo/ar-homes-logo.png" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20261017008') }}" />
+    <link rel="stylesheet" href="{{ asset('css/dashboard-styles.css?v=20261018003') }}" />
     <link rel="stylesheet" href="{{ asset('css/checkout-styles.css?v=1.0') }}" />
 
     <!-- Google Fonts -->
@@ -2097,7 +2097,7 @@
           <div class="content-section" id="profile-section">
             <div class="section-header-inline" style="margin-bottom: 25px">
               <h2>
-                <i class="fas fa-user" style="color: #11224e"></i> Profile
+                <i class="fas fa-user-cog" style="color: #facc15"></i> Profile Settings
               </h2>
             </div>
 
@@ -2113,145 +2113,135 @@
             <div
               class="profile-single-card"
               style="
-                background: white;
-                border-radius: 12px;
-                padding: 25px;
-                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-                border: 2px solid #11224e;
-                max-width: 800px;
+                background: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-radius: 24px;
+                padding: 30px;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 35px rgba(250, 204, 21, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                max-width: 850px;
                 margin: 0 auto;
+                color: #ffffff;
               "
             >
               <!-- Profile Stats -->
               <div
                 style="
-                  display: flex;
-                  justify-content: space-around;
-                  flex-wrap: wrap;
-                  gap: 20px;
-                  padding-bottom: 20px;
-                  border-bottom: 1px solid #e5e7eb;
-                  margin-bottom: 25px;
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                  gap: 16px;
+                  padding-bottom: 25px;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+                  margin-bottom: 28px;
                 "
               >
-                <div style="text-align: center">
-                  <div
-                    style="font-size: 2em; font-weight: 700; color: #11224e"
-                    id="profileTotalBookings"
-                  >
+                <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 18px 15px; text-align: center; transition: all 0.3s ease;">
+                  <div style="font-size: 2rem; font-weight: 800; color: #facc15; text-shadow: 0 0 16px rgba(250, 204, 21, 0.35); line-height: 1.1; margin-bottom: 4px;" id="profileTotalBookings">
                     0
                   </div>
-                  <div style="font-size: 0.85em; color: #64748b">
+                  <div style="font-size: 0.82rem; color: rgba(255, 255, 255, 0.75); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
                     Total Reservations
                   </div>
                 </div>
-                <div style="text-align: center">
-                  <div
-                    style="font-size: 2em; font-weight: 700; color: #11224e"
-                    id="profileReviewsGiven"
-                  >
+                <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 18px 15px; text-align: center; transition: all 0.3s ease;">
+                  <div style="font-size: 2rem; font-weight: 800; color: #facc15; text-shadow: 0 0 16px rgba(250, 204, 21, 0.35); line-height: 1.1; margin-bottom: 4px;" id="profileReviewsGiven">
                     0
                   </div>
-                  <div style="font-size: 0.85em; color: #64748b">
+                  <div style="font-size: 0.82rem; color: rgba(255, 255, 255, 0.75); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
                     Reviews Given
                   </div>
                 </div>
-                <div style="text-align: center">
-                  <div
-                    style="font-size: 2em; font-weight: 700; color: #11224e"
-                    id="profileMemberSince"
-                  >
+                <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 18px 15px; text-align: center; transition: all 0.3s ease;">
+                  <div style="font-size: 2rem; font-weight: 800; color: #facc15; text-shadow: 0 0 16px rgba(250, 204, 21, 0.35); line-height: 1.1; margin-bottom: 4px;" id="profileMemberSince">
                     2024
                   </div>
-                  <div style="font-size: 0.85em; color: #64748b">
+                  <div style="font-size: 0.82rem; color: rgba(255, 255, 255, 0.75); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
                     Member Since
                   </div>
                 </div>
               </div>
 
               <!-- Personal Information -->
-              <div style="margin-bottom: 25px">
+              <div style="margin-bottom: 28px">
                 <h3
                   style="
-                    color: #11224e;
-                    font-size: 1.1em;
-                    margin-bottom: 15px;
+                    color: #ffffff;
+                    font-size: 1.15rem;
+                    font-weight: 700;
+                    margin-bottom: 16px;
                     display: flex;
                     align-items: center;
-                    gap: 8px;
+                    gap: 10px;
                   "
                 >
-                  <i class="fas fa-user-circle"></i> Personal Information
+                  <i class="fas fa-user-circle" style="color: #facc15"></i> Personal Information
                 </h3>
                 <div
                   style="
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 15px;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 14px;
                   "
                 >
-                  <div style="display: flex; align-items: center; gap: 10px">
-                    <i
-                      class="fas fa-user"
-                      style="color: #11224e; width: 20px"
-                    ></i>
+                  <div style="display: flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px 16px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(250, 204, 21, 0.15); border: 1px solid rgba(250, 204, 21, 0.3); display: flex; align-items: center; justify-content: center; color: #facc15; flex-shrink: 0;">
+                      <i class="fas fa-user"></i>
+                    </div>
                     <div>
-                      <div style="font-size: 0.75em; color: #64748b">
+                      <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
                         Given Name
                       </div>
                       <div
-                        style="font-weight: 600; color: #1e293b"
+                        style="font-weight: 600; color: #ffffff; font-size: 0.98rem;"
                         id="displayGivenName"
                       >
                         -
                       </div>
                     </div>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 10px">
-                    <i
-                      class="fas fa-user"
-                      style="color: #11224e; width: 20px"
-                    ></i>
+                  <div style="display: flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px 16px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(250, 204, 21, 0.15); border: 1px solid rgba(250, 204, 21, 0.3); display: flex; align-items: center; justify-content: center; color: #facc15; flex-shrink: 0;">
+                      <i class="fas fa-user"></i>
+                    </div>
                     <div>
-                      <div style="font-size: 0.75em; color: #64748b">
+                      <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
                         Middle Name
                       </div>
                       <div
-                        style="font-weight: 600; color: #1e293b"
+                        style="font-weight: 600; color: #ffffff; font-size: 0.98rem;"
                         id="displayMiddleName"
                       >
                         -
                       </div>
                     </div>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 10px">
-                    <i
-                      class="fas fa-user"
-                      style="color: #11224e; width: 20px"
-                    ></i>
+                  <div style="display: flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px 16px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(250, 204, 21, 0.15); border: 1px solid rgba(250, 204, 21, 0.3); display: flex; align-items: center; justify-content: center; color: #facc15; flex-shrink: 0;">
+                      <i class="fas fa-user"></i>
+                    </div>
                     <div>
-                      <div style="font-size: 0.75em; color: #64748b">
+                      <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
                         Last Name
                       </div>
                       <div
-                        style="font-weight: 600; color: #1e293b"
+                        style="font-weight: 600; color: #ffffff; font-size: 0.98rem;"
                         id="displayLastName"
                       >
                         -
                       </div>
                     </div>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 10px">
-                    <i
-                      class="fas fa-user-tag"
-                      style="color: #11224e; width: 20px"
-                    ></i>
+                  <div style="display: flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px 16px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(250, 204, 21, 0.15); border: 1px solid rgba(250, 204, 21, 0.3); display: flex; align-items: center; justify-content: center; color: #facc15; flex-shrink: 0;">
+                      <i class="fas fa-user-tag"></i>
+                    </div>
                     <div>
-                      <div style="font-size: 0.75em; color: #64748b">
+                      <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
                         Username
                       </div>
                       <div
-                        style="font-weight: 600; color: #1e293b"
+                        style="font-weight: 600; color: #ffffff; font-size: 0.98rem;"
                         id="displayUsername"
                       >
                         -
@@ -2264,58 +2254,57 @@
               <!-- Contact Information -->
               <div
                 style="
-                  margin-bottom: 25px;
-                  padding-top: 20px;
-                  border-top: 1px solid #e5e7eb;
+                  margin-bottom: 28px;
+                  padding-top: 24px;
+                  border-top: 1px solid rgba(255, 255, 255, 0.12);
                 "
               >
                 <h3
                   style="
-                    color: #11224e;
-                    font-size: 1.1em;
-                    margin-bottom: 15px;
+                    color: #ffffff;
+                    font-size: 1.15rem;
+                    font-weight: 700;
+                    margin-bottom: 16px;
                     display: flex;
                     align-items: center;
-                    gap: 8px;
+                    gap: 10px;
                   "
                 >
-                  <i class="fas fa-address-book"></i> Contact Information
+                  <i class="fas fa-address-book" style="color: #facc15"></i> Contact Information
                 </h3>
                 <div
                   style="
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 15px;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 14px;
                   "
                 >
-                  <div style="display: flex; align-items: center; gap: 10px">
-                    <i
-                      class="fas fa-envelope"
-                      style="color: #11224e; width: 20px"
-                    ></i>
+                  <div style="display: flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px 16px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(250, 204, 21, 0.15); border: 1px solid rgba(250, 204, 21, 0.3); display: flex; align-items: center; justify-content: center; color: #facc15; flex-shrink: 0;">
+                      <i class="fas fa-envelope"></i>
+                    </div>
                     <div>
-                      <div style="font-size: 0.75em; color: #64748b">
+                      <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
                         Email Address
                       </div>
                       <div
-                        style="font-weight: 600; color: #1e293b"
+                        style="font-weight: 600; color: #ffffff; font-size: 0.98rem;"
                         id="displayEmail"
                       >
                         -
                       </div>
                     </div>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 10px">
-                    <i
-                      class="fas fa-phone"
-                      style="color: #11224e; width: 20px"
-                    ></i>
+                  <div style="display: flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px 16px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(250, 204, 21, 0.15); border: 1px solid rgba(250, 204, 21, 0.3); display: flex; align-items: center; justify-content: center; color: #facc15; flex-shrink: 0;">
+                      <i class="fas fa-phone"></i>
+                    </div>
                     <div>
-                      <div style="font-size: 0.75em; color: #64748b">
+                      <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
                         Phone Number
                       </div>
                       <div
-                        style="font-weight: 600; color: #1e293b"
+                        style="font-weight: 600; color: #ffffff; font-size: 0.98rem;"
                         id="displayPhone"
                       >
                         -
@@ -2326,29 +2315,33 @@
               </div>
 
               <!-- Account Status -->
-              <div style="padding-top: 20px; border-top: 1px solid #e5e7eb">
+              <div style="padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.12)">
                 <h3
                   style="
-                    color: #11224e;
-                    font-size: 1.1em;
-                    margin-bottom: 15px;
+                    color: #ffffff;
+                    font-size: 1.15rem;
+                    font-weight: 700;
+                    margin-bottom: 16px;
                     display: flex;
                     align-items: center;
-                    gap: 8px;
+                    gap: 10px;
                   "
                 >
-                  <i class="fas fa-shield-alt"></i> Account Status
+                  <i class="fas fa-shield-alt" style="color: #facc15"></i> Account Status
                 </h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap">
+                <div style="display: flex; gap: 14px; flex-wrap: wrap">
                   <div
                     style="
                       display: flex;
                       align-items: center;
                       gap: 8px;
-                      background: #d1fae5;
-                      padding: 8px 15px;
-                      border-radius: 20px;
-                      color: #065f46;
+                      background: rgba(34, 197, 94, 0.18);
+                      border: 1px solid rgba(74, 222, 128, 0.4);
+                      padding: 8px 18px;
+                      border-radius: 999px;
+                      color: #4ade80;
+                      font-weight: 600;
+                      font-size: 0.88rem;
                     "
                   >
                     <i class="fas fa-check-circle"></i>
@@ -2359,10 +2352,13 @@
                       display: flex;
                       align-items: center;
                       gap: 8px;
-                      background: #d1fae5;
-                      padding: 8px 15px;
-                      border-radius: 20px;
-                      color: #065f46;
+                      background: rgba(34, 197, 94, 0.18);
+                      border: 1px solid rgba(74, 222, 128, 0.4);
+                      padding: 8px 18px;
+                      border-radius: 999px;
+                      color: #4ade80;
+                      font-weight: 600;
+                      font-size: 0.88rem;
                     "
                   >
                     <i class="fas fa-check-circle"></i>
@@ -2374,25 +2370,27 @@
               <!-- Information Note -->
               <div
                 style="
-                  margin-top: 20px;
-                  padding: 15px;
-                  background: #f0f9ff;
-                  border-radius: 8px;
+                  margin-top: 24px;
+                  padding: 16px 20px;
+                  background: rgba(56, 189, 248, 0.1);
+                  border: 1px solid rgba(56, 189, 248, 0.28);
+                  border-left: 4px solid #38bdf8;
+                  border-radius: 14px;
                   display: flex;
                   align-items: flex-start;
-                  gap: 12px;
-                  color: #0369a1;
+                  gap: 14px;
+                  color: #e0f2fe;
                 "
               >
-                <i class="fas fa-info-circle" style="margin-top: 2px"></i>
-                <div style="font-size: 0.9em">
-                  <strong>Note:</strong> Profile information is currently
+                <i class="fas fa-info-circle" style="margin-top: 3px; color: #38bdf8; font-size: 1.15rem; flex-shrink: 0;"></i>
+                <div style="font-size: 0.92rem; line-height: 1.6;">
+                  <strong style="color: #ffffff;">Note:</strong> Profile information is currently
                   read-only. To update your details, please contact our support
                   team at
-                  <a href="mailto:support@arhomes.com" style="color: #0369a1"
+                  <a href="mailto:support@arhomes.com" style="color: #facc15; font-weight: 600; text-decoration: underline;"
                     >support@arhomes.com</a
                   >
-                  or call us at <strong>(123) 456-7890</strong>.
+                  or call us at <strong style="color: #fde047;">(123) 456-7890</strong>.
                 </div>
               </div>
             </div>
@@ -2418,29 +2416,28 @@
           <div class="content-section" id="my-bookings-section">
             <div class="section-header-inline">
               <h2>
-                <i class="fas fa-clipboard-list" style="color: #11224e"></i> My
-                Reservations
+                <i class="fas fa-clipboard-list" style="color: #facc15"></i> My Reservations
               </h2>
               <button
                 class="btn-refresh"
                 onclick="loadMyBookings()"
                 style="
-                  background: #11224e;
-                  color: white;
+                  background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%);
+                  color: #0f172a;
                   border: none;
-                  padding: 10px 20px;
-                  border-radius: 8px;
+                  padding: 10px 22px;
+                  border-radius: 12px;
                   cursor: pointer;
-                  font-weight: 600;
+                  font-weight: 700;
                   font-size: 0.9em;
                   display: flex;
                   align-items: center;
                   gap: 8px;
                   transition: all 0.3s ease;
-                  box-shadow: 0 2px 8px rgba(17, 34, 78, 0.3);
+                  box-shadow: 0 4px 15px rgba(250, 204, 21, 0.35);
                 "
-                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(17, 34, 78, 0.5)'"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(17, 34, 78, 0.3)'"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(250, 204, 21, 0.55)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(250, 204, 21, 0.35)'"
               >
                 <i class="fas fa-sync-alt"></i> Refresh
               </button>
@@ -2457,13 +2454,13 @@
             <!-- Loading State -->
             <div
               id="bookingsLoadingState"
-              style="text-align: center; padding: 40px"
+              style="text-align: center; padding: 60px 20px"
             >
               <i
                 class="fas fa-spinner fa-spin"
-                style="font-size: 48px; color: #667eea"
+                style="font-size: 48px; color: #facc15; filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.5));"
               ></i>
-              <p style="margin-top: 20px; color: #6c757d">
+              <p style="margin-top: 20px; color: rgba(255, 255, 255, 0.75); font-weight: 500; font-size: 1rem;">
                 Loading your reservations...
               </p>
             </div>
@@ -2478,19 +2475,30 @@
             <!-- Empty State -->
             <div
               id="bookingsEmptyState"
-              style="display: none; text-align: center; padding: 60px 20px"
+              style="
+                display: none;
+                text-align: center;
+                padding: 60px 25px;
+                background: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 22px;
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+                max-width: 600px;
+                margin: 20px auto;
+              "
             >
               <i
                 class="fas fa-calendar-times"
-                style="font-size: 64px; color: #11224e"
+                style="font-size: 64px; color: #facc15; opacity: 0.85; filter: drop-shadow(0 0 16px rgba(250, 204, 21, 0.4));"
               ></i>
-              <h3 style="margin-top: 20px; color: #11224e">
+              <h3 style="margin-top: 20px; color: #ffffff; font-size: 1.45rem; font-weight: 700;">
                 No Reservations Found
               </h3>
-              <p style="color: whitesmoke">
-                You don't have any reservations yet.
+              <p style="color: rgba(255, 255, 255, 0.75); margin-top: 8px; font-size: 0.95rem;">
+                You don't have any active reservations yet.
               </p>
-              <!-- Make a Reservation button removed for user accounts -->
             </div>
             <div class="section-scroll-indicator-wrap bottom-indicator">
               <a href="#" class="section-scroll-indicator scroll-up-btn" onclick="handleSectionScroll(this, 'up'); return false;">
@@ -2504,13 +2512,19 @@
           <div class="content-section" id="bookings-history-section">
             <div class="section-header-inline" style="margin-bottom: 25px">
               <h2>
-                <i class="fas fa-history" style="color: #11224e"></i>
+                <i class="fas fa-history" style="color: #facc15"></i>
                 Reservation History
               </h2>
+              <button
+                class="btn-refresh"
+                onclick="loadMyReservations()"
+              >
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
             </div>
 
             <div class="section-scroll-indicator-wrap top-indicator">
-              <a href="#historyBookingsGrid" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".history-content-container" onclick="handleSectionScroll(this, 'down'); return false;">
+              <a href="#historyBookingsGrid" class="section-scroll-indicator scroll-down-btn" data-scroll-target=".bookings-history-grid" onclick="handleSectionScroll(this, 'down'); return false;">
                 <span class="scroll-indicator-text">Scroll Down for Past Stay History</span>
                 <div class="scroll-indicator-mouse"><div class="scroll-indicator-wheel"></div></div>
                 <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
@@ -2552,13 +2566,13 @@
             <div class="history-controls">
               <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">
-                  All History
+                  <i class="fas fa-layer-group"></i> All History
                 </button>
                 <button class="filter-btn" data-filter="completed">
-                  Completed
+                  <i class="fas fa-check-circle"></i> Completed
                 </button>
                 <button class="filter-btn" data-filter="cancelled">
-                  Cancelled
+                  <i class="fas fa-times-circle"></i> Cancelled
                 </button>
               </div>
               <div class="search-sort-wrapper">
@@ -2580,13 +2594,13 @@
             </div>
 
             <!-- History Cards Grid -->
-            <div class="bookings-history-grid">
+            <div class="bookings-history-grid" id="historyBookingsGrid">
               <!-- Booking cards will be loaded dynamically from database -->
               <div
                 class="history-empty-state"
                 style="animation: pulse 1.5s infinite"
               >
-                <i class="fas fa-spinner fa-spin" style="color: #11224e"></i>
+                <i class="fas fa-spinner fa-spin" style="color: #facc15"></i>
                 <h3>Loading Your Reservations...</h3>
                 <p>Please wait while we fetch your booking history</p>
               </div>
@@ -2603,29 +2617,12 @@
           <div class="content-section" id="rebooking-requests-section">
             <div class="section-header-inline" style="margin-bottom: 25px">
               <h2>
-                <i class="fas fa-calendar-alt" style="color: #11224e"></i>
+                <i class="fas fa-calendar-alt" style="color: #facc15"></i>
                 Rebooking Requests
               </h2>
               <button
                 class="btn-refresh"
                 onclick="loadRebookingRequests()"
-                style="
-                  background: #11224e;
-                  color: white;
-                  border: none;
-                  padding: 10px 20px;
-                  border-radius: 8px;
-                  cursor: pointer;
-                  font-weight: 600;
-                  font-size: 0.9em;
-                  display: flex;
-                  align-items: center;
-                  gap: 8px;
-                  transition: all 0.3s ease;
-                  box-shadow: 0 2px 8px rgba(17, 34, 78, 0.3);
-                "
-                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(17, 34, 78, 0.5)'"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(17, 34, 78, 0.3)'"
               >
                 <i class="fas fa-sync-alt"></i> Refresh
               </button>
@@ -2671,42 +2668,43 @@
             </div>
 
             <!-- Filter Tabs -->
-            <div style="display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;">
+            <div class="rebooking-filter-tabs">
               <button 
                 class="filter-tab active" 
                 onclick="filterUserRebookings('all')" 
                 id="user-rebooking-filter-all"
-                style="padding: 12px 24px; background: #11224e; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
-                All Requests
+                data-status="all">
+                <i class="fas fa-list-ul"></i> All Requests
               </button>
               <button 
                 class="filter-tab" 
                 onclick="filterUserRebookings('pending')" 
                 id="user-rebooking-filter-pending"
-                style="padding: 12px 24px; background: white; color: #f59e0b; border: 2px solid #f59e0b; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
-                Pending
+                data-status="pending">
+                <i class="fas fa-clock"></i> Pending
               </button>
               <button 
                 class="filter-tab" 
                 onclick="filterUserRebookings('approved')" 
                 id="user-rebooking-filter-approved"
-                style="padding: 12px 24px; background: white; color: #10b981; border: 2px solid #10b981; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
-                Approved
+                data-status="approved">
+                <i class="fas fa-check-circle"></i> Approved
               </button>
               <button 
                 class="filter-tab" 
                 onclick="filterUserRebookings('rejected')" 
                 id="user-rebooking-filter-rejected"
-                style="padding: 12px 24px; background: white; color: #ef4444; border: 2px solid #ef4444; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
-                Rejected
+                data-status="rejected">
+                <i class="fas fa-times-circle"></i> Rejected
               </button>
             </div>
 
             <!-- Rebooking Requests List -->
-            <div id="rebookingRequestsList" style="display: flex; flex-direction: column; gap: 20px;">
-              <div style="text-align: center; padding: 60px 20px; color: #94a3b8;">
-                <i class="fas fa-spinner fa-spin" style="font-size: 48px; margin-bottom: 16px;"></i>
-                <div style="font-size: 16px;">Loading rebooking requests...</div>
+            <div id="rebookingRequestsList" class="rebooking-requests-list">
+              <div class="history-empty-state">
+                <i class="fas fa-spinner fa-spin" style="color: #facc15;"></i>
+                <h3>Loading Rebooking Requests...</h3>
+                <p>Please wait while we fetch your rebooking requests</p>
               </div>
             </div>
             <div class="section-scroll-indicator-wrap bottom-indicator">
@@ -2722,23 +2720,25 @@
             <div class="section-header-inline" style="margin-bottom: 25px">
               <h2
                 style="
-                  color: #11224e;
                   display: flex;
                   align-items: center;
-                  gap: 10px;
+                  gap: 12px;
                   margin: 0;
+                  color: #ffffff;
                 "
               >
-                <i class="fas fa-bell" style="color: #11224e"></i> Notifications
+                <i class="fas fa-bell" style="color: #facc15"></i> Notifications
                 <span
                   id="unreadCount"
                   style="
-                    background: #ef4444;
-                    color: white;
-                    font-size: 0.7em;
-                    padding: 3px 8px;
-                    border-radius: 12px;
-                    font-weight: 600;
+                    background: rgba(239, 68, 68, 0.25);
+                    border: 1px solid rgba(239, 68, 68, 0.5);
+                    color: #f87171;
+                    font-size: 0.72em;
+                    padding: 3px 10px;
+                    border-radius: 999px;
+                    font-weight: 700;
+                    box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
                     display: none;
                   "
                   >0</span
@@ -2756,13 +2756,18 @@
 
             <!-- Notifications Container Card -->
             <div
+              id="notificationsContainer"
               style="
-                background: white;
-                border: 2px solid #11224e;
-                border-radius: 8px;
-                padding: 20px;
+                background: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 24px;
+                padding: 26px;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 35px rgba(250, 204, 21, 0.08);
                 max-width: 900px;
                 margin: 0 auto;
+                color: #ffffff;
               "
             >
               <!-- Filter Controls -->
@@ -2771,9 +2776,9 @@
                   display: flex;
                   gap: 10px;
                   align-items: center;
-                  margin-bottom: 20px;
-                  padding-bottom: 15px;
-                  border-bottom: 1px solid #e2e8f0;
+                  margin-bottom: 22px;
+                  padding-bottom: 18px;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
                   flex-wrap: wrap;
                 "
               >
@@ -2782,11 +2787,17 @@
                   onclick="filterNotifications('all')"
                   id="filterAll"
                   style="
-                    color: #11224e;
-                    font-weight: 600;
-                    border-bottom: 2px solid #11224e;
-                    padding: 8px 16px;
-                    border-radius: 6px;
+                    background: rgba(250, 204, 21, 0.15);
+                    border: 1px solid rgba(250, 204, 21, 0.4);
+                    color: #facc15;
+                    font-weight: 700;
+                    padding: 8px 18px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    transition: all 0.25s;
                   "
                 >
                   <i class="fas fa-list"></i> All
@@ -2795,101 +2806,110 @@
                   class="btn-text"
                   onclick="filterNotifications('unread')"
                   id="filterUnread"
-                  style="color: #64748b; padding: 8px 16px; border-radius: 6px"
+                  style="
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    color: rgba(255, 255, 255, 0.7);
+                    font-weight: 600;
+                    padding: 8px 18px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    transition: all 0.25s;
+                  "
                 >
                   <i class="fas fa-envelope"></i> Unread
                 </button>
                 <button
                   onclick="markAllAsRead()"
                   style="
-                    color: white;
+                    color: #60a5fa;
                     padding: 8px 16px;
-                    background: #11224e;
-                    border-radius: 8px;
-                    border: none;
+                    background: rgba(59, 130, 246, 0.15);
+                    border-radius: 10px;
+                    border: 1px solid rgba(59, 130, 246, 0.35);
                     cursor: pointer;
-                    font-weight: 500;
+                    font-weight: 600;
                     margin-left: auto;
                     display: flex;
                     align-items: center;
-                    gap: 6px;
-                    transition: all 0.3s ease;
+                    gap: 7px;
+                    transition: all 0.25s;
                   "
-                  onmouseover="this.style.background='#1e3a5f'"
-                  onmouseout="this.style.background='#11224e'"
+                  onmouseover="this.style.background='rgba(59, 130, 246, 0.25)'"
+                  onmouseout="this.style.background='rgba(59, 130, 246, 0.15)'"
                 >
                   <i class="fas fa-check-double"></i> Mark all as read
                 </button>
                 <button
                   onclick="markAllAsUnread()"
                   style="
-                    color: white;
+                    color: #ffffff;
                     padding: 8px 16px;
-                    background: #11224e;
-                    border-radius: 8px;
-                    border: none;
+                    background: rgba(255, 255, 255, 0.06);
+                    border-radius: 10px;
+                    border: 1px solid rgba(255, 255, 255, 0.14);
                     cursor: pointer;
-                    font-weight: 500;
+                    font-weight: 600;
                     display: flex;
                     align-items: center;
-                    gap: 6px;
-                    transition: all 0.3s ease;
+                    gap: 7px;
+                    transition: all 0.25s;
                   "
-                  onmouseover="this.style.background='#1e3a5f'"
-                  onmouseout="this.style.background='#11224e'"
+                  onmouseover="this.style.background='rgba(255, 255, 255, 0.12)'"
+                  onmouseout="this.style.background='rgba(255, 255, 255, 0.06)'"
                 >
                   <i class="fas fa-envelope"></i> Mark all as unread
                 </button>
                 <button
                   onclick="clearAllNotifications()"
                   style="
-                    color: white;
+                    color: #f87171;
                     padding: 8px 16px;
-                    background: #11224e;
-                    border-radius: 8px;
-                    border: none;
+                    background: rgba(239, 68, 68, 0.15);
+                    border-radius: 10px;
+                    border: 1px solid rgba(239, 68, 68, 0.35);
                     cursor: pointer;
-                    font-weight: 500;
+                    font-weight: 600;
                     display: flex;
                     align-items: center;
-                    gap: 6px;
-                    transition: all 0.3s ease;
+                    gap: 7px;
+                    transition: all 0.25s;
                   "
-                  onmouseover="this.style.background='#1e3a5f'"
-                  onmouseout="this.style.background='#11224e'"
+                  onmouseover="this.style.background='rgba(239, 68, 68, 0.25)'"
+                  onmouseout="this.style.background='rgba(239, 68, 68, 0.15)'"
                 >
                   <i class="fas fa-trash"></i> Clear all
                 </button>
               </div>
 
               <!-- Notifications List -->
-              <div class="notifications-list" id="notificationsList">
+              <div class="notifications-list" id="notificationsList" style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Notifications will be loaded dynamically from database -->
                 <div
-                  style="text-align: center; padding: 60px 20px; color: #64748b"
+                  style="text-align: center; padding: 60px 20px; color: rgba(255, 255, 255, 0.75)"
                 >
                   <div
                     style="
-                      width: 80px;
-                      height: 80px;
-                      background: linear-gradient(
-                        135deg,
-                        #f0f9ff 0%,
-                        #e0f2fe 100%
-                      );
+                      width: 75px;
+                      height: 75px;
+                      background: rgba(250, 204, 21, 0.1);
+                      border: 1px solid rgba(250, 204, 21, 0.25);
                       border-radius: 50%;
                       display: flex;
                       align-items: center;
                       justify-content: center;
-                      margin: 0 auto 20px;
+                      margin: 0 auto 18px;
                     "
                   >
                     <i
                       class="fas fa-spinner fa-spin"
-                      style="font-size: 2em; color: #11224e"
+                      style="font-size: 2em; color: #facc15"
                     ></i>
                   </div>
-                  <p style="font-size: 1.1em; font-weight: 500; color: #11224e">
+                  <p style="font-size: 1.05em; font-weight: 600; color: #ffffff">
                     Loading notifications...
                   </p>
                 </div>
@@ -2902,31 +2922,28 @@
               >
                 <div
                   style="
-                    width: 100px;
-                    height: 100px;
-                    background: linear-gradient(
-                      135deg,
-                      #f0f9ff 0%,
-                      #e0f2fe 100%
-                    );
+                    width: 90px;
+                    height: 90px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    margin: 0 auto 20px;
+                    margin: 0 auto 18px;
                   "
                 >
                   <i
                     class="fas fa-bell-slash"
-                    style="font-size: 2.5em; color: #11224e"
+                    style="font-size: 2.2em; color: #facc15"
                   ></i>
                 </div>
                 <h3
-                  style="color: #11224e; margin: 0 0 10px 0; font-size: 1.3em"
+                  style="color: #ffffff; margin: 0 0 8px 0; font-size: 1.3em; font-weight: 700;"
                 >
                   No Notifications
                 </h3>
-                <p style="color: #64748b; margin: 0; font-size: 0.95em">
+                <p style="color: rgba(255, 255, 255, 0.7); margin: 0; font-size: 0.95em">
                   You're all caught up! Check back later for updates.
                 </p>
               </div>
@@ -2943,7 +2960,7 @@
           <div class="content-section" id="reviews-section">
             <div class="section-header-inline" style="margin-bottom: 25px">
               <h2>
-                <i class="fas fa-star" style="color: #11224e"></i> My Reviews
+                <i class="fas fa-star" style="color: #facc15"></i> My Reviews
               </h2>
             </div>
 
@@ -2954,48 +2971,234 @@
                 <i class="fas fa-chevron-down scroll-indicator-chevron"></i>
               </a>
             </div>
-            <div class="reviews-stats">
-              <div class="review-stat">
-                <div class="stat-icon">
+
+            <!-- Reviews Stats Grid -->
+            <div
+              class="reviews-stats"
+              id="reviewsStatsWrap"
+              style="
+                background: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 24px;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 35px rgba(250, 204, 21, 0.08);
+                padding: 24px;
+                max-width: 900px;
+                margin: 0 auto 28px auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+              "
+            >
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.04);
+                  border: 1px solid rgba(255, 255, 255, 0.08);
+                  border-radius: 16px;
+                  padding: 18px 16px;
+                  display: flex;
+                  align-items: center;
+                  gap: 16px;
+                  transition: all 0.3s ease;
+                "
+              >
+                <div
+                  style="
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 12px;
+                    background: rgba(250, 204, 21, 0.15);
+                    border: 1px solid rgba(250, 204, 21, 0.3);
+                    color: #facc15;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.35rem;
+                    flex-shrink: 0;
+                  "
+                >
                   <i class="fas fa-star"></i>
                 </div>
-                <div class="stat-content">
-                  <div class="stat-value" id="avgRatingValue">0.0</div>
-                  <div class="stat-label">Average Rating Given</div>
+                <div>
+                  <div
+                    style="
+                      font-size: 1.85rem;
+                      font-weight: 800;
+                      color: #facc15;
+                      text-shadow: 0 0 16px rgba(250, 204, 21, 0.35);
+                      line-height: 1.1;
+                      margin-bottom: 3px;
+                    "
+                    id="avgRatingValue"
+                  >
+                    0.0
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      color: rgba(255, 255, 255, 0.75);
+                      font-weight: 600;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                    "
+                  >
+                    Average Rating Given
+                  </div>
                 </div>
               </div>
-              <div class="review-stat">
-                <div class="stat-icon">
+
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.04);
+                  border: 1px solid rgba(255, 255, 255, 0.08);
+                  border-radius: 16px;
+                  padding: 18px 16px;
+                  display: flex;
+                  align-items: center;
+                  gap: 16px;
+                  transition: all 0.3s ease;
+                "
+              >
+                <div
+                  style="
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 12px;
+                    background: rgba(250, 204, 21, 0.15);
+                    border: 1px solid rgba(250, 204, 21, 0.3);
+                    color: #facc15;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.35rem;
+                    flex-shrink: 0;
+                  "
+                >
                   <i class="fas fa-comment-alt"></i>
                 </div>
-                <div class="stat-content">
-                  <div class="stat-value" id="totalReviewsValue">0</div>
-                  <div class="stat-label">Total Reviews</div>
+                <div>
+                  <div
+                    style="
+                      font-size: 1.85rem;
+                      font-weight: 800;
+                      color: #facc15;
+                      text-shadow: 0 0 16px rgba(250, 204, 21, 0.35);
+                      line-height: 1.1;
+                      margin-bottom: 3px;
+                    "
+                    id="totalReviewsValue"
+                  >
+                    0
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      color: rgba(255, 255, 255, 0.75);
+                      font-weight: 600;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                    "
+                  >
+                    Total Reviews
+                  </div>
                 </div>
               </div>
-              <div class="review-stat">
-                <div class="stat-icon">
+
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.04);
+                  border: 1px solid rgba(255, 255, 255, 0.08);
+                  border-radius: 16px;
+                  padding: 18px 16px;
+                  display: flex;
+                  align-items: center;
+                  gap: 16px;
+                  transition: all 0.3s ease;
+                "
+              >
+                <div
+                  style="
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 12px;
+                    background: rgba(250, 204, 21, 0.15);
+                    border: 1px solid rgba(250, 204, 21, 0.3);
+                    color: #facc15;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.35rem;
+                    flex-shrink: 0;
+                  "
+                >
                   <i class="fas fa-thumbs-up"></i>
                 </div>
-                <div class="stat-content">
-                  <div class="stat-value" id="totalHelpfulValue">0</div>
-                  <div class="stat-label">Helpful Votes</div>
+                <div>
+                  <div
+                    style="
+                      font-size: 1.85rem;
+                      font-weight: 800;
+                      color: #facc15;
+                      text-shadow: 0 0 16px rgba(250, 204, 21, 0.35);
+                      line-height: 1.1;
+                      margin-bottom: 3px;
+                    "
+                    id="totalHelpfulValue"
+                  >
+                    0
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      color: rgba(255, 255, 255, 0.75);
+                      font-weight: 600;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                    "
+                  >
+                    Helpful Votes
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="reviews-list" id="reviewsList">
+            <!-- Reviews List Container -->
+            <div class="reviews-list" id="reviewsList" style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
               <!-- Reviews will be loaded dynamically -->
               <div
                 class="loading-reviews"
                 id="reviewsLoading"
-                style="text-align: center; padding: 40px"
+                style="
+                  text-align: center;
+                  padding: 60px 20px;
+                  background: rgba(15, 23, 42, 0.85);
+                  backdrop-filter: blur(20px);
+                  -webkit-backdrop-filter: blur(20px);
+                  border: 1px solid rgba(255, 255, 255, 0.14);
+                  border-radius: 24px;
+                  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+                "
               >
-                <i
-                  class="fas fa-spinner fa-spin"
-                  style="font-size: 2rem; color: #667eea"
-                ></i>
-                <p style="margin-top: 15px; color: #666">
+                <div
+                  style="
+                    width: 70px;
+                    height: 70px;
+                    border-radius: 50%;
+                    background: rgba(250, 204, 21, 0.1);
+                    border: 1px solid rgba(250, 204, 21, 0.25);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto 16px;
+                  "
+                >
+                  <i
+                    class="fas fa-spinner fa-spin"
+                    style="font-size: 2rem; color: #facc15"
+                  ></i>
+                </div>
+                <p style="margin: 0; color: #ffffff; font-weight: 600; font-size: 1.05rem;">
                   Loading your reviews...
                 </p>
               </div>
@@ -3114,131 +3317,135 @@
     <div
       class="modal-overlay"
       id="payAtResortModal"
-      style="display: none; z-index: 10001"
+      style="display: none; z-index: 10001; background: rgba(10, 15, 29, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);"
     >
-      <div class="modal-container" style="max-width: 500px">
-        <div class="modal-header" style="background: #11224e">
-          <h3 style="color: white">
-            <i class="fas fa-building"></i> Pay at Resort
+      <div class="modal-container" style="max-width: 520px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(250, 204, 21, 0.08); color: #ffffff;">
+        <div class="modal-header" style="background: rgba(15, 23, 42, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding: 20px 24px; border-radius: 24px 24px 0 0; display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="color: white; margin: 0; font-size: 1.35em; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-building" style="color: #facc15;"></i> Pay at Resort
           </h3>
           <button
             class="modal-close"
             onclick="closePayAtResortModal()"
-            style="color: white"
+            style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s;"
+            onmouseover="this.style.background='#facc15'; this.style.color='#0f172a'; this.style.borderColor='#facc15';"
+            onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.color='#ffffff'; this.style.borderColor='rgba(255,255,255,0.15)';"
           >
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <div class="modal-body">
-          <div style="text-align: center; margin-bottom: 20px">
+        <div class="modal-body" style="padding: 24px;">
+          <div style="text-align: center; margin-bottom: 22px">
             <div
               style="
-                width: 80px;
-                height: 80px;
-                background: linear-gradient(135deg, #11224e 0%, #1e3a5f 100%);
+                width: 72px;
+                height: 72px;
+                background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(234, 179, 8, 0.08));
+                border: 1px solid rgba(250, 204, 21, 0.4);
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 margin: 0 auto 15px;
+                box-shadow: 0 0 25px rgba(250, 204, 21, 0.2);
               "
             >
               <i
                 class="fas fa-money-bill-wave"
-                style="font-size: 2em; color: white"
+                style="font-size: 1.8em; color: #facc15"
               ></i>
             </div>
-            <h4 style="color: #11224e; margin: 0 0 5px 0">
+            <h4 style="color: #ffffff; margin: 0 0 6px 0; font-size: 1.25rem; font-weight: 700;">
               Pay Your Balance at Check-in
             </h4>
-            <p style="color: #666; margin: 0; font-size: 0.9em">
-              Flexible payment options available
+            <p style="color: rgba(255, 255, 255, 0.75); margin: 0; font-size: 0.9em">
+              Flexible and secure payment options available on arrival
             </p>
           </div>
 
           <div
             style="
-              background: #f8fafc;
-              padding: 20px;
-              border-radius: 10px;
+              background: rgba(255, 255, 255, 0.03);
+              border: 1px solid rgba(255, 255, 255, 0.08);
+              padding: 18px;
+              border-radius: 16px;
               margin-bottom: 20px;
             "
           >
-            <h5 style="color: #11224e; margin: 0 0 15px 0; font-size: 1em">
-              <i class="fas fa-credit-card" style="color: #11224e"></i> Accepted
-              Payment Methods:
+            <h5 style="color: #facc15; margin: 0 0 14px 0; font-size: 0.95em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+              <i class="fas fa-credit-card" style="margin-right: 6px;"></i> Accepted Payment Methods:
             </h5>
             <div style="display: grid; gap: 10px">
               <div
                 style="
                   display: flex;
                   align-items: center;
-                  gap: 10px;
-                  padding: 10px;
-                  background: white;
-                  border-radius: 8px;
-                  border: 1px solid #e2e8f0;
+                  gap: 12px;
+                  padding: 12px 14px;
+                  background: rgba(255, 255, 255, 0.04);
+                  border-radius: 12px;
+                  border: 1px solid rgba(255, 255, 255, 0.08);
                 "
               >
                 <i
                   class="fas fa-money-bill-wave"
-                  style="color: #10b981; font-size: 1.2em"
+                  style="color: #4ade80; font-size: 1.2em"
                 ></i>
-                <span style="color: #000; font-weight: 500">Cash</span>
+                <span style="color: #ffffff; font-weight: 600">Cash (PHP)</span>
               </div>
               <div
                 style="
                   display: flex;
                   align-items: center;
-                  gap: 10px;
-                  padding: 10px;
-                  background: white;
-                  border-radius: 8px;
-                  border: 1px solid #e2e8f0;
+                  gap: 12px;
+                  padding: 12px 14px;
+                  background: rgba(255, 255, 255, 0.04);
+                  border-radius: 12px;
+                  border: 1px solid rgba(255, 255, 255, 0.08);
                 "
               >
                 <i
                   class="fab fa-cc-mastercard"
-                  style="color: #3b82f6; font-size: 1.2em"
+                  style="color: #38bdf8; font-size: 1.2em"
                 ></i>
-                <span style="color: #000; font-weight: 500"
-                  >GCash / Maya / PayMaya</span
+                <span style="color: #ffffff; font-weight: 600"
+                  >GCash / Maya / QR Ph</span
                 >
               </div>
               <div
                 style="
                   display: flex;
                   align-items: center;
-                  gap: 10px;
-                  padding: 10px;
-                  background: white;
-                  border-radius: 8px;
-                  border: 1px solid #e2e8f0;
+                  gap: 12px;
+                  padding: 12px 14px;
+                  background: rgba(255, 255, 255, 0.04);
+                  border-radius: 12px;
+                  border: 1px solid rgba(255, 255, 255, 0.08);
                 "
               >
                 <i
                   class="fas fa-university"
-                  style="color: #8b5cf6; font-size: 1.2em"
+                  style="color: #c084fc; font-size: 1.2em"
                 ></i>
-                <span style="color: #000; font-weight: 500">Bank Transfer</span>
+                <span style="color: #ffffff; font-weight: 600">Bank Transfer (BPI / UnionBank)</span>
               </div>
               <div
                 style="
                   display: flex;
                   align-items: center;
-                  gap: 10px;
-                  padding: 10px;
-                  background: white;
-                  border-radius: 8px;
-                  border: 1px solid #e2e8f0;
+                  gap: 12px;
+                  padding: 12px 14px;
+                  background: rgba(255, 255, 255, 0.04);
+                  border-radius: 12px;
+                  border: 1px solid rgba(255, 255, 255, 0.08);
                 "
               >
                 <i
                   class="fas fa-credit-card"
-                  style="color: #f59e0b; font-size: 1.2em"
+                  style="color: #facc15; font-size: 1.2em"
                 ></i>
-                <span style="color: #000; font-weight: 500"
-                  >Credit / Debit Card</span
+                <span style="color: #ffffff; font-weight: 600"
+                  >Credit / Debit Card (Visa / Mastercard)</span
                 >
               </div>
             </div>
@@ -3246,18 +3453,19 @@
 
           <div
             style="
-              background: #fef9e7;
-              padding: 15px;
-              border-radius: 8px;
-              border-left: 4px solid #f59e0b;
+              background: rgba(250, 204, 21, 0.08);
+              padding: 14px 16px;
+              border-radius: 12px;
+              border: 1px solid rgba(250, 204, 21, 0.25);
+              border-left: 4px solid #facc15;
               margin-bottom: 20px;
             "
           >
             <p
-              style="margin: 0; color: #000; font-size: 0.9em; line-height: 1.6"
+              style="margin: 0; color: #ffffff; font-size: 0.88em; line-height: 1.6"
             >
-              <i class="fas fa-info-circle" style="color: #f59e0b"></i>
-              <strong>Important:</strong> You can pay your remaining balance
+              <i class="fas fa-info-circle" style="color: #facc15; margin-right: 4px;"></i>
+              <strong style="color: #fde047;">Important:</strong> You can pay your remaining balance
               when you arrive at the resort or during your stay. Please ensure
               to settle your balance before check-out.
             </p>
@@ -3266,9 +3474,9 @@
           <div class="modal-actions">
             <button
               type="button"
-              class="btn-primary"
+              class="btn-submit-v2"
               onclick="closePayAtResortModal()"
-              style="background: #11224e; width: 100%"
+              style="width: 100%; justify-content: center;"
             >
               <i class="fas fa-check"></i> Got It
             </button>
@@ -3281,48 +3489,50 @@
     <div
       class="modal-overlay"
       id="payRemainingBalanceModal"
-      style="display: none; z-index: 10001"
+      style="display: none; z-index: 10001; background: rgba(10, 15, 29, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);"
     >
-      <div class="modal-container" style="max-width: 550px">
-        <div class="modal-header" style="background: #11224e">
-          <h3 style="color: white">
-            <i class="fas fa-wallet"></i> Pay Remaining Balance
+      <div class="modal-container" style="max-width: 550px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(250, 204, 21, 0.08); color: #ffffff;">
+        <div class="modal-header" style="background: rgba(15, 23, 42, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding: 20px 24px; border-radius: 24px 24px 0 0; display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="color: white; margin: 0; font-size: 1.35em; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-wallet" style="color: #facc15;"></i> Pay Remaining Balance
           </h3>
           <button
             class="modal-close"
             onclick="closePayRemainingBalanceModal()"
-            style="color: white"
+            style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s;"
+            onmouseover="this.style.background='#facc15'; this.style.color='#0f172a'; this.style.borderColor='#facc15';"
+            onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.color='#ffffff'; this.style.borderColor='rgba(255,255,255,0.15)';"
           >
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="padding: 24px;">
           <!-- Amount Display -->
           <div
             style="
               text-align: center;
-              margin-bottom: 25px;
-              padding: 20px;
-              background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-              border-radius: 12px;
-              border: 2px solid #11224e;
+              margin-bottom: 24px;
+              padding: 22px;
+              background: rgba(250, 204, 21, 0.08);
+              border-radius: 16px;
+              border: 1px solid rgba(250, 204, 21, 0.35);
+              box-shadow: 0 0 25px rgba(250, 204, 21, 0.1);
             "
           >
-            <div style="color: #64748b; font-size: 0.9em; margin-bottom: 5px">
+            <div style="color: rgba(255, 255, 255, 0.75); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px">
               Amount to Pay
             </div>
             <div
               id="remainingBalanceAmount"
-              style="color: #11224e; font-size: 2em; font-weight: 700"
+              style="color: #fde047; font-size: 2.4em; font-weight: 800; text-shadow: 0 0 18px rgba(250, 204, 21, 0.4);"
             >
               ₱0
             </div>
           </div>
 
           <!-- Payment Method Selection -->
-          <h5 style="color: #11224e; margin: 0 0 15px 0; font-size: 1.1em">
-            <i class="fas fa-credit-card" style="color: #11224e"></i> Choose
-            Payment Method:
+          <h5 style="color: #ffffff; margin: 0 0 14px 0; font-size: 1.05em; font-weight: 700;">
+            <i class="fas fa-credit-card" style="color: #facc15; margin-right: 6px;"></i> Choose Payment Method:
           </h5>
 
           <div style="display: grid; gap: 12px; margin-bottom: 20px">
@@ -3334,53 +3544,54 @@
                 display: flex;
                 align-items: center;
                 gap: 15px;
-                padding: 18px;
-                background: white;
-                border: 2px solid #11224e;
-                border-radius: 10px;
+                padding: 16px 20px;
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(250, 204, 21, 0.35);
+                border-radius: 16px;
                 cursor: pointer;
                 transition: all 0.3s;
                 text-align: left;
                 width: 100%;
+                color: #ffffff;
               "
-              onmouseover="this.style.background='#f8fafc'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(17,34,78,0.15)';"
-              onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='none';"
+              onmouseover="this.style.background='rgba(250, 204, 21, 0.12)'; this.style.borderColor='#facc15'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(250, 204, 21, 0.25)';"
+              onmouseout="this.style.background='rgba(255, 255, 255, 0.04)'; this.style.borderColor='rgba(250, 204, 21, 0.35)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';"
             >
               <div
                 style="
-                  width: 50px;
-                  height: 50px;
-                  background: linear-gradient(135deg, #11224e 0%, #1e3a5f 100%);
-                  border-radius: 50%;
+                  width: 48px;
+                  height: 48px;
+                  background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%);
+                  border-radius: 12px;
                   display: flex;
                   align-items: center;
                   justify-content: center;
                   flex-shrink: 0;
+                  color: #0f172a;
+                  font-size: 1.3em;
+                  box-shadow: 0 4px 15px rgba(250, 204, 21, 0.35);
                 "
               >
-                <i
-                  class="fas fa-credit-card"
-                  style="color: white; font-size: 1.3em"
-                ></i>
+                <i class="fas fa-credit-card"></i>
               </div>
               <div style="flex: 1">
                 <div
                   style="
-                    color: #11224e;
-                    font-weight: 600;
+                    color: #ffffff;
+                    font-weight: 700;
                     font-size: 1.05em;
                     margin-bottom: 3px;
                   "
                 >
                   Pay Online Now
                 </div>
-                <div style="color: #64748b; font-size: 0.85em">
-                  Via GCash, Maya, Card, or Bank Transfer
+                <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.85em">
+                  Instant confirmation via GCash, Maya, Card, or Bank
                 </div>
               </div>
               <i
                 class="fas fa-chevron-right"
-                style="color: #11224e; font-size: 1.2em"
+                style="color: #facc15; font-size: 1.2em"
               ></i>
             </button>
           </div>
@@ -3388,23 +3599,24 @@
           <!-- Info Note -->
           <div
             style="
-              background: #fef9e7;
-              padding: 12px;
-              border-radius: 8px;
-              border-left: 4px solid #f59e0b;
-              margin-bottom: 20px;
+              background: rgba(250, 204, 21, 0.08);
+              padding: 14px;
+              border-radius: 12px;
+              border: 1px solid rgba(250, 204, 21, 0.25);
+              border-left: 4px solid #facc15;
+              margin-bottom: 22px;
             "
           >
             <p
               style="
                 margin: 0;
-                color: #000;
-                font-size: 0.85em;
+                color: #ffffff;
+                font-size: 0.88em;
                 line-height: 1.5;
               "
             >
-              <i class="fas fa-info-circle" style="color: #f59e0b"></i>
-              <strong>Note:</strong> Click "Pay Online Now" to proceed with
+              <i class="fas fa-info-circle" style="color: #facc15; margin-right: 4px;"></i>
+              <strong style="color: #fde047;">Note:</strong> Click "Pay Online Now" to proceed with
               payment via GCash, Maya, Card, or Bank Transfer for instant
               confirmation.
             </p>
@@ -3413,9 +3625,9 @@
           <div class="modal-actions">
             <button
               type="button"
-              class="btn-secondary"
+              class="btn-back-v2"
               onclick="closePayRemainingBalanceModal()"
-              style="width: 100%"
+              style="width: 100%; justify-content: center;"
             >
               <i class="fas fa-times"></i> Cancel
             </button>
@@ -3428,16 +3640,24 @@
     <div
       class="modal-overlay"
       id="rebookingModal"
-      style="display: none; z-index: 10001"
+      style="display: none; z-index: 10001; background: rgba(10, 15, 29, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);"
     >
-      <div class="modal-container">
-        <div class="modal-header">
-          <h3><i class="fas fa-calendar-alt"></i> Request Rebooking</h3>
-          <button class="modal-close" onclick="closeRebookingModal()">
+      <div class="modal-container" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(250, 204, 21, 0.08); color: #ffffff;">
+        <div class="modal-header" style="background: rgba(15, 23, 42, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding: 20px 24px; border-radius: 24px 24px 0 0; display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="color: white; margin: 0; font-size: 1.35em; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-calendar-alt" style="color: #facc15;"></i> Request Rebooking
+          </h3>
+          <button
+            class="modal-close"
+            onclick="closeRebookingModal()"
+            style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s;"
+            onmouseover="this.style.background='#facc15'; this.style.color='#0f172a'; this.style.borderColor='#facc15';"
+            onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.color='#ffffff'; this.style.borderColor='rgba(255,255,255,0.15)';"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="padding: 24px;">
           <form id="rebookingForm">
             <input
               type="hidden"
@@ -3445,48 +3665,51 @@
               name="reservation_id"
             />
 
-            <div class="form-group">
-              <label>Current Check-in Date:</label>
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label style="color: #facc15; font-size: 0.9em; font-weight: 600; margin-bottom: 6px; display: block;">Current Check-in Date:</label>
               <p
                 id="currentCheckInDate"
-                style="color: #667eea; font-weight: 600"
+                style="color: #38bdf8; font-weight: 700; font-size: 1.05rem; margin: 0; padding: 10px 14px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px;"
               ></p>
             </div>
 
-            <div class="form-group">
-              <label for="newCheckInDate">New Check-in Date *</label>
-              <input type="date" id="newCheckInDate" name="new_date" required />
-              <small style="color: #6c757d; display: block; margin-top: 8px">
-                <i class="fas fa-info-circle"></i> Rebooking must be requested
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label for="newCheckInDate" style="color: #facc15; font-size: 0.9em; font-weight: 600; margin-bottom: 6px; display: block;">New Check-in Date *</label>
+              <input type="date" id="newCheckInDate" name="new_date" required style="width: 100%; background: rgba(10, 15, 29, 0.8); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; color: #ffffff; padding: 12px 16px; font-family: 'Poppins', sans-serif;" />
+              <small style="color: rgba(255, 255, 255, 0.65); display: block; margin-top: 8px">
+                <i class="fas fa-info-circle" style="color: #facc15; margin-right: 4px;"></i> Rebooking must be requested
                 at least 7 days before your current check-in date.
               </small>
             </div>
 
-            <div class="form-group">
-              <label for="rebookReason">Reason for Rebooking *</label>
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label for="rebookReason" style="color: #facc15; font-size: 0.9em; font-weight: 600; margin-bottom: 6px; display: block;">Reason for Rebooking *</label>
               <textarea
                 id="rebookReason"
                 name="reason"
                 rows="4"
                 placeholder="Please provide a reason for changing your reservation date..."
                 required
+                style="width: 100%; background: rgba(10, 15, 29, 0.8); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; color: #ffffff; padding: 12px 16px; font-family: 'Poppins', sans-serif; resize: vertical;"
               ></textarea>
             </div>
 
             <div
               class="form-group"
               style="
-                background: #fff3cd;
-                padding: 15px;
-                border-radius: 8px;
-                border-left: 4px solid #ffc107;
+                background: rgba(250, 204, 21, 0.08);
+                border: 1px solid rgba(250, 204, 21, 0.25);
+                border-left: 4px solid #facc15;
+                padding: 16px;
+                border-radius: 12px;
+                margin-bottom: 22px;
               "
             >
-              <p style="margin: 0; color: #856404; font-size: 14px">
-                <i class="fas fa-exclamation-triangle"></i>
-                <strong>Rebooking Policy:</strong>
+              <p style="margin: 0; color: #fde047; font-size: 0.92rem; font-weight: 700;">
+                <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i>
+                Rebooking Policy:
               </p>
-              <ul style="margin: 10px 0 0 20px; color: #856404">
+              <ul style="margin: 10px 0 0 20px; color: rgba(255, 255, 255, 0.85); font-size: 0.88rem; line-height: 1.6;">
                 <li>Must be requested 7+ days before check-in</li>
                 <li>Requires admin approval</li>
                 <li>No additional fees if approved</li>
@@ -3494,15 +3717,16 @@
               </ul>
             </div>
 
-            <div class="modal-actions">
+            <div class="modal-actions" style="display: flex; gap: 12px;">
               <button
                 type="button"
-                class="btn-secondary"
+                class="btn-back-v2"
                 onclick="closeRebookingModal()"
+                style="flex: 1; justify-content: center;"
               >
                 <i class="fas fa-times"></i> Cancel
               </button>
-              <button type="submit" class="btn-primary">
+              <button type="submit" class="btn-submit-v2" style="flex: 1; justify-content: center;">
                 <i class="fas fa-paper-plane"></i> Submit Request
               </button>
             </div>
@@ -4474,7 +4698,7 @@
     <script src="{{ asset('js/checkout-validator.js?v=1.0') }}"></script>
 
     <!-- Load Dashboard Script (for additional functionality) -->
-    <script src="{{ asset('js/dashboard-script.js?v=20260101003') }}"></script>
+    <script src="{{ asset('js/dashboard-script.js?v=20261018003') }}"></script>
 
     <!-- Load Booking Flow Script -->
     <script src="{{ asset('js/booking-flow.js?v=2.5') }}"></script>

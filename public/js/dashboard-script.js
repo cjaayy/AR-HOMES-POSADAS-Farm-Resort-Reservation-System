@@ -2447,37 +2447,44 @@ async function viewReservationDetails(reservationId) {
 
 function showReservationDetailsModal(r) {
   try {
-    const statusColors = {
-      pending_payment: "#ffa726",
-      pending_confirmation: "#ffb74d",
-      confirmed: "#42a5f5",
-      checked_in: "#66bb6a",
-      checked_out: "#81c784",
-      completed: "#4caf50",
-      cancelled: "#ef5350",
-      no_show: "#ff7043",
-      forfeited: "#e57373",
-      rebooked: "#7986cb",
+    const statusMap = {
+      pending_payment: "pending",
+      pending_confirmation: "pending",
+      confirmed: "confirmed",
+      checked_in: "confirmed",
+      checked_out: "completed",
+      completed: "completed",
+      cancelled: "cancelled",
+      no_show: "cancelled",
+      forfeited: "cancelled",
+      rebooked: "rebooked",
     };
 
-    const statusColor = statusColors[r.status] || "#999";
+    const statusBadgeClass = statusMap[r.status] || "pending";
     const remainingBalance =
       parseFloat(r.total_amount || 0) - parseFloat(r.downpayment_amount || 0);
 
     const modalHTML = `
     <div id="reservationDetailsModal" class="reservation-modal-overlay" onclick="closeReservationDetailsModal(event)">
-      <div class="reservation-modal-content" onclick="event.stopPropagation()">
-        <div class="reservation-modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <div>
-              <h2 style="color: white; margin: 0; font-size: 1.5rem;">
-                <i class="fas fa-ticket-alt"></i> Reservation #${
-                  r.reservation_id
-                }
-              </h2>
-              <p style="color: rgba(255,255,255,0.8); margin: 5px 0 0 0; font-size: 0.9rem;">
-                Created: ${r.created_at ? (typeof formatDateTime === 'function' ? formatDateTime(r.created_at) : new Date(r.created_at).toLocaleString()) : 'N/A'}
-              </p>
+      <div class="reservation-modal-content luxury-details-modal" onclick="event.stopPropagation()">
+        <div class="reservation-modal-header luxury-modal-header">
+          <div class="luxury-header-flex">
+            <div class="luxury-header-title-wrap">
+              <div class="luxury-header-icon">
+                <i class="fas fa-ticket-alt"></i>
+              </div>
+              <div>
+                <h2>Reservation #${r.reservation_id}</h2>
+                <p class="luxury-header-sub">
+                  <i class="far fa-clock"></i> Created: ${
+                    r.created_at
+                      ? typeof formatDateTime === "function"
+                        ? formatDateTime(r.created_at)
+                        : new Date(r.created_at).toLocaleString()
+                      : "N/A"
+                  }
+                </p>
+              </div>
             </div>
             <button onclick="closeReservationDetailsModal()" class="modal-close-btn">
               <i class="fas fa-times"></i>
@@ -2485,59 +2492,43 @@ function showReservationDetailsModal(r) {
           </div>
         </div>
         
-        <div class="reservation-modal-body">
+        <div class="reservation-modal-body luxury-modal-body">
           <!-- Status Badge -->
-          <div style="text-align: center; margin-bottom: 20px;">
-            <span style="
-              display: inline-block;
-              padding: 10px 25px;
-              background: ${statusColor};
-              color: white;
-              border-radius: 25px;
-              font-weight: 600;
-              font-size: 1rem;
-              text-transform: uppercase;
-              box-shadow: 0 4px 15px ${statusColor}40;
-            ">
-              <i class="fas fa-${getStatusIcon(r.status)}"></i> ${
-      r.status_label
-    }
+          <div class="luxury-status-row">
+            <span class="status-badge ${statusBadgeClass} luxury-status-pill">
+              <i class="fas fa-${getStatusIcon(r.status)}"></i> ${r.status_label}
             </span>
           </div>
           
           <!-- Security Bond Notice -->
-          <div style="
-            background: linear-gradient(135deg, #fff8e1, #fffde7);
-            border: 2px solid #ffc107;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            text-align: center;
-          ">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
-              <i class="fas fa-shield-alt" style="color: #f57c00; font-size: 24px;"></i>
-              <span style="font-weight: 700; color: #e65100; font-size: 1.1rem;">₱2,000 Security Bond</span>
+          <div class="luxury-bond-banner">
+            <div class="luxury-bond-icon">
+              <i class="fas fa-shield-alt"></i>
             </div>
-            <p style="margin: 0; color: #795548; font-size: 0.9rem; line-height: 1.5;">
-              <strong>Required upon check-in (refundable)</strong><br>
-              Covers potential damages or extra charges. Can be paid at check-in.
-            </p>
+            <div class="luxury-bond-text">
+              <div class="luxury-bond-title">₱2,000 Security Bond</div>
+              <p><strong>Required upon check-in (refundable)</strong> — Covers potential damages or extra charges. Can be paid at check-in.</p>
+            </div>
           </div>
           
           <!-- Booking Information -->
-          <div class="details-section">
+          <div class="details-section luxury-details-card">
             <h3><i class="fas fa-calendar-alt"></i> Booking Information</h3>
-            <div class="details-grid">
+            <div class="details-grid luxury-details-grid">
               <div class="detail-item">
                 <label>Booking Type</label>
-                <span>${typeof formatBookingType === 'function' ? formatBookingType(r.booking_type) : (r.booking_type || 'Standard')}</span>
+                <span>${
+                  typeof formatBookingType === "function"
+                    ? formatBookingType(r.booking_type)
+                    : r.booking_type || "Standard"
+                }</span>
               </div>
               <div class="detail-item">
                 <label>Package</label>
                 <span>${r.package_type || "Standard"}</span>
               </div>
               <div class="detail-item">
-                <label>Room/Accommodation</label>
+                <label>Room / Accommodation</label>
                 <span>${r.room || "All Rooms"}</span>
               </div>
               <div class="detail-item">
@@ -2546,60 +2537,58 @@ function showReservationDetailsModal(r) {
               </div>
               <div class="detail-item">
                 <label>Group Type</label>
-                <span>${r.group_type || "Not specified"}</span>
+                <span style="text-transform: capitalize;">${
+                  r.group_type || "Not specified"
+                }</span>
               </div>
             </div>
           </div>
           
           <!-- Date & Time Information -->
-          <div class="details-section">
+          <div class="details-section luxury-details-card">
             <h3><i class="fas fa-clock"></i> Schedule</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+            <div class="luxury-schedule-grid">
               <!-- Check-in Box -->
-              <div style="
-                padding: 16px;
-                background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
-                border-radius: 12px;
-                border-left: 4px solid #4caf50;
-              ">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                  <i class="fas fa-sign-in-alt" style="color: #4caf50; font-size: 18px;"></i>
-                  <span style="font-weight: 700; color: #2e7d32; text-transform: uppercase; font-size: 0.85rem;">Check-in</span>
+              <div class="luxury-schedule-box checkin-box">
+                <div class="schedule-box-header">
+                  <i class="fas fa-sign-in-alt"></i>
+                  <span>Check-in</span>
                 </div>
-                <div style="font-weight: 700; color: #1b5e20; font-size: 1.1rem; margin-bottom: 4px;">
-                  ${formatDate(r.rebooking_approved == 1 && (r.rebooking_original_date || r.original_check_in_date) ? (r.rebooking_original_date || r.original_check_in_date) : r.check_in_date)}
-                  ${r.rebooking_approved == 1 && (r.rebooking_original_date || r.original_check_in_date) ? ' <span style="font-size: 0.8rem; color: #666;">(Original)</span>' : ''}
-                </div>
-                <div style="color: #388e3c; font-size: 1rem; font-weight: 600;">
-                  <i class="fas fa-clock" style="margin-right: 4px;"></i> ${formatTime12Hour(
-                    r.check_in_time
+                <div class="schedule-box-date">
+                  ${formatDate(
+                    r.rebooking_approved == 1 &&
+                      (r.rebooking_original_date || r.original_check_in_date)
+                      ? r.rebooking_original_date || r.original_check_in_date
+                      : r.check_in_date
                   )}
+                  ${
+                    r.rebooking_approved == 1 &&
+                    (r.rebooking_original_date || r.original_check_in_date)
+                      ? " <small>(Original)</small>"
+                      : ""
+                  }
+                </div>
+                <div class="schedule-box-time">
+                  <i class="far fa-clock"></i> ${formatTime12Hour(r.check_in_time)}
                 </div>
               </div>
               
               <!-- Check-out Box -->
-              <div style="
-                padding: 16px;
-                background: linear-gradient(135deg, #ffebee, #fce4ec);
-                border-radius: 12px;
-                border-left: 4px solid #ef5350;
-              ">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                  <i class="fas fa-sign-out-alt" style="color: #ef5350; font-size: 18px;"></i>
-                  <span style="font-weight: 700; color: #c62828; text-transform: uppercase; font-size: 0.85rem;">Check-out</span>
+              <div class="luxury-schedule-box checkout-box">
+                <div class="schedule-box-header">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span>Check-out</span>
                 </div>
-                <div style="font-weight: 700; color: #b71c1c; font-size: 1.1rem; margin-bottom: 4px;">
+                <div class="schedule-box-date">
                   ${formatDate(r.check_out_date)}
                 </div>
-                <div style="color: #d32f2f; font-size: 1rem; font-weight: 600;">
-                  <i class="fas fa-clock" style="margin-right: 4px;"></i> ${formatTime12Hour(
-                    r.check_out_time
-                  )}
+                <div class="schedule-box-time">
+                  <i class="far fa-clock"></i> ${formatTime12Hour(r.check_out_time)}
                 </div>
               </div>
             </div>
             
-            <div class="details-grid">
+            <div class="details-grid luxury-details-grid">
               <div class="detail-item">
                 <label>Duration</label>
                 <span>${(() => {
@@ -2614,11 +2603,11 @@ function showReservationDetailsModal(r) {
                 <label>Days Until Check-in</label>
                 <span style="color: ${
                   r.days_until_checkin < 0
-                    ? "#ef5350"
+                    ? "#f87171"
                     : r.days_until_checkin <= 3
-                    ? "#ffa726"
-                    : "#4caf50"
-                }">
+                    ? "#fbbf24"
+                    : "#4ade80"
+                } !important;">
                   ${
                     r.days_until_checkin < 0
                       ? Math.abs(r.days_until_checkin) + " days ago"
@@ -2630,9 +2619,9 @@ function showReservationDetailsModal(r) {
           </div>
           
           <!-- Guest Information -->
-          <div class="details-section">
+          <div class="details-section luxury-details-card">
             <h3><i class="fas fa-user"></i> Guest Information</h3>
-            <div class="details-grid">
+            <div class="details-grid luxury-details-grid">
               <div class="detail-item">
                 <label>Guest Name</label>
                 <span>${r.guest_name || "Not provided"}</span>
@@ -2649,22 +2638,22 @@ function showReservationDetailsModal(r) {
           </div>
           
           <!-- Payment Information -->
-          <div class="details-section">
+          <div class="details-section luxury-details-card">
             <h3><i class="fas fa-money-bill-wave"></i> Payment Details</h3>
-            <div class="payment-breakdown">
+            <div class="payment-breakdown luxury-payment-breakdown">
               <div class="payment-row">
                 <span>Base Price</span>
                 <span>₱${parseFloat(r.base_price || 0).toLocaleString("en-PH", {
                   minimumFractionDigits: 2,
                 })}</span>
               </div>
-              <div class="payment-row">
+              <div class="payment-row total-row-highlight">
                 <span>Total Amount</span>
-                <span style="font-weight: 600;">₱${parseFloat(
+                <span class="gold-amount">₱${parseFloat(
                   r.total_amount
                 ).toLocaleString("en-PH", { minimumFractionDigits: 2 })}</span>
               </div>
-              <div class="payment-row" style="border-top: 1px dashed #ddd; padding-top: 10px; margin-top: 10px;">
+              <div class="payment-row payment-divider">
                 <span>
                   Downpayment (50%)
                   <span class="payment-status-badge ${
@@ -2699,14 +2688,14 @@ function showReservationDetailsModal(r) {
                   minimumFractionDigits: 2,
                 })}</span>
               </div>
-              <div class="payment-row" style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin-top: 10px;">
+              <div class="payment-row luxury-bond-row">
                 <span><i class="fas fa-shield-alt"></i> Security Bond (Refundable)</span>
                 <span>₱2,000.00</span>
               </div>
               ${
                 r.payment_method
                   ? `
-              <div class="payment-row" style="margin-top: 10px;">
+              <div class="payment-row">
                 <span>Payment Method</span>
                 <span style="text-transform: capitalize;">${r.payment_method}</span>
               </div>`
@@ -2728,9 +2717,9 @@ function showReservationDetailsModal(r) {
             r.special_requests
               ? `
           <!-- Special Requests -->
-          <div class="details-section">
+          <div class="details-section luxury-details-card">
             <h3><i class="fas fa-sticky-note"></i> Special Requests</h3>
-            <p style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 0; color: #555;">
+            <p class="luxury-special-note">
               ${r.special_requests}
             </p>
           </div>`
@@ -2741,21 +2730,42 @@ function showReservationDetailsModal(r) {
             r.rebooking_requested == 1 || r.rebooking_approved == 1
               ? `
           <!-- Rebooking Request -->
-          <div class="details-section" style="background: #fff3e0; border-left: 4px solid #ff9800;">
-            <h3 style="color: #e65100;"><i class="fas fa-calendar-check"></i> Rebooking Information</h3>
-            <div class="details-grid">
-              ${r.rebooking_approved == 1 && (r.rebooking_original_date || r.original_check_in_date) ? `
+          <div class="details-section luxury-details-card luxury-rebook-section">
+            <h3><i class="fas fa-calendar-check"></i> Rebooking Information</h3>
+            <div class="details-grid luxury-details-grid">
+              ${
+                r.rebooking_approved == 1 &&
+                (r.rebooking_original_date || r.original_check_in_date)
+                  ? `
               <div class="detail-item">
                 <label>Original Date</label>
-                <span>${formatDate(r.rebooking_original_date || r.original_check_in_date || r.check_in_date)}</span>
+                <span>${formatDate(
+                  r.rebooking_original_date ||
+                    r.original_check_in_date ||
+                    r.check_in_date
+                )}</span>
               </div>
-              ` : ''}
-              ${r.rebooking_new_date ? `
+              `
+                  : ""
+              }
+              ${
+                r.rebooking_new_date
+                  ? `
               <div class="detail-item">
-                <label>${r.rebooking_approved == 1 ? 'New Date (Approved)' : 'Requested New Date'}</label>
-                <span style="color: ${r.rebooking_approved == 1 ? '#4caf50' : '#ff9800'}; font-weight: 600;">${formatDate(r.rebooking_new_date)}</span>
+                <label>${
+                  r.rebooking_approved == 1
+                    ? "New Date (Approved)"
+                    : "Requested New Date"
+                }</label>
+                <span style="color: ${
+                  r.rebooking_approved == 1 ? "#4ade80" : "#fbbf24"
+                } !important; font-weight: 700;">${formatDate(
+                      r.rebooking_new_date
+                    )}</span>
               </div>
-              ` : ''}
+              `
+                  : ""
+              }
               <div class="detail-item">
                 <label>Reason</label>
                 <span>${r.rebooking_reason || "Not specified"}</span>
@@ -2763,17 +2773,25 @@ function showReservationDetailsModal(r) {
               <div class="detail-item">
                 <label>Status</label>
                 <span style="color: ${
-                  r.rebooking_approved == 1 ? "#4caf50" : "#ff9800"
-                }; font-weight: 600;">
-                  ${r.rebooking_approved == 1 ? "✓ Approved" : "⏳ Pending Approval"}
+                  r.rebooking_approved == 1 ? "#4ade80" : "#fbbf24"
+                } !important; font-weight: 700;">
+                  ${
+                    r.rebooking_approved == 1
+                      ? "✓ Approved"
+                      : "⏳ Pending Approval"
+                  }
                 </span>
               </div>
-              ${r.rebooking_approved_at ? `
+              ${
+                r.rebooking_approved_at
+                  ? `
               <div class="detail-item">
                 <label>Approved At</label>
                 <span>${formatDateTime(r.rebooking_approved_at)}</span>
               </div>
-              ` : ''}
+              `
+                  : ""
+              }
             </div>
           </div>`
               : ""
@@ -2783,9 +2801,9 @@ function showReservationDetailsModal(r) {
             r.status === "cancelled"
               ? `
           <!-- Cancellation Info -->
-          <div class="details-section" style="background: #ffebee; border-left: 4px solid #ef5350;">
-            <h3 style="color: #c62828;"><i class="fas fa-ban"></i> Cancellation Details</h3>
-            <div class="details-grid">
+          <div class="details-section luxury-details-card luxury-cancel-section">
+            <h3><i class="fas fa-ban"></i> Cancellation Details</h3>
+            <div class="details-grid luxury-details-grid">
               <div class="detail-item">
                 <label>Cancelled At</label>
                 <span>${
@@ -2802,7 +2820,7 @@ function showReservationDetailsModal(r) {
           }
         </div>
         
-        <div class="reservation-modal-footer">
+        <div class="reservation-modal-footer luxury-modal-footer">
           ${getModalActionButtons(r)}
         </div>
       </div>
@@ -2827,42 +2845,42 @@ function getModalActionButtons(r) {
   if (
     ["confirmed", "checked_in", "checked_out", "completed"].includes(r.status)
   ) {
-    buttons += `<button class="modal-btn secondary" onclick="printReservationReceipt('${r.reservation_id}');">
+    buttons += `<button class="modal-btn luxury-btn-secondary" onclick="printReservationReceipt('${r.reservation_id}');">
       <i class="fas fa-print"></i> Print Receipt
     </button>`;
   }
 
   if (r.can_upload_downpayment) {
-    buttons += `<button class="modal-btn primary" onclick="closeReservationDetailsModal(); completePayment('${r.reservation_id}', 'downpayment');">
+    buttons += `<button class="modal-btn luxury-btn-gold" onclick="closeReservationDetailsModal(); completePayment('${r.reservation_id}', 'downpayment');">
       <i class="fas fa-upload"></i> Upload Downpayment
     </button>`;
   }
 
   if (r.can_upload_full_payment) {
-    buttons += `<button class="modal-btn primary" onclick="closeReservationDetailsModal(); completePayment('${r.reservation_id}', 'full_payment');">
+    buttons += `<button class="modal-btn luxury-btn-gold" onclick="closeReservationDetailsModal(); completePayment('${r.reservation_id}', 'full_payment');">
       <i class="fas fa-credit-card"></i> Pay Remaining Balance
     </button>`;
   }
 
   if (r.can_rebook) {
-    buttons += `<button class="modal-btn warning" onclick="closeReservationDetailsModal(); showRebookingModal('${r.reservation_id}');">
+    buttons += `<button class="modal-btn luxury-btn-secondary" onclick="closeReservationDetailsModal(); showRebookingModal('${r.reservation_id}');">
       <i class="fas fa-calendar-alt"></i> Request Rebooking
     </button>`;
   }
 
   if (r.can_cancel) {
-    buttons += `<button class="modal-btn danger" onclick="closeReservationDetailsModal(); cancelReservation('${r.reservation_id}');">
+    buttons += `<button class="modal-btn luxury-btn-danger" onclick="closeReservationDetailsModal(); cancelReservation('${r.reservation_id}');">
       <i class="fas fa-times"></i> Cancel Reservation
     </button>`;
   }
 
   if (r.status === "completed" || r.status === "checked_out") {
-    buttons += `<button class="modal-btn primary" onclick="closeReservationDetailsModal(); bookAgainFromReservation('${r.reservation_id}');">
+    buttons += `<button class="modal-btn luxury-btn-gold" onclick="closeReservationDetailsModal(); bookAgainFromReservation('${r.reservation_id}');">
       <i class="fas fa-redo"></i> Book Again
     </button>`;
   }
 
-  buttons += `<button class="modal-btn secondary" onclick="closeReservationDetailsModal();">
+  buttons += `<button class="modal-btn luxury-btn-outline" onclick="closeReservationDetailsModal();">
     <i class="fas fa-times"></i> Close
   </button>`;
 
@@ -3084,7 +3102,7 @@ async function submitRebooking(event, reservationId) {
   }
 }
 
-// ===== WRITE REVIEW FOR RESERVATION =====
+// ===== // ===== WRITE REVIEW FOR RESERVATION =====
 function writeReviewForReservation(reservationId) {
   try {
     // Check if this reservation has already been reviewed
@@ -3118,70 +3136,77 @@ function writeReviewForReservation(reservationId) {
     // Get reservation info for display
     const reservationInfo = reservation
       ? `
-      <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: left;">
-        <p style="margin: 0 0 8px 0; font-size: 0.9rem;"><strong>Reservation:</strong> #${
-          reservation.reservation_id
-        }</p>
-        <p style="margin: 0 0 8px 0; font-size: 0.9rem;"><strong>Package:</strong> ${
-          reservation.package_type || "Standard"
-        }</p>
-        <p style="margin: 0; font-size: 0.9rem;"><strong>Check-in Date:</strong> ${formatDate(
-          reservation.check_in_date
-        )}</p>
+      <div class="luxury-review-res-summary">
+        <div class="review-res-row">
+          <span class="review-res-label"><i class="fas fa-ticket-alt"></i> Reservation</span>
+          <span class="review-res-value highlight-gold">#${reservation.reservation_id}</span>
+        </div>
+        <div class="review-res-row">
+          <span class="review-res-label"><i class="fas fa-home"></i> Package</span>
+          <span class="review-res-value">${reservation.package_type || "Standard"}</span>
+        </div>
+        <div class="review-res-row">
+          <span class="review-res-label"><i class="fas fa-calendar-check"></i> Check-in Date</span>
+          <span class="review-res-value">${formatDate(reservation.check_in_date)}</span>
+        </div>
       </div>
     `
       : "";
 
     const modalHTML = `
       <div id="reviewModal" class="reservation-modal-overlay" onclick="closeReviewModal(event)">
-        <div class="reservation-modal-content" style="max-width: 550px;" onclick="event.stopPropagation()">
-          <div class="reservation-modal-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-              <h2 style="color: white; margin: 0;">
-                <i class="fas fa-star"></i> Write a Review
-              </h2>
+        <div class="reservation-modal-content luxury-review-modal" onclick="event.stopPropagation()">
+          <div class="reservation-modal-header luxury-modal-header">
+            <div class="luxury-header-flex">
+              <div class="luxury-header-title-wrap">
+                <div class="luxury-header-icon">
+                  <i class="fas fa-star"></i>
+                </div>
+                <div>
+                  <h2>Write a Review</h2>
+                  <p class="luxury-header-sub">Share your resort experience</p>
+                </div>
+              </div>
               <button onclick="closeReviewModal()" class="modal-close-btn">
                 <i class="fas fa-times"></i>
               </button>
             </div>
           </div>
           
-          <div class="reservation-modal-body">
+          <div class="reservation-modal-body luxury-modal-body">
             ${reservationInfo}
             
-            <div style="text-align: center; margin-bottom: 25px;">
-              <p style="color: #666; margin-bottom: 15px;">How was your stay?</p>
-              <div id="starRating" style="font-size: 2.5rem; cursor: pointer;">
-                <i class="far fa-star" data-rating="1" onclick="setRating(1)" style="color: #ddd; transition: all 0.2s;"></i>
-                <i class="far fa-star" data-rating="2" onclick="setRating(2)" style="color: #ddd; transition: all 0.2s;"></i>
-                <i class="far fa-star" data-rating="3" onclick="setRating(3)" style="color: #ddd; transition: all 0.2s;"></i>
-                <i class="far fa-star" data-rating="4" onclick="setRating(4)" style="color: #ddd; transition: all 0.2s;"></i>
-                <i class="far fa-star" data-rating="5" onclick="setRating(5)" style="color: #ddd; transition: all 0.2s;"></i>
+            <div class="luxury-rating-box">
+              <p class="rating-prompt">How was your stay?</p>
+              <div id="starRating" class="luxury-star-group">
+                <i class="far fa-star" data-rating="1" onclick="setRating(1)"></i>
+                <i class="far fa-star" data-rating="2" onclick="setRating(2)"></i>
+                <i class="far fa-star" data-rating="3" onclick="setRating(3)"></i>
+                <i class="far fa-star" data-rating="4" onclick="setRating(4)"></i>
+                <i class="far fa-star" data-rating="5" onclick="setRating(5)"></i>
               </div>
-              <p id="ratingText" style="color: #f59e0b; font-weight: 600; margin-top: 10px;">Select a rating</p>
+              <p id="ratingText" class="luxury-rating-label">Select a rating</p>
             </div>
             
-            <form id="reviewForm" onsubmit="submitReview(event, '${reservationId}')">
+            <form id="reviewForm" class="luxury-review-form" onsubmit="submitReview(event, '${reservationId}')">
               <input type="hidden" name="rating" id="ratingInput" value="0">
               <input type="hidden" name="reservation_id" value="${reservationId}">
               
-              <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">
+              <div class="luxury-form-group">
+                <label>
                   <i class="fas fa-heading"></i> Review Title *
                 </label>
-                <input type="text" name="title" placeholder="Give your review a title..." required
-                  style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                <input type="text" name="title" class="luxury-input" placeholder="Give your review a title..." required>
               </div>
               
-              <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">
+              <div class="luxury-form-group">
+                <label>
                   <i class="fas fa-comment-alt"></i> Your Review *
                 </label>
-                <textarea name="content" rows="4" placeholder="Share your experience with other guests... (minimum 10 characters)" required minlength="10"
-                  style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; resize: vertical; box-sizing: border-box;"></textarea>
+                <textarea name="content" rows="4" class="luxury-textarea" placeholder="Share your experience with other guests... (minimum 10 characters)" required minlength="10"></textarea>
               </div>
               
-              <button type="submit" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease;">
+              <button type="submit" class="luxury-submit-review-btn">
                 <i class="fas fa-paper-plane"></i> Submit Review
               </button>
             </form>
@@ -3209,12 +3234,12 @@ function setRating(rating) {
   stars.forEach((star, index) => {
     if (index < rating) {
       star.classList.remove("far");
-      star.classList.add("fas");
-      star.style.color = "#f59e0b";
+      star.classList.add("fas", "active-star");
+      star.style.color = "#facc15";
     } else {
-      star.classList.remove("fas");
+      star.classList.remove("fas", "active-star");
       star.classList.add("far");
-      star.style.color = "#ddd";
+      star.style.color = "rgba(255, 255, 255, 0.35)";
     }
   });
 
@@ -3323,226 +3348,460 @@ function printReservationReceipt(reservationId) {
 
   const r = reservation;
   const remainingBalance =
-    parseFloat(r.total_amount) - parseFloat(r.downpayment_amount);
+    parseFloat(r.total_amount || 0) - parseFloat(r.downpayment_amount || 0);
+
+  const statusType =
+    r.status === "confirmed" || r.status === "checked_in"
+      ? "confirmed"
+      : r.status === "completed" || r.status === "checked_out"
+      ? "completed"
+      : "pending";
 
   const receiptHTML = `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
+      <meta charset="UTF-8">
       <title>Reservation Receipt - #${r.reservation_id}</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
       <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; color: #333; background: #f5f5f5; }
-        .receipt { max-width: 700px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #667eea; padding-bottom: 20px; }
-        .logo { font-size: 28px; font-weight: 700; color: #667eea; margin-bottom: 5px; }
-        .subtitle { color: #666; font-size: 14px; }
-        .receipt-title { font-size: 22px; color: #333; margin-top: 15px; }
-        .section { margin: 25px 0; }
-        .section-title { font-size: 14px; color: #667eea; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 600; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .info-item { padding: 8px 0; }
-        .info-label { font-size: 12px; color: #888; margin-bottom: 3px; }
-        .info-value { font-size: 14px; font-weight: 500; color: #333; }
-        .payment-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .payment-table td { padding: 12px 0; border-bottom: 1px solid #eee; }
-        .payment-table td:last-child { text-align: right; font-weight: 600; }
-        .total-row { background: #f8f9fa; }
-        .total-row td { font-size: 16px; font-weight: 700; padding: 15px 10px; }
-        .status-badge { display: inline-block; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
-        .status-confirmed { background: #e3f2fd; color: #1565c0; }
-        .status-completed { background: #e8f5e9; color: #2e7d32; }
-        .status-pending { background: #fff3e0; color: #e65100; }
-        .footer { margin-top: 40px; text-align: center; padding-top: 20px; border-top: 1px solid #eee; }
-        .footer p { font-size: 12px; color: #888; margin: 5px 0; }
-        .qr-placeholder { text-align: center; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; }
+        body {
+          font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+          padding: 40px 20px;
+          color: #f8fafc;
+          background: radial-gradient(circle at top, #1e293b 0%, #0a0f1d 100%);
+          min-height: 100vh;
+        }
+        .receipt {
+          max-width: 740px;
+          margin: 0 auto;
+          background: #0f172a;
+          border: 1px solid rgba(250, 204, 21, 0.35);
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 0 0 40px rgba(250, 204, 21, 0.12);
+        }
+        .header {
+          background: linear-gradient(135deg, rgba(250, 204, 21, 0.14) 0%, rgba(15, 23, 42, 0.95) 100%);
+          border-bottom: 1px solid rgba(250, 204, 21, 0.25);
+          padding: 32px 36px 26px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+        .brand-title {
+          font-size: 22px;
+          font-weight: 800;
+          color: #facc15;
+          letter-spacing: -0.3px;
+          margin-bottom: 4px;
+        }
+        .brand-subtitle {
+          color: #94a3b8;
+          font-size: 13px;
+          font-weight: 500;
+        }
+        .receipt-meta {
+          text-align: right;
+        }
+        .receipt-badge-title {
+          font-size: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+          color: #fde047;
+          margin-bottom: 4px;
+        }
+        .receipt-id {
+          font-size: 18px;
+          font-weight: 800;
+          color: #ffffff;
+          margin-bottom: 8px;
+        }
+        .status-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 5px 14px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.6px;
+        }
+        .status-confirmed {
+          background: rgba(56, 189, 248, 0.18);
+          color: #38bdf8;
+          border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+        .status-completed {
+          background: rgba(34, 197, 94, 0.18);
+          color: #4ade80;
+          border: 1px solid rgba(74, 222, 128, 0.45);
+        }
+        .status-pending {
+          background: rgba(245, 158, 11, 0.18);
+          color: #fbbf24;
+          border: 1px solid rgba(251, 191, 36, 0.45);
+        }
+        .receipt-body {
+          padding: 32px 36px;
+        }
+        .section {
+          margin-bottom: 24px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 16px;
+          padding: 20px 22px;
+        }
+        .section-title {
+          font-size: 12px;
+          color: #facc15;
+          text-transform: uppercase;
+          letter-spacing: 1.2px;
+          margin-bottom: 14px;
+          font-weight: 700;
+          padding-bottom: 8px;
+          border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+        }
+        .info-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px 20px;
+        }
+        .info-label {
+          font-size: 11px;
+          color: #94a3b8;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 3px;
+          font-weight: 600;
+        }
+        .info-value {
+          font-size: 14px;
+          font-weight: 600;
+          color: #ffffff;
+        }
+        .schedule-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+        .schedule-card {
+          padding: 16px;
+          border-radius: 14px;
+        }
+        .schedule-checkin {
+          background: rgba(34, 197, 94, 0.1);
+          border: 1px solid rgba(74, 222, 128, 0.35);
+          border-left: 4px solid #4ade80;
+        }
+        .schedule-checkout {
+          background: rgba(239, 68, 68, 0.1);
+          border: 1px solid rgba(248, 113, 113, 0.35);
+          border-left: 4px solid #f87171;
+        }
+        .schedule-tag {
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.6px;
+          margin-bottom: 6px;
+        }
+        .schedule-checkin .schedule-tag { color: #4ade80; }
+        .schedule-checkout .schedule-tag { color: #f87171; }
+        .schedule-date {
+          font-size: 15px;
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 3px;
+        }
+        .schedule-time {
+          font-size: 13px;
+          font-weight: 600;
+          color: #cbd5e1;
+        }
+        .bond-banner {
+          background: rgba(250, 204, 21, 0.1);
+          border: 1px solid rgba(250, 204, 21, 0.35);
+          border-left: 4px solid #facc15;
+          border-radius: 14px;
+          padding: 16px 20px;
+          margin-bottom: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+        }
+        .bond-title {
+          font-weight: 700;
+          color: #fde047;
+          font-size: 14px;
+          margin-bottom: 3px;
+        }
+        .bond-desc {
+          color: #cbd5e1;
+          font-size: 12px;
+        }
+        .bond-amount {
+          font-size: 16px;
+          font-weight: 800;
+          color: #facc15;
+          white-space: nowrap;
+        }
+        .payment-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        .payment-table td {
+          padding: 11px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          font-size: 13.5px;
+          color: #cbd5e1;
+        }
+        .payment-table td:last-child {
+          text-align: right;
+          font-weight: 700;
+          color: #ffffff;
+        }
+        .payment-table tr.total-row td {
+          border-bottom: none;
+          padding-top: 16px;
+          font-size: 16px;
+          font-weight: 800;
+          color: #facc15;
+        }
+        .footer {
+          padding: 24px 36px 28px;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.02);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .footer p {
+          font-size: 12px;
+          color: #94a3b8;
+          margin: 4px 0;
+        }
+        .footer strong {
+          color: #fde047;
+        }
+        .action-bar {
+          display: flex;
+          justify-content: center;
+          gap: 14px;
+          margin-top: 28px;
+        }
+        .btn-print {
+          padding: 12px 28px;
+          background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%);
+          color: #0f172a;
+          border: none;
+          border-radius: 12px;
+          font-family: inherit;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(250, 204, 21, 0.35);
+        }
+        .btn-close {
+          padding: 12px 28px;
+          background: rgba(255, 255, 255, 0.1);
+          color: #ffffff;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
+          font-family: inherit;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+        }
         @media print {
-          body { padding: 0; background: white; }
-          .receipt { box-shadow: none; }
-          .no-print { display: none; }
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          body {
+            padding: 0;
+            background: #ffffff !important;
+            color: #0f172a !important;
+          }
+          .receipt {
+            max-width: 100%;
+            background: #ffffff !important;
+            border: 2px solid #0f172a !important;
+            box-shadow: none !important;
+          }
+          .header {
+            background: #0f172a !important;
+            color: #ffffff !important;
+          }
+          .section {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+          }
+          .section-title {
+            color: #0f172a !important;
+            border-bottom-color: #cbd5e1 !important;
+          }
+          .info-label { color: #475569 !important; }
+          .info-value, .schedule-date, .payment-table td:last-child { color: #0f172a !important; }
+          .schedule-time, .payment-table td, .bond-desc { color: #334155 !important; }
+          .bond-title, .bond-amount, .payment-table tr.total-row td { color: #b45309 !important; }
+          .footer { background: #f8fafc !important; border-top-color: #cbd5e1 !important; }
+          .footer p { color: #475569 !important; }
+          .footer strong { color: #0f172a !important; }
+          .no-print { display: none !important; }
         }
       </style>
     </head>
     <body>
       <div class="receipt">
         <div class="header">
-          <div class="logo">🏡 AR Homes Posadas Farm Resort</div>
-          <div class="subtitle">Your Home Away From Home</div>
-          <div class="receipt-title">Reservation Receipt</div>
-        </div>
-        
-        <div style="text-align: center; margin-bottom: 20px;">
-          <span class="status-badge status-${
-            r.status === "confirmed"
-              ? "confirmed"
-              : r.status === "completed" || r.status === "checked_out"
-              ? "completed"
-              : "pending"
-          }">
-            ${r.status_label}
-          </span>
-        </div>
-        
-        <div class="section">
-          <div class="section-title">Reservation Details</div>
-          <div class="info-grid">
-            <div class="info-item">
-              <div class="info-label">Reservation ID</div>
-              <div class="info-value">#${r.reservation_id}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Booking Date</div>
-              <div class="info-value">${formatDateTime(r.created_at)}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Booking Type</div>
-              <div class="info-value">${formatBookingType(r.booking_type)}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Package</div>
-              <div class="info-value">${r.package_type || "Standard"}</div>
-            </div>
+          <div>
+            <div class="brand-title">AR Homes Posadas Farm Resort</div>
+            <div class="brand-subtitle">Official Reservation & Payment Receipt</div>
+          </div>
+          <div class="receipt-meta">
+            <div class="receipt-badge-title">Reservation ID</div>
+            <div class="receipt-id">#${r.reservation_id}</div>
+            <span class="status-badge status-${statusType}">
+              ${r.status_label}
+            </span>
           </div>
         </div>
         
-        <div class="section">
-          <div class="section-title">Guest Information</div>
-          <div class="info-grid">
-            <div class="info-item">
-              <div class="info-label">Guest Name</div>
-              <div class="info-value">${r.guest_name || "N/A"}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Number of Guests</div>
-              <div class="info-value">${r.number_of_guests || 1} guest(s)</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Email</div>
-              <div class="info-value">${r.guest_email || "N/A"}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Phone</div>
-              <div class="info-value">${r.guest_phone || "N/A"}</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="section">
-          <div class="section-title">Schedule</div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-            <div style="padding: 16px; background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border-radius: 12px; border-left: 4px solid #4caf50;">
-              <div style="font-weight: 700; color: #2e7d32; text-transform: uppercase; font-size: 12px; margin-bottom: 8px;">
-                ✓ Check-in
+        <div class="receipt-body">
+          <div class="section">
+            <div class="section-title">Booking Overview</div>
+            <div class="info-grid">
+              <div>
+                <div class="info-label">Booking Date</div>
+                <div class="info-value">${formatDateTime(r.created_at)}</div>
               </div>
-              <div style="font-weight: 700; color: #1b5e20; font-size: 15px; margin-bottom: 4px;">
-                ${formatDate(r.check_in_date)}
+              <div>
+                <div class="info-label">Booking Type</div>
+                <div class="info-value">${formatBookingType(r.booking_type)}</div>
               </div>
-              <div style="color: #388e3c; font-size: 14px; font-weight: 600;">
-                ${formatTime12Hour(r.check_in_time)}
+              <div>
+                <div class="info-label">Package</div>
+                <div class="info-value">${r.package_type || "Standard"}</div>
               </div>
-            </div>
-            <div style="padding: 16px; background: linear-gradient(135deg, #ffebee, #fce4ec); border-radius: 12px; border-left: 4px solid #ef5350;">
-              <div style="font-weight: 700; color: #c62828; text-transform: uppercase; font-size: 12px; margin-bottom: 8px;">
-                ✗ Check-out
-              </div>
-              <div style="font-weight: 700; color: #b71c1c; font-size: 15px; margin-bottom: 4px;">
-                ${formatDate(r.check_out_date)}
-              </div>
-              <div style="color: #d32f2f; font-size: 14px; font-weight: 600;">
-                ${formatTime12Hour(r.check_out_time)}
+              <div>
+                <div class="info-label">Group / Guests</div>
+                <div class="info-value" style="text-transform: capitalize;">${r.number_of_guests || 1} Guest(s) • ${r.group_type || "Standard"}</div>
               </div>
             </div>
           </div>
-        </div>
-        
-        <div class="section" style="background: linear-gradient(135deg, #fff8e1, #fffde7); border: 2px solid #ffc107; border-radius: 12px; padding: 16px; text-align: center;">
-          <div style="font-weight: 700; color: #e65100; font-size: 16px; margin-bottom: 8px;">
-            ⚠️ ₱2,000 Security Bond upon Check-in
+          
+          <div class="section">
+            <div class="section-title">Guest Information</div>
+            <div class="info-grid">
+              <div>
+                <div class="info-label">Guest Name</div>
+                <div class="info-value">${r.guest_name || "N/A"}</div>
+              </div>
+              <div>
+                <div class="info-label">Phone Number</div>
+                <div class="info-value">${r.guest_phone || "N/A"}</div>
+              </div>
+              <div style="grid-column: span 2;">
+                <div class="info-label">Email Address</div>
+                <div class="info-value">${r.guest_email || "N/A"}</div>
+              </div>
+            </div>
           </div>
-          <div style="color: #795548; font-size: 13px;">
-            Refundable — Covers damages/extra charges. Can be paid at check-in.
+          
+          <div class="section">
+            <div class="section-title">Stay Schedule</div>
+            <div class="schedule-grid">
+              <div class="schedule-card schedule-checkin">
+                <div class="schedule-tag">✓ Check-in</div>
+                <div class="schedule-date">${formatDate(r.check_in_date)}</div>
+                <div class="schedule-time">${formatTime12Hour(r.check_in_time)}</div>
+              </div>
+              <div class="schedule-card schedule-checkout">
+                <div class="schedule-tag">✗ Check-out</div>
+                <div class="schedule-date">${formatDate(r.check_out_date)}</div>
+                <div class="schedule-time">${formatTime12Hour(r.check_out_time)}</div>
+              </div>
+            </div>
           </div>
+          
+          <div class="bond-banner">
+            <div>
+              <div class="bond-title">Security Bond Required Upon Check-in (Refundable)</div>
+              <div class="bond-desc">Covers potential damages or extra charges. Fully refundable upon check-out.</div>
+            </div>
+            <div class="bond-amount">₱2,000.00</div>
+          </div>
+          
+          <div class="section" style="margin-bottom: 0;">
+            <div class="section-title">Payment Breakdown</div>
+            <table class="payment-table">
+              <tr>
+                <td>Base Package Price</td>
+                <td>₱${parseFloat(r.base_price || 0).toLocaleString("en-PH", {
+                  minimumFractionDigits: 2,
+                })}</td>
+              </tr>
+              <tr>
+                <td>Downpayment (50%) — <strong style="color: #fde047;">${r.downpayment_status}</strong></td>
+                <td>₱${parseFloat(r.downpayment_amount || 0).toLocaleString("en-PH", {
+                  minimumFractionDigits: 2,
+                })}</td>
+              </tr>
+              <tr>
+                <td>Remaining Balance — <strong style="color: #38bdf8;">${r.full_payment_status}</strong></td>
+                <td>₱${remainingBalance.toLocaleString("en-PH", {
+                  minimumFractionDigits: 2,
+                })}</td>
+              </tr>
+              <tr>
+                <td>Security Bond (Collected at Check-in)</td>
+                <td>₱2,000.00</td>
+              </tr>
+              <tr class="total-row">
+                <td>Total Reservation Amount</td>
+                <td>₱${parseFloat(r.total_amount || 0).toLocaleString("en-PH", {
+                  minimumFractionDigits: 2,
+                })}</td>
+              </tr>
+            </table>
+          </div>
+          
+          ${
+            r.special_requests
+              ? `
+          <div class="section" style="margin-top: 24px; margin-bottom: 0;">
+            <div class="section-title">Special Requests</div>
+            <p style="font-size: 13.5px; color: #e2e8f0; line-height: 1.6;">${r.special_requests}</p>
+          </div>
+          `
+              : ""
+          }
         </div>
-        
-        <div class="section">
-          <div class="section-title">Payment Summary</div>
-          <table class="payment-table">
-            <tr>
-              <td>Base Price</td>
-              <td>₱${parseFloat(r.base_price || 0).toLocaleString("en-PH", {
-                minimumFractionDigits: 2,
-              })}</td>
-            </tr>
-            <tr>
-              <td>Downpayment (50%) - ${r.downpayment_status}</td>
-              <td>₱${parseFloat(r.downpayment_amount).toLocaleString("en-PH", {
-                minimumFractionDigits: 2,
-              })}</td>
-            </tr>
-            <tr>
-              <td>Remaining Balance - ${r.full_payment_status}</td>
-              <td>₱${remainingBalance.toLocaleString("en-PH", {
-                minimumFractionDigits: 2,
-              })}</td>
-            </tr>
-            <tr>
-              <td>Security Bond (Refundable)</td>
-              <td>₱2,000.00</td>
-            </tr>
-            <tr class="total-row">
-              <td>Total Amount</td>
-              <td>₱${parseFloat(r.total_amount).toLocaleString("en-PH", {
-                minimumFractionDigits: 2,
-              })}</td>
-            </tr>
-          </table>
-        </div>
-        
-        ${
-          r.special_requests
-            ? `
-        <div class="section">
-          <div class="section-title">Special Requests</div>
-          <p style="font-size: 14px; color: #555; line-height: 1.6;">${r.special_requests}</p>
-        </div>
-        `
-            : ""
-        }
         
         <div class="footer">
           <p><strong>AR Homes Posadas Farm Resort</strong></p>
           <p>Thank you for choosing us for your stay!</p>
-          <p style="margin-top: 10px;">For inquiries, contact us at: arhomesresort@gmail.com</p>
-          <p style="margin-top: 15px; font-size: 10px; color: #aaa;">
-            Receipt generated on ${new Date().toLocaleString()}
+          <p>For inquiries, contact us at: arhomesresort@gmail.com</p>
+          <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
+            Generated on ${new Date().toLocaleString()}
           </p>
         </div>
-        
-        <div class="no-print" style="text-align: center; margin-top: 30px;">
-          <button onclick="window.print()" style="
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-right: 10px;
-          ">
-            🖨️ Print Receipt
-          </button>
-          <button onclick="window.close()" style="
-            padding: 12px 30px;
-            background: #e9ecef;
-            color: #495057;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-          ">
-            Close
-          </button>
-        </div>
+      </div>
+
+      <div class="no-print action-bar">
+        <button class="btn-print" onclick="window.print()">
+          🖨️ Print Receipt
+        </button>
+        <button class="btn-close" onclick="window.close()">
+          ✕ Close Window
+        </button>
       </div>
     </body>
     </html>
@@ -3836,7 +4095,7 @@ function updateHistoryStats(historyReservations) {
   if (totalEl) totalEl.textContent = totalCount;
 }
 
-// Create a history-specific card (no payment actions) - REDESIGNED TO MATCH MY RESERVATIONS
+// Create a history-specific card (no payment actions) - REDESIGNED FOR LUXURY DARK GLASS THEME
 function createHistoryReservationCard(r) {
   const statusColors = {
     completed: "completed",
@@ -3860,20 +4119,13 @@ function createHistoryReservationCard(r) {
   const isCancelled = r.status === "cancelled" || r.status === "canceled";
   const isCompleted = r.status === "completed" || r.status === "checked_out";
 
-  // Border color based on status
-  const borderColor = isCancelled
-    ? "#ef4444"
-    : isCompleted
-    ? "#22c55e"
-    : "#11224e";
-
   // Build refund notice for cancelled reservations
   const refundNotice = isCancelled
-    ? `<div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 8px 12px; margin-top: 8px; display: flex; align-items: center; gap: 8px;">
-        <i class="fas fa-check-circle" style="color: #22c55e;"></i>
-        <div style="font-size: 0.8em;">
-          <div style="font-weight: 600; color: #92400e;">Refund Processed</div>
-          <div style="color: #a16207; font-size: 0.9em;">Contact staff for details</div>
+    ? `<div class="history-refund-banner">
+        <i class="fas fa-check-circle"></i>
+        <div>
+          <div class="history-refund-title">Refund Processed</div>
+          <div class="history-refund-subtitle">Contact staff for details</div>
         </div>
       </div>`
     : "";
@@ -3882,43 +4134,42 @@ function createHistoryReservationCard(r) {
   const actionButtons = getHistoryActionButtons(r);
 
   return `
-    <div class="booking-list-item" data-reservation-id="${
+    <div class="booking-list-item history-list-card status-${statusClass}" data-reservation-id="${
       r.reservation_id
-    }" style="cursor: pointer; padding: 12px 15px; background: white; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); margin-bottom: 10px; transition: all 0.3s ease; border: 2px solid ${borderColor};">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;">
-        <div style="flex: 1; min-width: 0;">
-          <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
-            <span class="status-badge ${statusClass}" style="font-size: 0.75em; padding: 4px 8px;">${
+    }" onclick="handleCardClick(event, '${r.reservation_id}')">
+      <div class="history-list-inner">
+        <div class="history-list-main">
+          <div class="history-list-meta">
+            <span class="status-badge ${statusClass}">${
     r.status_label || r.status
   }</span>
-            <span style="font-weight: 700; color: #1e293b; font-size: 0.9em;">#${
-              r.reservation_id
-            }</span>
-            <span style="color: #94a3b8; font-size: 0.85em;">${checkInDate}</span>
+            <span class="history-res-id">#${r.reservation_id}</span>
+            <span class="history-res-date"><i class="far fa-calendar-alt"></i> ${checkInDate}</span>
           </div>
-          <div style="font-weight: 600; color: #334155; margin-bottom: 4px; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${
+          <div class="history-res-package">${
             r.package_type || "Package"
-          } - ${(r.booking_type || "daytime")
+          } &bull; ${(r.booking_type || "daytime")
     .replace("-", " ")
     .toUpperCase()}</div>
-          <div style="color: #64748b; font-size: 0.85em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            <i class="fas fa-users" style="font-size: 0.9em;"></i> ${
+          <div class="history-res-details">
+            <span><i class="fas fa-users"></i> ${
               r.number_of_guests || 1
-            } Guest(s) • 
-            <i class="fas fa-tag" style="font-size: 0.9em;"></i> ₱${parseFloat(
+            } Guest(s)</span>
+            <span class="history-res-dot">&bull;</span>
+            <span class="history-res-amount"><i class="fas fa-tag"></i> ₱${parseFloat(
               r.total_amount || 0
-            ).toLocaleString()}
+            ).toLocaleString()}</span>
           </div>
           ${refundNotice}
-          <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
-            ${actionButtons}
-          </div>
+          ${actionButtons ? `<div class="history-list-actions">${actionButtons}</div>` : ""}
         </div>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0;" onclick="event.stopPropagation(); viewReservationDetails('${
+        <div class="history-list-view" onclick="event.stopPropagation(); viewReservationDetails('${
           r.reservation_id
         }')">
-          <i class="fas fa-eye" style="color: #11224e; font-size: 1.3em;"></i>
-          <span style="color: #11224e; font-size: 0.7em; font-weight: 600; white-space: nowrap;">View Details</span>
+          <div class="history-view-icon-btn">
+            <i class="fas fa-eye"></i>
+          </div>
+          <span>View Details</span>
         </div>
       </div>
     </div>
@@ -3947,64 +4198,47 @@ function formatBookingTypeShort(type) {
   return types[type] || type || "Standard";
 }
 
-// History-specific action buttons with inline styles - COMPACT DESIGN
+// History-specific action buttons - LUXURY DARK THEME
 function getHistoryActionButtons(r) {
   const isCompleted = r.status === "completed" || r.status === "checked_out";
-  const isCancelled = r.status === "cancelled" || r.status === "canceled";
-
-  // Common button style
-  const btnStyle =
-    "padding: 6px 12px; font-size: 0.75em; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease;";
-
   let buttons = "";
 
   // Only show Review/Edit Review and Book Again for completed reservations
   if (isCompleted) {
-    // Check if this reservation has already been reviewed (including deleted reviews)
-    // reviewedReservationsMap uses reservation_id as key (string)
     const reviewInfo = reviewedReservationsMap[r.reservation_id];
     const hasReview =
       reviewInfo !== undefined ||
       reviewedReservationIds.includes(r.reservation_id);
 
     if (hasReview && reviewInfo) {
-      // Check if review was deleted
       if (reviewInfo.status === "deleted") {
-        // Review was deleted - show disabled button
-        buttons += `<button style="${btnStyle} background: #e5e7eb; color: #9ca3af; cursor: not-allowed;" disabled title="Review deleted">
+        buttons += `<button class="history-chip-btn btn-disabled" disabled title="Review deleted">
           <i class="fas fa-trash-alt"></i> Review Deleted
         </button>`;
       } else if (reviewInfo.can_edit) {
-        // Show Edit Review button if review exists and can still be edited
         const editsRemaining = 3 - reviewInfo.edit_count;
-        buttons += `<button style="${btnStyle} background: #f59e0b; color: white;" onclick="event.stopPropagation(); editReview(${reviewInfo.review_id})" title="${editsRemaining} edit(s) remaining">
-          <i class="fas fa-edit"></i> Edit (${editsRemaining})
+        buttons += `<button class="history-chip-btn btn-review" onclick="event.stopPropagation(); editReview(${reviewInfo.review_id})" title="${editsRemaining} edit(s) remaining">
+          <i class="fas fa-edit"></i> Edit Review (${editsRemaining})
         </button>`;
       } else {
-        // Show disabled button when edit limit reached
-        buttons += `<button style="${btnStyle} background: #e5e7eb; color: #9ca3af; cursor: not-allowed;" disabled title="Maximum edits reached">
+        buttons += `<button class="history-chip-btn btn-disabled" disabled title="Maximum edits reached">
           <i class="fas fa-ban"></i> No Edits Left
         </button>`;
       }
     } else if (hasReview) {
-      // Has review but no reviewInfo - show disabled "Reviewed" button
-      buttons += `<button style="${btnStyle} background: #e5e7eb; color: #9ca3af; cursor: not-allowed;" disabled title="Already reviewed">
+      buttons += `<button class="history-chip-btn btn-disabled" disabled title="Already reviewed">
         <i class="fas fa-check-circle"></i> Reviewed
       </button>`;
     } else {
-      // Show Write Review button if not yet reviewed
-      buttons += `<button style="${btnStyle} background: #f59e0b; color: white;" onclick="event.stopPropagation(); writeReviewForReservation('${r.reservation_id}')">
-        <i class="fas fa-star"></i> Review
+      buttons += `<button class="history-chip-btn btn-review" onclick="event.stopPropagation(); writeReviewForReservation('${r.reservation_id}')">
+        <i class="fas fa-star"></i> Write Review
       </button>`;
     }
 
-    buttons += `<button style="${btnStyle} background: #11224e; color: white;" onclick="event.stopPropagation(); bookAgainFromReservation('${r.reservation_id}')">
+    buttons += `<button class="history-chip-btn btn-book-again" onclick="event.stopPropagation(); bookAgainFromReservation('${r.reservation_id}')">
       <i class="fas fa-redo"></i> Book Again
     </button>`;
   }
-
-  // For cancelled reservations, only show View Details
-  // The refund notice is shown in the card body
 
   return buttons;
 }
@@ -4214,10 +4448,12 @@ async function loadUserNotifications() {
       const notificationsList = document.getElementById("notificationsList");
       if (notificationsList) {
         notificationsList.innerHTML = `
-          <div style="text-align: center; padding: 40px;">
-            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 16px; color: #ef4444;"></i>
-            <p style="color: #11224e; font-weight: 500;">Error loading notifications</p>
-            <p style="font-size: 14px; color: #64748b;">${result.message}</p>
+          <div style="text-align: center; padding: 40px 20px; color: #ffffff;">
+            <div style="width: 65px; height: 65px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <i class="fas fa-exclamation-circle" style="font-size: 28px; color: #ef4444;"></i>
+            </div>
+            <p style="color: #ffffff; font-weight: 600; font-size: 1.05rem; margin-bottom: 6px;">Error loading notifications</p>
+            <p style="font-size: 14px; color: rgba(255, 255, 255, 0.65);">${result.message}</p>
           </div>
         `;
       }
@@ -4226,10 +4462,12 @@ async function loadUserNotifications() {
     const notificationsList = document.getElementById("notificationsList");
     if (notificationsList) {
       notificationsList.innerHTML = `
-        <div style="text-align: center; padding: 40px; color: #ef4444;">
-          <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 16px;"></i>
-          <p style="color: #11224e; font-weight: 500;">Failed to load notifications</p>
-          <p style="font-size: 14px; color: #64748b;">${error.message}</p>
+        <div style="text-align: center; padding: 40px 20px; color: #ffffff;">
+          <div style="width: 65px; height: 65px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+            <i class="fas fa-exclamation-circle" style="font-size: 28px; color: #ef4444;"></i>
+          </div>
+          <p style="color: #ffffff; font-weight: 600; font-size: 1.05rem; margin-bottom: 6px;">Failed to load notifications</p>
+          <p style="font-size: 14px; color: rgba(255, 255, 255, 0.65);">${error.message}</p>
         </div>
       `;
     }
@@ -4387,12 +4625,18 @@ function filterNotifications(filter) {
 
   // Update button styles
   if (filter === "all") {
-    allBtn.style.fontWeight = "600";
-    allBtn.style.color = "#11224e";
-    allBtn.style.borderBottom = "2px solid #11224e";
-    unreadBtn.style.fontWeight = "500";
-    unreadBtn.style.color = "#64748b";
-    unreadBtn.style.borderBottom = "none";
+    if (allBtn) {
+      allBtn.style.background = "rgba(250, 204, 21, 0.15)";
+      allBtn.style.border = "1px solid rgba(250, 204, 21, 0.4)";
+      allBtn.style.color = "#facc15";
+      allBtn.style.fontWeight = "700";
+    }
+    if (unreadBtn) {
+      unreadBtn.style.background = "rgba(255, 255, 255, 0.05)";
+      unreadBtn.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+      unreadBtn.style.color = "rgba(255, 255, 255, 0.7)";
+      unreadBtn.style.fontWeight = "600";
+    }
 
     // Show all notifications
     notificationItems.forEach((item) => {
@@ -4408,12 +4652,18 @@ function filterNotifications(filter) {
       if (emptyState) emptyState.style.display = "block";
     }
   } else if (filter === "unread") {
-    unreadBtn.style.fontWeight = "600";
-    unreadBtn.style.color = "#11224e";
-    unreadBtn.style.borderBottom = "2px solid #11224e";
-    allBtn.style.fontWeight = "500";
-    allBtn.style.color = "#64748b";
-    allBtn.style.borderBottom = "none";
+    if (unreadBtn) {
+      unreadBtn.style.background = "rgba(250, 204, 21, 0.15)";
+      unreadBtn.style.border = "1px solid rgba(250, 204, 21, 0.4)";
+      unreadBtn.style.color = "#facc15";
+      unreadBtn.style.fontWeight = "700";
+    }
+    if (allBtn) {
+      allBtn.style.background = "rgba(255, 255, 255, 0.05)";
+      allBtn.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+      allBtn.style.color = "rgba(255, 255, 255, 0.7)";
+      allBtn.style.fontWeight = "600";
+    }
 
     // Show only unread notifications
     let hasUnread = false;
@@ -4816,14 +5066,16 @@ function renderReviewsList(reviews) {
 
   if (reviews.length === 0) {
     container.innerHTML = `
-      <div class="no-reviews" style="text-align: center; padding: 60px 20px;">
-        <i class="fas fa-star" style="font-size: 4rem; color: #ddd; margin-bottom: 20px;"></i>
-        <h3 style="color: #666; margin-bottom: 10px;">No Reviews Yet</h3>
-        <p style="color: #999; margin-bottom: 20px;">You haven't written any reviews yet. Complete a stay to share your experience!</p>
+      <div class="no-reviews" style="text-align: center; padding: 60px 20px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55); color: #ffffff;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(250, 204, 21, 0.1); border: 1px solid rgba(250, 204, 21, 0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+          <i class="fas fa-star" style="font-size: 2.2rem; color: #facc15;"></i>
+        </div>
+        <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 700; margin-bottom: 8px;">No Reviews Yet</h3>
+        <p style="color: rgba(255, 255, 255, 0.7); max-width: 480px; margin: 0 auto 22px; font-size: 0.95rem; line-height: 1.6;">You haven't written any reviews yet. Complete a stay to share your experience!</p>
         ${
           reviewableReservations.length > 0
             ? `
-          <button class="btn-primary" onclick="writeNewReview()">
+          <button class="btn-submit-v2" onclick="writeNewReview()" style="display: inline-flex; align-items: center; gap: 8px; margin: 0 auto;">
             <i class="fas fa-pen"></i> Write Your First Review
           </button>
         `
@@ -4865,9 +5117,9 @@ function createReviewCard(review) {
         </div>
         <span class="review-date">${formattedDate}</span>
       </div>
-      <p class="review-package" style="color: #667eea; font-size: 0.85rem; margin-bottom: 10px;">
+      <div class="review-package">
         <i class="fas fa-bed"></i> ${packageLabel}
-      </p>
+      </div>
       <p class="review-text">${escapeHtml(review.content)}</p>
       <div class="review-footer">
         <span class="helpful-count">
@@ -4946,11 +5198,14 @@ function showReviewsError() {
   const container = document.getElementById("reviewsList");
   if (container) {
     container.innerHTML = `
-      <div class="reviews-error" style="text-align: center; padding: 40px;">
-        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e74c3c; margin-bottom: 15px;"></i>
-        <p style="color: #666;">Unable to load reviews. Please try again later.</p>
-        <button class="btn-primary" onclick="loadUserReviews()" style="margin-top: 15px;">
-          <i class="fas fa-refresh"></i> Retry
+      <div class="reviews-error" style="text-align: center; padding: 50px 20px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55); color: #ffffff;">
+        <div style="width: 75px; height: 75px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px;">
+          <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #ef4444;"></i>
+        </div>
+        <h4 style="color: #ffffff; font-size: 1.2rem; font-weight: 700; margin-bottom: 8px;">Unable to load reviews</h4>
+        <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 22px; font-size: 0.95rem;">Please check your connection and try again.</p>
+        <button class="btn-submit-v2" onclick="loadUserReviews()" style="display: inline-flex; align-items: center; gap: 8px; margin: 0 auto;">
+          <i class="fas fa-sync-alt"></i> Retry
         </button>
       </div>
     `;
@@ -5038,61 +5293,65 @@ function writeNewReview() {
 
   const modalHTML = `
     <div id="newReviewModal" class="reservation-modal-overlay" onclick="closeNewReviewModal(event)">
-      <div class="reservation-modal-content" style="max-width: 550px;" onclick="event.stopPropagation()">
-        <div class="reservation-modal-header" style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);">
-          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <h2 style="color: white; margin: 0;">
-              <i class="fas fa-star"></i> Write a Review
-            </h2>
+      <div class="reservation-modal-content luxury-review-modal" onclick="event.stopPropagation()">
+        <div class="reservation-modal-header luxury-modal-header">
+          <div class="luxury-header-flex">
+            <div class="luxury-header-title-wrap">
+              <div class="luxury-header-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div>
+                <h2>Write a Review</h2>
+                <p class="luxury-header-sub">Share your resort experience</p>
+              </div>
+            </div>
             <button onclick="closeNewReviewModal()" class="modal-close-btn">
               <i class="fas fa-times"></i>
             </button>
           </div>
         </div>
         
-        <div class="reservation-modal-body">
-          <form id="newReviewForm" onsubmit="submitNewReview(event)">
-            <div style="margin-bottom: 20px;">
-              <label style="display: block; font-weight: 600; margin-bottom: 8px;">
-                <i class="fas fa-calendar-check"></i> Select Reservation
+        <div class="reservation-modal-body luxury-modal-body">
+          <form id="newReviewForm" class="luxury-review-form" onsubmit="submitNewReview(event)">
+            <div class="luxury-form-group">
+              <label>
+                <i class="fas fa-calendar-check"></i> Select Reservation *
               </label>
-              <select name="reservation_id" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+              <select name="reservation_id" class="luxury-select" required>
                 <option value="">Choose a reservation to review...</option>
                 ${reservationOptions}
               </select>
             </div>
             
-            <div style="text-align: center; margin-bottom: 25px;">
-              <p style="color: #666; margin-bottom: 15px;">How was your stay?</p>
-              <div id="newReviewStarRating" style="font-size: 2.5rem; cursor: pointer;">
+            <div class="luxury-rating-box">
+              <p class="rating-prompt">How was your stay?</p>
+              <div id="newReviewStarRating" class="luxury-star-group">
                 <i class="far fa-star" data-rating="1" onclick="setNewReviewRating(1)"></i>
                 <i class="far fa-star" data-rating="2" onclick="setNewReviewRating(2)"></i>
                 <i class="far fa-star" data-rating="3" onclick="setNewReviewRating(3)"></i>
                 <i class="far fa-star" data-rating="4" onclick="setNewReviewRating(4)"></i>
                 <i class="far fa-star" data-rating="5" onclick="setNewReviewRating(5)"></i>
               </div>
-              <p id="newReviewRatingText" style="color: #ffc107; font-weight: 600; margin-top: 10px;">Select a rating</p>
+              <p id="newReviewRatingText" class="luxury-rating-label">Select a rating</p>
             </div>
             
             <input type="hidden" name="rating" id="newReviewRatingInput" value="0">
             
-            <div style="margin-bottom: 20px;">
-              <label style="display: block; font-weight: 600; margin-bottom: 8px;">
-                <i class="fas fa-heading"></i> Review Title
+            <div class="luxury-form-group">
+              <label>
+                <i class="fas fa-heading"></i> Review Title *
               </label>
-              <input type="text" name="title" placeholder="Give your review a title..." required
-                style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+              <input type="text" name="title" class="luxury-input" placeholder="Give your review a title..." required>
             </div>
             
-            <div style="margin-bottom: 20px;">
-              <label style="display: block; font-weight: 600; margin-bottom: 8px;">
-                <i class="fas fa-comment-alt"></i> Your Review
+            <div class="luxury-form-group">
+              <label>
+                <i class="fas fa-comment-alt"></i> Your Review *
               </label>
-              <textarea name="content" rows="4" placeholder="Share your experience with other guests..." required
-                style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; resize: vertical;"></textarea>
+              <textarea name="content" rows="4" class="luxury-textarea" placeholder="Share your experience with other guests..." required></textarea>
             </div>
             
-            <button type="submit" id="newReviewSubmitBtn" class="modal-btn success" style="width: 100%;">
+            <button type="submit" id="newReviewSubmitBtn" class="luxury-submit-review-btn">
               <i class="fas fa-paper-plane"></i> Submit Review
             </button>
           </form>
@@ -5116,12 +5375,12 @@ function setNewReviewRating(rating) {
   stars.forEach((star, index) => {
     if (index < rating) {
       star.classList.remove("far");
-      star.classList.add("fas");
-      star.style.color = "#ffc107";
+      star.classList.add("fas", "active-star");
+      star.style.color = "#facc15";
     } else {
-      star.classList.remove("fas");
+      star.classList.remove("fas", "active-star");
       star.classList.add("far");
-      star.style.color = "#ddd";
+      star.style.color = "rgba(255, 255, 255, 0.35)";
     }
   });
 
@@ -5212,29 +5471,29 @@ function editReview(reviewId) {
   const editsRemaining = 3 - editCount;
 
   const modalHTML = `
-    <div id="editReviewModal" class="reservation-modal-overlay" onclick="closeEditReviewModal(event)">
-      <div class="reservation-modal-content" style="max-width: 550px;" onclick="event.stopPropagation()">
-        <div class="reservation-modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div id="editReviewModal" class="reservation-modal-overlay" onclick="closeEditReviewModal(event)" style="background: rgba(10, 15, 29, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 10005;">
+      <div class="reservation-modal-content" style="max-width: 550px; background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 24px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(250, 204, 21, 0.12); color: #ffffff;" onclick="event.stopPropagation()">
+        <div class="reservation-modal-header" style="background: rgba(255, 255, 255, 0.04); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 20px 24px; border-radius: 24px 24px 0 0;">
           <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <h2 style="color: white; margin: 0;">
-              <i class="fas fa-edit"></i> Edit Review
-            </h2>
-            <button onclick="closeEditReviewModal()" class="modal-close-btn">
+            <h3 style="color: white; margin: 0; font-size: 1.3em; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+              <i class="fas fa-edit" style="color: #facc15;"></i> Edit Review
+            </h3>
+            <button onclick="closeEditReviewModal()" class="modal-close-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #ffffff; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s;" onmouseover="this.style.background='#facc15'; this.style.color='#0f172a'; this.style.borderColor='#facc15';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='#ffffff'; this.style.borderColor='rgba(255, 255, 255, 0.15)';">
               <i class="fas fa-times"></i>
             </button>
           </div>
         </div>
         
-        <div class="reservation-modal-body">
-          <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%); padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
-            <p style="color: #856404; margin: 0; font-size: 0.9rem;">
+        <div class="reservation-modal-body" style="padding: 24px;">
+          <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 12px 16px; border-radius: 12px; margin-bottom: 22px; color: #fbbf24;">
+            <p style="margin: 0; font-size: 0.9rem;">
               <i class="fas fa-info-circle"></i> <strong>Edit Limit:</strong> You have <strong>${editsRemaining}</strong> edit(s) remaining for this review.
             </p>
           </div>
           
           <form id="editReviewForm" onsubmit="submitEditReview(event, ${reviewId})">
             <div style="text-align: center; margin-bottom: 25px;">
-              <p style="color: #666; margin-bottom: 15px;">Update your rating</p>
+              <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 15px; font-weight: 600;">Update your rating</p>
               <div id="editReviewStarRating" style="font-size: 2.5rem; cursor: pointer;">
                 ${[1, 2, 3, 4, 5]
                   .map(
@@ -5242,12 +5501,12 @@ function editReview(reviewId) {
                       `<i class="${
                         i <= review.rating ? "fas" : "far"
                       } fa-star" data-rating="${i}" onclick="setEditReviewRating(${i})" style="color: ${
-                        i <= review.rating ? "#ffc107" : "#ddd"
-                      };"></i>`
+                        i <= review.rating ? "#facc15" : "rgba(255, 255, 255, 0.25)"
+                      }; transition: all 0.2s;"></i>`
                   )
                   .join("")}
               </div>
-              <p id="editReviewRatingText" style="color: #ffc107; font-weight: 600; margin-top: 10px;">${
+              <p id="editReviewRatingText" style="color: #facc15; font-weight: 700; margin-top: 10px;">${
                 ["", "Poor", "Fair", "Good", "Very Good", "Excellent"][
                   review.rating
                 ]
@@ -5259,26 +5518,26 @@ function editReview(reviewId) {
             }">
             
             <div style="margin-bottom: 20px;">
-              <label style="display: block; font-weight: 600; margin-bottom: 8px;">
+              <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #facc15; font-size: 0.9rem;">
                 <i class="fas fa-heading"></i> Review Title
               </label>
               <input type="text" name="title" value="${escapeHtml(
                 review.title
               )}" required
-                style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                style="width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; font-size: 14px; color: #ffffff; box-sizing: border-box; outline: none;" onfocus="this.style.borderColor='#facc15';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.15)';">
             </div>
             
-            <div style="margin-bottom: 20px;">
-              <label style="display: block; font-weight: 600; margin-bottom: 8px;">
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #facc15; font-size: 0.9rem;">
                 <i class="fas fa-comment-alt"></i> Your Review
               </label>
               <textarea name="content" rows="4" required
-                style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; resize: vertical;">${escapeHtml(
+                style="width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; font-size: 14px; color: #ffffff; resize: vertical; box-sizing: border-box; outline: none;" onfocus="this.style.borderColor='#facc15';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.15)';">${escapeHtml(
                   review.content
                 )}</textarea>
             </div>
             
-            <button type="submit" id="editReviewSubmitBtn" class="modal-btn success" style="width: 100%;">
+            <button type="submit" id="editReviewSubmitBtn" class="btn-submit-v2" style="width: 100%; justify-content: center; padding: 13px;">
               <i class="fas fa-save"></i> Update Review
             </button>
           </form>
@@ -5304,11 +5563,11 @@ function setEditReviewRating(rating) {
     if (index < rating) {
       star.classList.remove("far");
       star.classList.add("fas");
-      star.style.color = "#ffc107";
+      star.style.color = "#facc15";
     } else {
       star.classList.remove("fas");
       star.classList.add("far");
-      star.style.color = "#ddd";
+      star.style.color = "rgba(255, 255, 255, 0.25)";
     }
   });
 
@@ -5582,45 +5841,93 @@ function selectBookingType(type) {
 
 // Open venue time slot selector
 function openVenueTimeSelector() {
+  const existingModal = document.getElementById("venueTimeModal");
+  if (existingModal) existingModal.remove();
+
   const modalHTML = `
-    <div id="venueTimeModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 10000;">
-      <div style="background: white; padding: 30px; border-radius: 16px; max-width: 600px; width: 90%;">
-        <h2 style="margin-top: 0; color: #1e293b;">Select Time Slot for Venue</h2>
-        <p style="color: #64748b; margin-bottom: 25px;">Choose your preferred time slot for the event venue</p>
-        
-        <div style="display: grid; gap: 15px;">
-          <div onclick="selectVenueTime('venue-daytime')" style="cursor: pointer; padding: 20px; border: 2px solid #ffd93d; border-radius: 12px; background: linear-gradient(135deg, #fff9e6 0%, #fff 100%); transition: all 0.3s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <h3 style="margin: 0 0 5px 0; color: #f59e0b;">☀️ Daytime</h3>
-                <p style="margin: 0; color: #64748b; font-size: 0.9em;">9:00 AM - 5:00 PM</p>
-              </div>
-              <div style="font-size: 1.5em; font-weight: bold; color: #1e293b;">₱6,000</div>
+    <div id="venueTimeModal" class="modal-overlay venue-time-modal-overlay" onclick="if(event.target === this) closeVenueTimeModal()">
+      <div class="modal-container venue-time-modal-container">
+        <div class="modal-header venue-time-modal-header">
+          <div class="venue-time-header-content">
+            <div class="venue-time-header-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div>
+              <h3>Select Time Slot for Venue</h3>
+              <p class="venue-time-subtitle">Choose your preferred time slot for the event venue</p>
             </div>
           </div>
-          
-          <div onclick="selectVenueTime('venue-nighttime')" style="cursor: pointer; padding: 20px; border: 2px solid #667eea; border-radius: 12px; background: linear-gradient(135deg, #e6e9ff 0%, #fff 100%); transition: all 0.3s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <h3 style="margin: 0 0 5px 0; color: #667eea;">🌙 Nighttime</h3>
-                <p style="margin: 0; color: #64748b; font-size: 0.9em;">7:00 PM - 7:00 AM</p>
-              </div>
-              <div style="font-size: 1.5em; font-weight: bold; color: #1e293b;">₱10,000</div>
-            </div>
-          </div>
-          
-          <div onclick="selectVenueTime('venue-22hours')" style="cursor: pointer; padding: 20px; border: 2px solid #f093fb; border-radius: 12px; background: linear-gradient(135deg, #ffe6f7 0%, #fff 100%); transition: all 0.3s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <h3 style="margin: 0 0 5px 0; color: #f093fb;">⏰ 22 Hours</h3>
-                <p style="margin: 0; color: #64748b; font-size: 0.9em;">2:00 PM - 12:00 NN (Next Day)</p>
-              </div>
-              <div style="font-size: 1.5em; font-weight: bold; color: #1e293b;">₱18,000</div>
-            </div>
-          </div>
+          <button type="button" class="modal-close" onclick="closeVenueTimeModal()" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
         
-        <button onclick="closeVenueTimeModal()" style="margin-top: 20px; width: 100%; padding: 12px; background: #e2e8f0; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; color: #475569;">Cancel</button>
+        <div class="modal-body venue-time-modal-body">
+          <div class="venue-slots-grid">
+            <div class="venue-slot-card slot-daytime" onclick="selectVenueTime('venue-daytime')">
+              <div class="venue-slot-left">
+                <div class="venue-slot-icon">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="venue-slot-info">
+                  <div class="venue-slot-title-row">
+                    <h4>Daytime</h4>
+                    <span class="venue-slot-badge badge-daytime">Budget Friendly</span>
+                  </div>
+                  <p class="venue-slot-time"><i class="far fa-clock"></i> 9:00 AM - 5:00 PM</p>
+                </div>
+              </div>
+              <div class="venue-slot-right">
+                <div class="venue-slot-price">₱6,000</div>
+                <span class="venue-slot-cta">Select <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </div>
+            
+            <div class="venue-slot-card slot-nighttime" onclick="selectVenueTime('venue-nighttime')">
+              <div class="venue-slot-left">
+                <div class="venue-slot-icon">
+                  <i class="fas fa-moon"></i>
+                </div>
+                <div class="venue-slot-info">
+                  <div class="venue-slot-title-row">
+                    <h4>Nighttime</h4>
+                    <span class="venue-slot-badge badge-nighttime">Most Popular</span>
+                  </div>
+                  <p class="venue-slot-time"><i class="far fa-clock"></i> 7:00 PM - 7:00 AM</p>
+                </div>
+              </div>
+              <div class="venue-slot-right">
+                <div class="venue-slot-price">₱10,000</div>
+                <span class="venue-slot-cta">Select <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </div>
+            
+            <div class="venue-slot-card slot-22hours" onclick="selectVenueTime('venue-22hours')">
+              <div class="venue-slot-left">
+                <div class="venue-slot-icon">
+                  <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="venue-slot-info">
+                  <div class="venue-slot-title-row">
+                    <h4>22 Hours</h4>
+                    <span class="venue-slot-badge badge-22hours">Extended Stay</span>
+                  </div>
+                  <p class="venue-slot-time"><i class="far fa-clock"></i> 2:00 PM - 12:00 NN (Next Day)</p>
+                </div>
+              </div>
+              <div class="venue-slot-right">
+                <div class="venue-slot-price">₱18,000</div>
+                <span class="venue-slot-cta">Select <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="venue-time-modal-footer">
+            <button type="button" class="venue-time-cancel-btn" onclick="closeVenueTimeModal()">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -6656,9 +6963,10 @@ async function loadRebookingRequests() {
   }
   
   container.innerHTML = `
-    <div style="text-align: center; padding: 60px 20px; color: #94a3b8;">
-      <i class="fas fa-spinner fa-spin" style="font-size: 48px; margin-bottom: 16px;"></i>
-      <div style="font-size: 16px;">Loading rebooking requests...</div>
+    <div class="history-empty-state">
+      <i class="fas fa-spinner fa-spin" style="color: #facc15;"></i>
+      <h3>Loading Rebooking Requests...</h3>
+      <p>Please wait while we fetch your rebooking requests</p>
     </div>
   `;
   
@@ -6675,9 +6983,10 @@ async function loadRebookingRequests() {
     
     if (!data.success) {
       container.innerHTML = `
-        <div style="text-align: center; padding: 60px 20px; color: #ef4444;">
-          <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 16px;"></i>
-          <div style="font-size: 16px; font-weight: 600;">${data.message || 'Failed to load rebooking requests'}</div>
+        <div class="history-empty-state">
+          <i class="fas fa-exclamation-triangle" style="color: #f87171;"></i>
+          <h3>Unable to Load Rebooking Requests</h3>
+          <p>${data.message || 'Failed to load rebooking requests'}</p>
         </div>
       `;
       return;
@@ -6708,10 +7017,11 @@ async function loadRebookingRequests() {
   } catch (error) {
     console.error('Error loading rebooking requests:', error);
     container.innerHTML = `
-      <div style="text-align: center; padding: 60px 20px; color: #ef4444;">
-        <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 16px;"></i>
-        <div style="font-size: 16px; font-weight: 600;">Error: ${error.message}</div>
-        <button onclick="loadRebookingRequests()" style="margin-top: 16px; padding: 10px 24px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+      <div class="history-empty-state">
+        <i class="fas fa-exclamation-circle" style="color: #f87171;"></i>
+        <h3>Error Loading Requests</h3>
+        <p>${error.message}</p>
+        <button class="btn-primary" onclick="loadRebookingRequests()" style="margin-top: 16px;">
           <i class="fas fa-redo"></i> Retry
         </button>
       </div>
@@ -6725,138 +7035,111 @@ function renderUserRebookingRequests(requests) {
   
   if (!requests || requests.length === 0) {
     container.innerHTML = `
-      <div style="text-align: center; padding: 60px 20px; color: #94a3b8;">
-        <i class="fas fa-calendar-times" style="font-size: 64px; margin-bottom: 16px;"></i>
-        <h3 style="margin-top: 20px; color: #11224e;">No Rebooking Requests</h3>
-        <p style="color: #64748b;">You haven't made any rebooking requests yet.</p>
+      <div class="history-empty-state">
+        <i class="fas fa-calendar-times" style="color: #facc15;"></i>
+        <h3>No Rebooking Requests Found</h3>
+        <p>You haven't submitted any rebooking requests under this filter.</p>
       </div>
     `;
     return;
   }
   
-  container.innerHTML = requests.map((request, index) => {
+  container.innerHTML = requests.map((request) => {
     const status = request.rebooking_status || 'pending';
     const statusLabel = request.rebooking_status_label || 'Pending';
     
-    let statusColor = '#f59e0b'; // pending
+    let statusClass = 'pending';
     let statusIcon = 'fa-clock';
     if (status === 'approved') {
-      statusColor = '#10b981';
+      statusClass = 'approved';
       statusIcon = 'fa-check-circle';
     } else if (status === 'rejected') {
-      statusColor = '#ef4444';
+      statusClass = 'rejected';
       statusIcon = 'fa-times-circle';
     }
     
     return `
-      <div class="booking-card" style="
-        background: white;
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        border-left: 4px solid ${statusColor};
-        transition: all 0.3s ease;
-      " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" 
-         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
-        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
-          <div>
-            <h3 style="margin: 0 0 8px 0; color: #11224e; font-size: 18px;">
-              Reservation #${request.reservation_id}
-            </h3>
-            <p style="margin: 0; color: #64748b; font-size: 14px;">
+      <div class="rebooking-request-card status-${statusClass}" onclick="viewReservationDetails('${request.reservation_id}')">
+        <div class="rebooking-card-header">
+          <div class="rebooking-card-title-group">
+            <span class="rebooking-res-id">
+              <i class="fas fa-hashtag"></i> Reservation #${request.reservation_id}
+            </span>
+            <p class="rebooking-pkg-subtitle">
+              <i class="fas fa-box-open"></i>
               ${request.booking_type ? request.booking_type.charAt(0).toUpperCase() + request.booking_type.slice(1) : 'N/A'} Booking
-              ${request.package_type ? ' • ' + request.package_type : ''}
+              ${request.package_type ? ' &bull; ' + request.package_type : ''}
             </p>
           </div>
-          <span style="
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            background: ${statusColor}15;
-            color: ${statusColor};
-            display: flex;
-            align-items: center;
-            gap: 6px;
-          ">
+          <span class="status-badge ${statusClass}">
             <i class="fas ${statusIcon}"></i>
             ${statusLabel}
           </span>
         </div>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px;">
-          <div>
-            <p style="margin: 0 0 4px 0; color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase;">Original Date</p>
-            <p style="margin: 0; color: #11224e; font-size: 14px; font-weight: 600;">
-              <i class="fas fa-calendar" style="color: #667eea; margin-right: 6px;"></i>
-              ${request.original_check_in_date_formatted || request.check_in_date_formatted || 'N/A'}
-            </p>
-            <p style="margin: 4px 0 0 0; color: #64748b; font-size: 12px;">
-              ${request.original_check_in_time_formatted || request.check_in_time_formatted || ''}
-            </p>
+        <div class="rebooking-dates-grid">
+          <div class="rebooking-date-box original-date">
+            <span class="rebooking-date-label">Original Check-In</span>
+            <div class="rebooking-date-value">
+              <i class="far fa-calendar"></i>
+              <span>${request.original_check_in_date_formatted || request.check_in_date_formatted || 'N/A'}</span>
+            </div>
+            ${(request.original_check_in_time_formatted || request.check_in_time_formatted) ? `
+            <span class="rebooking-date-sub">
+              <i class="far fa-clock"></i> ${request.original_check_in_time_formatted || request.check_in_time_formatted}
+            </span>` : ''}
           </div>
+          
           ${request.rebooking_new_date ? `
-          <div>
-            <p style="margin: 0 0 4px 0; color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase;">Requested New Date</p>
-            <p style="margin: 0; color: #11224e; font-size: 14px; font-weight: 600;">
-              <i class="fas fa-calendar-plus" style="color: #10b981; margin-right: 6px;"></i>
-              ${request.rebooking_new_date_formatted || 'N/A'}
-            </p>
+          <div class="rebooking-date-box new-date">
+            <span class="rebooking-date-label">Requested New Date</span>
+            <div class="rebooking-date-value highlight-gold">
+              <i class="fas fa-calendar-plus"></i>
+              <span>${request.rebooking_new_date_formatted || 'N/A'}</span>
+            </div>
           </div>
           ` : ''}
-          <div>
-            <p style="margin: 0 0 4px 0; color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase;">Requested At</p>
-            <p style="margin: 0; color: #11224e; font-size: 14px;">
-              <i class="fas fa-clock" style="color: #667eea; margin-right: 6px;"></i>
-              ${request.rebooking_requested_at ? new Date(request.rebooking_requested_at).toLocaleString() : 'N/A'}
-            </p>
+          
+          <div class="rebooking-date-box requested-at">
+            <span class="rebooking-date-label">Submitted On</span>
+            <div class="rebooking-date-value">
+              <i class="fas fa-history"></i>
+              <span>${request.rebooking_requested_at ? new Date(request.rebooking_requested_at).toLocaleString() : 'N/A'}</span>
+            </div>
           </div>
         </div>
         
         ${request.rebooking_reason ? `
-        <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-          <p style="margin: 0 0 4px 0; color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase;">Reason</p>
-          <p style="margin: 0; color: #11224e; font-size: 14px;">${request.rebooking_reason}</p>
+        <div class="rebooking-reason-box">
+          <span class="rebooking-reason-label"><i class="fas fa-comment-dots"></i> Reason for Rebooking</span>
+          <p class="rebooking-reason-text">${request.rebooking_reason}</p>
         </div>
         ` : ''}
         
         ${status === 'approved' && request.rebooking_approved_at ? `
-        <div style="background: #d1fae5; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-          <p style="margin: 0; color: #065f46; font-size: 14px;">
-            <i class="fas fa-check-circle" style="margin-right: 6px;"></i>
-            Approved on ${new Date(request.rebooking_approved_at).toLocaleString()}
-          </p>
+        <div class="rebooking-status-banner banner-approved">
+          <i class="fas fa-check-circle"></i>
+          <span>Approved on ${new Date(request.rebooking_approved_at).toLocaleString()}</span>
         </div>
         ` : ''}
         
         ${status === 'rejected' ? `
-        <div style="background: #fee2e2; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-          <p style="margin: 0 0 4px 0; color: #991b1b; font-size: 14px; font-weight: 600;">
-            <i class="fas fa-times-circle" style="margin-right: 6px;"></i>
-            Rejected
-            ${request.rebooking_rejected_at ? ` on ${new Date(request.rebooking_rejected_at).toLocaleString()}` : ''}
-          </p>
-          ${request.rebooking_rejection_reason ? `
-          <p style="margin: 4px 0 0 0; color: #991b1b; font-size: 13px;">
-            Reason: ${request.rebooking_rejection_reason}
-          </p>
-          ` : ''}
+        <div class="rebooking-status-banner banner-rejected">
+          <div>
+            <div class="banner-rejected-title">
+              <i class="fas fa-times-circle"></i>
+              Rejected${request.rebooking_rejected_at ? ` on ${new Date(request.rebooking_rejected_at).toLocaleString()}` : ''}
+            </div>
+            ${request.rebooking_rejection_reason ? `
+            <p class="banner-rejected-reason">Reason: ${request.rebooking_rejection_reason}</p>
+            ` : ''}
+          </div>
         </div>
         ` : ''}
         
-        <div style="display: flex; gap: 12px; margin-top: 16px;">
-          <button onclick="event.stopPropagation(); viewReservationDetails('${request.reservation_id}')" style="
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-          " onmouseover="this.style.background='#5568d3'" onmouseout="this.style.background='#667eea'">
-            <i class="fas fa-eye"></i> View Details
+        <div class="rebooking-card-footer">
+          <button type="button" class="history-chip-btn btn-view-details" onclick="event.stopPropagation(); viewReservationDetails('${request.reservation_id}')">
+            <i class="fas fa-eye"></i> View Reservation Details
           </button>
         </div>
       </div>
@@ -6867,45 +7150,30 @@ function renderUserRebookingRequests(requests) {
 function filterUserRebookings(status) {
   currentUserRebookingFilter = status;
   
-  // Update filter button styles
-  document.querySelectorAll('.filter-tab').forEach(btn => {
+  // Update filter button active class (styled cleanly in CSS)
+  document.querySelectorAll('.rebooking-filter-tabs .filter-tab').forEach(btn => {
     btn.classList.remove('active');
-    btn.style.background = 'white';
-    btn.style.color = btn.id.includes('pending') ? '#f59e0b' : 
-                      btn.id.includes('approved') ? '#10b981' : 
-                      btn.id.includes('rejected') ? '#ef4444' : '#11224e';
-    btn.style.border = `2px solid ${btn.style.color}`;
+    btn.removeAttribute('style');
   });
   
   const activeBtn = document.getElementById(`user-rebooking-filter-${status}`);
   if (activeBtn) {
     activeBtn.classList.add('active');
-    activeBtn.style.background = activeBtn.style.color === '#f59e0b' ? '#f59e0b' :
-                                  activeBtn.style.color === '#10b981' ? '#10b981' :
-                                  activeBtn.style.color === '#ef4444' ? '#ef4444' : '#11224e';
-    activeBtn.style.color = 'white';
-    activeBtn.style.border = `2px solid ${activeBtn.style.background}`;
   }
   
   loadRebookingRequests();
 }
 
 // This function is for rebooking requests - it should use the main viewReservationDetails
-// But we need to make sure it doesn't conflict with the one in booking history
-// So we'll just call the main one if it exists, otherwise navigate
 function viewReservationDetailsFromRebooking(reservationId) {
-  // Check if the main viewReservationDetails function exists (from booking history)
   if (typeof viewReservationDetails === 'function' && viewReservationDetails.toString().includes('showReservationDetailsModal')) {
-    // Use the main modal function
     viewReservationDetails(reservationId);
   } else {
-    // Fallback: Navigate to My Reservations section
     const navBtn = document.querySelector('[data-section="my-bookings"]');
     if (navBtn) {
       navBtn.click();
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Try to find and click the reservation card
         const reservationCard = document.querySelector(`[data-reservation-id="${reservationId}"]`);
         if (reservationCard) {
           reservationCard.click();
@@ -6925,4 +7193,3 @@ if (typeof showPopup === "function") window.showPopup = showPopup;
 if (typeof closePopup === "function") window.closePopup = closePopup;
 if (typeof showSection === "function") window.showSection = showSection;
 if (typeof selectPackage === "function") window.selectPackage = selectPackage;
-
